@@ -1,0 +1,144 @@
+// SPDX-License-Identifier: agpl-3.0
+pragma solidity 0.8.9;
+pragma abicoder v2;
+
+import {ILendingPoolAddressesProvider} from './ILendingPoolAddressesProvider.sol';
+import {DataTypes} from '../libraries/types/DataTypes.sol';
+
+interface ILendingPool {
+  /**
+   * @dev Emitted on deposit()
+   * @param user The address initiating the deposit
+   * @param onBehalfOf The beneficiary of the deposit, receiving the vTokens
+   * @param amount The amount deposited
+   **/
+  event Deposit(
+    address indexed user,
+    address indexed onBehalfOf,
+    uint256 amount,
+    uint16 indexed referral
+  );
+
+  event FundDeposit(address indexed from, uint256 amount);
+
+  /**
+   * @dev Emitted on withdraw()
+   * @param user The address initiating the withdrawal, owner of vTokens
+   * @param to Address that will receive the underlying
+   * @param amount The amount to be withdrawn
+   **/
+  event Withdraw(address indexed user, address indexed to, uint256 amount);
+
+  event FundWithdraw(address indexed to, uint256 amount);
+
+  event FundAddressUpdated(address indexed newFundAddress);
+
+  /**
+   * @dev Emitted when the pause is triggered.
+   */
+  event Paused();
+
+  /**
+   * @dev Emitted when the pause is lifted.
+   */
+  event Unpaused();
+
+  /**
+   * @dev Deposits an `amount` of underlying asset into the reserve, receiving in return overlying vTokens.
+   * - E.g. User deposits 100 USDC and gets in return 100 aUSDC
+   * @param amount The amount to be deposited
+   * @param onBehalfOf The address that will receive the vTokens, same as msg.sender if the user
+   *   wants to receive them on his own wallet, or a different address if the beneficiary of vTokens
+   *   is a different wallet
+   **/
+  function deposit(
+    uint256 amount,
+    address onBehalfOf,
+    uint16 referralCode
+  ) external returns (uint256);
+
+  /**
+   * @dev Withdraws an `amount` of underlying asset from the reserve, burning the equivalent vTokens owned
+   * E.g. User has 100 aUSDC, calls withdraw() and receives 100 USDC, burning the 100 aUSDC
+   * @param amount The underlying amount to be withdrawn
+   *   - Send the value type(uint256).max in order to withdraw the whole vToken balance
+   * @param to Address that will receive the underlying, same as msg.sender if the user
+   *   wants to receive it on his own wallet, or a different address if the beneficiary is a
+   *   different wallet
+   * @return The final amount withdrawn
+   **/
+  function withdraw(
+    uint256 amount,
+    address to
+  ) external returns (uint256);
+
+  function depositFund(uint256 amount) external;
+
+  function withdrawFund(uint256 amount) external returns (uint256);
+
+  function initReserve(address oTokenAddress, address fundAddress) external;
+
+  function setConfiguration(uint256 configuration) external;
+
+  /**
+   * @dev Returns the configuration of the reserve
+   * @return The configuration of the reserve
+   **/
+  function getConfiguration()
+    external
+    view
+    returns (DataTypes.ReserveConfigurationMap memory);
+
+  /**
+   * @dev Returns the normalized income normalized income of the reserve
+   * @return The reserve's normalized income
+   */
+  function getReserveNormalizedIncome() external view returns (uint256);
+
+  /**
+   * @dev Returns the state and configuration of the reserve
+   * @return The state of the reserve
+   **/
+  function getReserveData() external view returns (DataTypes.ReserveData memory);
+
+  function getAddressesProvider() external view returns (ILendingPoolAddressesProvider);
+
+  function setPause(bool val) external;
+
+  function paused() external view returns (bool);
+
+  struct InitReserveInput {
+    address oTokenImpl;
+    uint8 underlyingAssetDecimals;
+    address underlyingAsset;
+    string underlyingAssetName;
+    string oTokenName;
+    string oTokenSymbol;
+    bytes params;
+  }
+
+  struct UpdateOTokenInput {
+    string name;
+    string symbol;
+    address implementation;
+    bytes params;
+  }
+
+  /**
+   * @dev Emitted when a reserve is initialized.
+   * @param oToken The address of the associated vToken contract
+   **/
+  event ReserveInitialized(
+    address indexed oToken
+  );
+
+  /**
+   * @dev Emitted when an oToken implementation is upgraded
+   * @param proxy The oToken proxy address
+   * @param implementation The new oToken implementation
+   **/
+  event OTokenUpgraded(
+    address indexed proxy,
+    address indexed implementation
+  );
+}
