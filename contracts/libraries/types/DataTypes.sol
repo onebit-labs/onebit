@@ -15,7 +15,6 @@ library DataTypes {
     uint40 purchaseBeginTimestamp;
     uint40 purchaseEndTimestamp;
     uint40 redemptionBeginTimestamp;
-    uint40 redemptionEndTimestamp;
     //fee rate 
     uint16 managementFeeRate;
     uint16 performanceFeeRate;

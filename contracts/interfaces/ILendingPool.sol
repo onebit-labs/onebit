@@ -76,10 +76,6 @@ interface ILendingPool {
 
   function withdrawFund(uint256 amount) external returns (uint256);
 
-  function initReserve(address oTokenAddress, address fundAddress) external;
-
-  function setConfiguration(uint256 configuration) external;
-
   /**
    * @dev Returns the configuration of the reserve
    * @return The configuration of the reserve
@@ -114,6 +110,7 @@ interface ILendingPool {
     string underlyingAssetName;
     string oTokenName;
     string oTokenSymbol;
+    address fundAddress;
     bytes params;
   }
 

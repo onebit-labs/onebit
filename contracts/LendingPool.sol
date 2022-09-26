@@ -6,6 +6,7 @@ import {IERC20} from './dependencies/openzeppelin/contracts/IERC20.sol';
 import {GPv2SafeERC20} from './dependencies/gnosis/contracts/GPv2SafeERC20.sol';
 import {Address} from './dependencies/openzeppelin/contracts/Address.sol';
 import {ILendingPoolAddressesProvider} from './interfaces/ILendingPoolAddressesProvider.sol';
+import {IInitializableOToken} from './interfaces/IInitializableOToken.sol';
 import {IOToken} from './interfaces/IOToken.sol';
 import {ILendingPool} from './interfaces/ILendingPool.sol';
 import {VersionedInitializable} from './libraries/aave-upgradeability/VersionedInitializable.sol';
@@ -16,6 +17,7 @@ import {ReserveLogic} from './libraries/logic/ReserveLogic.sol';
 import {ReserveConfiguration} from './libraries/configuration/ReserveConfiguration.sol';
 import {DataTypes} from './libraries/types/DataTypes.sol';
 import {LendingPoolStorage} from './LendingPoolStorage.sol';
+import {InitializableImmutableAdminUpgradeabilityProxy} from './libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol';
 
 /**
  * @title LendingPool contract
@@ -97,7 +99,6 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
 
     (bool isActive, bool isFrozen) = _reserve.configuration.getFlags();
     require((currentTimestamp >= _reserve.purchaseBeginTimestamp) 
-             && (currentTimestamp < _reserve.redemptionEndTimestamp) 
              && ((currentTimestamp < _reserve.purchaseEndTimestamp) 
                   || (currentTimestamp >= _reserve.redemptionBeginTimestamp)),
             Errors.VL_NOT_IN_PURCHASE_OR_REDEMPTION_PERIOD);
@@ -163,7 +164,6 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     require(amount != 0, Errors.VL_INVALID_AMOUNT);
     require(amount <= userBalance, Errors.VL_NOT_ENOUGH_AVAILABLE_USER_BALANCE);
     require((currentTimestamp >= _reserve.purchaseBeginTimestamp) 
-             && (currentTimestamp < _reserve.redemptionEndTimestamp) 
              && ((currentTimestamp < _reserve.purchaseEndTimestamp) 
                   || (currentTimestamp >= _reserve.redemptionBeginTimestamp)),
             Errors.VL_NOT_IN_PURCHASE_OR_REDEMPTION_PERIOD);
@@ -222,15 +222,14 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
 
   function initializeNextPeroid(uint16 managementFeeRate, uint16 performanceFeeRate, uint128 purchaseUpperLimit,
     uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, 
-    uint40 redemptionBeginTimestamp, uint40 redemptionEndTimestamp)
+    uint40 redemptionBeginTimestamp)
     external
     onlyPoolOperator
   {
     require(uint40(block.timestamp) >= _reserve.redemptionBeginTimestamp, Errors.VL_NOT_FINISHED);
-    require((purchaseBeginTimestamp < purchaseEndTimestamp)
-             && (purchaseEndTimestamp < redemptionBeginTimestamp) 
-             && (redemptionBeginTimestamp < redemptionEndTimestamp)
-             && (purchaseEndTimestamp >= _reserve.redemptionEndTimestamp), 
+    require((purchaseBeginTimestamp >= _reserve.redemptionBeginTimestamp)
+            &&(purchaseBeginTimestamp < purchaseEndTimestamp)
+            && (purchaseEndTimestamp < redemptionBeginTimestamp),
       Errors.VL_INVALID_TIMESTAMP);
     _reserve.managementFeeRate = managementFeeRate;
     _reserve.performanceFeeRate = performanceFeeRate;
@@ -240,7 +239,6 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _reserve.purchaseBeginTimestamp = purchaseBeginTimestamp;
     _reserve.purchaseEndTimestamp = purchaseEndTimestamp;
     _reserve.redemptionBeginTimestamp = redemptionBeginTimestamp;
-    _reserve.redemptionEndTimestamp = redemptionEndTimestamp;
   }
 
   /**
@@ -285,32 +283,6 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   }
 
   /**
-   * @dev Initializes a reserve, activating it, assigning a vToken and debt tokens and an
-   * interest rate strategy
-   * - Only callable by the PoolOperator contract
-   * @param oTokenAddress The address of the vToken that will be assigned to the reserve
-   **/
-  function initReserve(
-    address oTokenAddress,
-    address fundAddress
-  ) external override onlyPoolAdmin {
-    _reserve.init(oTokenAddress, fundAddress);
-  }
-
-  /**
-   * @dev Sets the configuration bitmap of the reserve as a whole
-   * - Only callable by the PoolOperator contract
-   * @param configuration The new configuration bitmap
-   **/
-  function setConfiguration(uint256 configuration)
-    external
-    override
-    onlyPoolAdmin
-  {
-    _reserve.configuration.data = configuration;
-  }
-
-  /**
    * @dev Set the _pause state of a reserve
    * - Only callable by the PoolOperator contract
    * @param val `true` to pause the reserve, `false` to un-pause it
@@ -329,4 +301,84 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _reserve.fundAddress = fundAddress;
     emit FundAddressUpdated(fundAddress);
   }
+
+  /**
+   * @dev Updates the vToken implementation for the reserve
+   **/
+  function updateOToken(UpdateOTokenInput calldata input) external onlyPoolAdmin {
+
+    uint256 decimals = _reserve.configuration.getParamsMemory();
+
+    bytes memory encodedCall = abi.encodeWithSelector(
+        IInitializableOToken.initialize.selector,
+        address(this),
+        decimals,
+        input.name,
+        input.symbol,
+        input.params
+      );
+
+    _upgradeImplementation(
+      _reserve.oTokenAddress,
+      input.implementation,
+      encodedCall
+    );
+
+    emit OTokenUpgraded(_reserve.oTokenAddress, input.implementation);
+  }
+
+  function initReserve(InitReserveInput calldata input) external onlyPoolAdmin {
+    address oTokenProxyAddress =
+      _initContractWithProxy(
+        input.oTokenImpl,
+        abi.encodeWithSelector(
+          IInitializableOToken.initialize.selector,
+          address(this),
+          input.underlyingAsset,
+          input.underlyingAssetDecimals,
+          input.oTokenName,
+          input.oTokenSymbol,
+          input.params
+        )
+      );
+
+    _reserve.init(oTokenProxyAddress, input.fundAddress);
+
+    DataTypes.ReserveConfigurationMap memory currentConfig = _reserve.configuration;
+
+    currentConfig.setDecimals(input.underlyingAssetDecimals);
+
+    currentConfig.setActive(true);
+    currentConfig.setFrozen(false);
+
+    _reserve.configuration.data = currentConfig.data;
+
+    emit ReserveInitialized(
+      oTokenProxyAddress
+    );
+  }
+
+  function _initContractWithProxy(address implementation, bytes memory initParams)
+    internal
+    returns (address)
+  {
+    InitializableImmutableAdminUpgradeabilityProxy proxy =
+      new InitializableImmutableAdminUpgradeabilityProxy(address(this));
+
+    proxy.initialize(implementation, initParams);
+
+    return address(proxy);
+  }
+
+  function _upgradeImplementation(
+    address proxyAddress,
+    address implementation,
+    bytes memory initParams
+  ) internal {
+    InitializableImmutableAdminUpgradeabilityProxy proxy =
+      InitializableImmutableAdminUpgradeabilityProxy(payable(proxyAddress));
+
+    proxy.upgradeToAndCall(implementation, initParams);
+  }
+
 }
