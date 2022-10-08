@@ -1,0 +1,31 @@
+{
+  "LendingPoolAddressesProviderRegistry": {
+    "goerli": {
+      "address": "0x8516f269D07b7db3B7a52cD7EDB70305203aCC58",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "LendingPoolAddressesProvider": {
+    "goerli": {
+      "address": "0xA97D3e6D4F6adc6ebC1aa3643dF3bfFD8a6bbc4D",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "ReserveLogic": {
+    "goerli": {
+      "address": "0x8Feeec88D4de57FCd7EFd588ea2eE093C95275f7",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "LendingPoolImpl": {
+    "goerli": {
+      "address": "0x74f3B7A502A04376Cb85214c8eD13B66aCC64164",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "LendingPool": {
+    "goerli": {
+      "address": "0x3297F9f3f1908c877f2FC25Df863C4AcBb4c8d92"
+    }
+  }
+}
