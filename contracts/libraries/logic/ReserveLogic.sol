@@ -21,18 +21,6 @@ library ReserveLogic {
   using PercentageMath for uint256;
   using GPv2SafeERC20 for IERC20;
 
-  /**
-   * @dev Emitted when the state of a reserve is updated
-   * @param asset The address of the underlying asset of the reserve
-   * @param liquidityRate The new liquidity rate
-   * @param liquidityIndex The new liquidity index
-   **/
-  event ReserveDataUpdated(
-    address indexed asset,
-    uint256 liquidityRate,
-    uint256 liquidityIndex
-  );
-
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
@@ -82,10 +70,14 @@ library ReserveLogic {
     internal
   {
     uint256 timedelta = currentTimestamp - uint256(reserve.purchaseEndTimestamp);
-    uint256 managementFee = PercentageMath.percentMul(netValue, reserve.managementFeeRate) * timedelta / MathUtils.SECONDS_PER_YEAR;
+    uint256 managementFee = 0; 
     uint256 performanceFee = 0;
     if(netValue > oldNetValue){
       performanceFee = PercentageMath.percentMul(netValue - oldNetValue, reserve.performanceFeeRate);
+      managementFee = PercentageMath.percentMul(netValue, reserve.managementFeeRate) * timedelta / MathUtils.SECONDS_PER_YEAR;
+    }
+    else {
+      managementFee = PercentageMath.percentMul(oldNetValue, reserve.managementFeeRate) * timedelta / MathUtils.SECONDS_PER_YEAR;
     }
     uint256 newNetValue = netValue - managementFee - performanceFee;
     uint256 currentLiquidityRate = newNetValue.rayDiv(oldNetValue);

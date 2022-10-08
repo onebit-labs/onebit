@@ -66,6 +66,10 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _;
   }
 
+  constructor () {
+    _addressesProvider = ILendingPoolAddressesProvider(address(0));
+  }
+
   function getRevision() internal pure override returns (uint256) {
     return LENDINGPOOL_REVISION;
   }

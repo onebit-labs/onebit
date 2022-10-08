@@ -45,6 +45,10 @@ contract OToken is
     _;
   }
 
+  constructor () {
+    _pool = ILendingPool(address(0));
+  }
+
   function getRevision() internal pure virtual override returns (uint256) {
     return OTOKEN_REVISION;
   }
