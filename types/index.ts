@@ -11,6 +11,7 @@ export type { IncentivizedERC20 } from "./IncentivizedERC20";
 export type { LendingPool } from "./LendingPool";
 export type { LendingPoolAddressesProvider } from "./LendingPoolAddressesProvider";
 export type { LendingPoolAddressesProviderRegistry } from "./LendingPoolAddressesProviderRegistry";
+export type { MintableERC20 } from "./MintableERC20";
 export type { OToken } from "./OToken";
 export * as factories from "./factories";
 export type { ERC20 } from "./dependencies/openzeppelin/contracts/ERC20";
@@ -71,4 +72,5 @@ export type { InitializableImmutableAdminUpgradeabilityProxy } from "./libraries
 export { InitializableImmutableAdminUpgradeabilityProxy__factory } from "./factories/libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy__factory";
 export type { Errors } from "./libraries/helpers/Errors";
 export { Errors__factory } from "./factories/libraries/helpers/Errors__factory";
+export { MintableERC20__factory } from "./factories/MintableERC20__factory";
 export { OToken__factory } from "./factories/OToken__factory";

@@ -5,6 +5,9 @@ import {LendingPoolAddressesProvider__factory} from '../types/factories/LendingP
 import {LendingPool__factory, LendingPoolLibraryAddresses} from '../types/factories/LendingPool__factory';
 import {ReserveLogic__factory} from '../types/factories/libraries/logic/ReserveLogic__factory'
 import {OToken__factory} from '../types/factories/OToken__factory';
+import {MintableERC20__factory} from '../types/factories/MintableERC20__factory';
+import { IERC20Metadata__factory } from '../types/factories/dependencies/openzeppelin/contracts/IERC20Metadata__factory';
+import { ILendingPool } from '../types/LendingPool';
 import { eContractid, eNetwork } from '../helpers/types';
 import {getDb, waitForTx} from '../helpers/misc-utils';
 
@@ -113,13 +116,69 @@ task('deploy-lending-pool', 'Deploy lending pool')
     );
 })
 
-task('deploy-otoken', 'Deploy OToken')
+task('set-pool-admin', 'set pool admin')
 .addFlag('verify', 'Verify contracts at Etherscan')
 //.addFlag('test', 'Test environment.')
 .setAction(async ({verify}, DRE) => {
     await DRE.run('set-DRE');
     const network = <eNetwork>DRE.network.name;
     
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setPoolAdmin(signerAddress) )
+    );
+})
+
+task('set-pool-operator', 'set pool operator')
+.addFlag('verify', 'Verify contracts at Etherscan')
+//.addFlag('test', 'Test environment.')
+.setAction(async ({verify}, DRE) => {
+    await DRE.run('set-DRE');
+    const network = <eNetwork>DRE.network.name;
+    
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setPoolOperator(signerAddress) )
+    );
+})
+
+task('set-emergency-admin', 'set emergency admin')
+.addFlag('verify', 'Verify contracts at Etherscan')
+//.addFlag('test', 'Test environment.')
+.setAction(async ({verify}, DRE) => {
+    await DRE.run('set-DRE');
+    const network = <eNetwork>DRE.network.name;
+    
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setEmergencyAdmin(signerAddress) )
+    );
+})
+
+task('deploy-otoken', 'Deploy OToken')
+.addFlag('verify', 'Verify contracts at Etherscan')
+//.addFlag('test', 'Test environment.')
+.setAction(async ({verify}, DRE) => {
+    await DRE.run('set-DRE');
+    const network = <eNetwork>DRE.network.name;
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
     const oToken = await withSaveAndVerify(
@@ -130,15 +189,64 @@ task('deploy-otoken', 'Deploy OToken')
         );
 })
 
-task('init-reserve', 'Initialize the reserve')
+task('deploy-usdt', 'Deploy USDT')
 .addFlag('verify', 'Verify contracts at Etherscan')
-.setAction(async ({verify}, DRE) => {
+.setAction(async({verify}, DRE) => {
+    await DRE.run('set-DRE');
+    const network = <eNetwork>DRE.network.name;
+    
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const args: [string, string, string] = ['USDT', 'USDT', '18'];
+    const usdt = await withSaveAndVerify(
+        await new MintableERC20__factory(signer).deploy(...args),
+        'USDT',
+        args,
+        verify
+        );
+})
+
+task('init-reserve', 'Initialize the reserve')
+.addParam('fundAddress', 'The address to withdraw fund to')
+.setAction(async ({verify, fundAddress}, DRE) => {
     await DRE.run('set-DRE');
     const network = <eNetwork>DRE.network.name;
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
     const db = await getDb();
-
+    const pool = await LendingPool__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPool}.${DRE.network.name}`)
+          .value()).address,
+        signer);
+    const oTokenAddress = (await getDb()
+                             .get(`${eContractid.OToken}.${DRE.network.name}`)
+                             .value()).address;
+    const assetAddress = (await getDb()
+                             .get(`USDT.${DRE.network.name}`)
+                             .value()).address;
+    const asset = await IERC20Metadata__factory.connect(
+        assetAddress,
+        signer
+    );
+    const assetName = await asset.name();
+    const assetSymbol = await asset.symbol();
+    const assetDecimals = await asset.decimals();
+    const oTokenName = `Onebit ${assetName}`;
+    const oTokenSymbol = `O${assetSymbol}`;
+    const reserveData = {
+        oTokenImpl: oTokenAddress,
+        underlyingAssetDecimals: assetDecimals,
+        underlyingAsset: assetAddress,
+        underlyingAssetName: assetName,
+        oTokenName: oTokenName,
+        oTokenSymbol: oTokenSymbol,
+        fundAddress: fundAddress,
+        params: '0x10',
+    };
+    await waitForTx(
+        await ( pool.initReserve(reserveData))
+    );
 })
 
 

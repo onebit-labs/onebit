@@ -22,6 +22,7 @@ if (!SKIP_LOAD) {
 }
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const GOERLI_PRIVATE_KEY = process.env.GOERLI_PRIVATE_KEY;
+const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -61,6 +62,12 @@ const config: HardhatUserConfig = {
       url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [`${GOERLI_PRIVATE_KEY}`],
     },
+  },
+  etherscan: {
+    apiKey: {
+      goerli: ETHERSCAN_KEY,
+      mainnet: ETHERSCAN_KEY,
+    }
   },
 };
 

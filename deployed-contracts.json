@@ -1,31 +1,43 @@
 {
   "LendingPoolAddressesProviderRegistry": {
     "goerli": {
-      "address": "0x8516f269D07b7db3B7a52cD7EDB70305203aCC58",
+      "address": "0xA2ffc52362C36a25b97AD46e64162A4C42A1Ae61",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
   "LendingPoolAddressesProvider": {
     "goerli": {
-      "address": "0xA97D3e6D4F6adc6ebC1aa3643dF3bfFD8a6bbc4D",
+      "address": "0x8586A3e55A43E46e59df02b7494b7fa2E46F2848",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
   "ReserveLogic": {
     "goerli": {
-      "address": "0x8Feeec88D4de57FCd7EFd588ea2eE093C95275f7",
+      "address": "0x7356D6Cdd7EEB8bAC37aFa55a832acDF4a771fEc",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
   "LendingPoolImpl": {
     "goerli": {
-      "address": "0x74f3B7A502A04376Cb85214c8eD13B66aCC64164",
+      "address": "0x03C5b470057c322686A948EB055b3bAF0717A8c0",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
   "LendingPool": {
     "goerli": {
-      "address": "0x3297F9f3f1908c877f2FC25Df863C4AcBb4c8d92"
+      "address": "0x6aF769F986d87851c68e6f7eBf90E265619C6C8F"
+    }
+  },
+  "USDT": {
+    "goerli": {
+      "address": "0xE3666662730808C69b235f1f6Dd8D32315C1769b",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "OToken": {
+    "goerli": {
+      "address": "0x8A41a474de4b2F62f279BE51d291330366387e6c",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   }
 }
