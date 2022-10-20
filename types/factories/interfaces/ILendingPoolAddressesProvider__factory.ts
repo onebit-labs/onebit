@@ -71,6 +71,19 @@ const _abi = [
         type: "address",
       },
     ],
+    name: "LendingPoolConfiguratorUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newAddress",
+        type: "address",
+      },
+    ],
     name: "LendingPoolUpdated",
     type: "event",
   },
@@ -85,19 +98,6 @@ const _abi = [
       },
     ],
     name: "MarketIdSet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newAddress",
-        type: "address",
-      },
-    ],
-    name: "OTokenUpdated",
     type: "event",
   },
   {
@@ -179,12 +179,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getMarketId",
+    name: "getLendingPoolConfigurator",
     outputs: [
       {
-        internalType: "string",
+        internalType: "address",
         name: "",
-        type: "string",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -192,12 +192,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getOToken",
+    name: "getMarketId",
     outputs: [
       {
-        internalType: "address",
+        internalType: "string",
         name: "",
-        type: "address",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -282,6 +282,19 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "configurator",
+        type: "address",
+      },
+    ],
+    name: "setLendingPoolConfiguratorImpl",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "pool",
         type: "address",
       },
@@ -300,19 +313,6 @@ const _abi = [
       },
     ],
     name: "setMarketId",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "oToken",
-        type: "address",
-      },
-    ],
-    name: "setOTokenImpl",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

@@ -94,40 +94,8 @@ const _abi = [
   },
   {
     anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "proxy",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
-    ],
-    name: "OTokenUpgraded",
-    type: "event",
-  },
-  {
-    anonymous: false,
     inputs: [],
     name: "Paused",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "oToken",
-        type: "address",
-      },
-    ],
-    name: "ReserveInitialized",
     type: "event",
   },
   {
@@ -337,6 +305,24 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "oToken",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "fundAddress",
+        type: "address",
+      },
+    ],
+    name: "initReserve",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "paused",
     outputs: [
@@ -352,12 +338,38 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "configuration",
+        type: "uint256",
+      },
+    ],
+    name: "setConfiguration",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bool",
         name: "val",
         type: "bool",
       },
     ],
     name: "setPause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "fundAddress",
+        type: "address",
+      },
+    ],
+    name: "updateFuncAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

@@ -91,8 +91,11 @@ export interface ILendingPoolInterface extends utils.Interface {
     "getConfiguration()": FunctionFragment;
     "getReserveData()": FunctionFragment;
     "getReserveNormalizedIncome()": FunctionFragment;
+    "initReserve(address,address)": FunctionFragment;
     "paused()": FunctionFragment;
+    "setConfiguration(uint256)": FunctionFragment;
     "setPause(bool)": FunctionFragment;
+    "updateFuncAddress(address)": FunctionFragment;
     "withdraw(uint256,address)": FunctionFragment;
     "withdrawFund(uint256)": FunctionFragment;
   };
@@ -105,8 +108,11 @@ export interface ILendingPoolInterface extends utils.Interface {
       | "getConfiguration"
       | "getReserveData"
       | "getReserveNormalizedIncome"
+      | "initReserve"
       | "paused"
+      | "setConfiguration"
       | "setPause"
+      | "updateFuncAddress"
       | "withdraw"
       | "withdrawFund"
   ): FunctionFragment;
@@ -139,10 +145,22 @@ export interface ILendingPoolInterface extends utils.Interface {
     functionFragment: "getReserveNormalizedIncome",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "initReserve",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "setConfiguration",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "setPause",
     values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateFuncAddress",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "withdraw",
@@ -174,8 +192,20 @@ export interface ILendingPoolInterface extends utils.Interface {
     functionFragment: "getReserveNormalizedIncome",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "initReserve",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setConfiguration",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setPause", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "updateFuncAddress",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "withdrawFund",
@@ -187,9 +217,7 @@ export interface ILendingPoolInterface extends utils.Interface {
     "FundAddressUpdated(address)": EventFragment;
     "FundDeposit(address,uint256)": EventFragment;
     "FundWithdraw(address,uint256)": EventFragment;
-    "OTokenUpgraded(address,address)": EventFragment;
     "Paused()": EventFragment;
-    "ReserveInitialized(address)": EventFragment;
     "Unpaused()": EventFragment;
     "Withdraw(address,address,uint256)": EventFragment;
   };
@@ -198,9 +226,7 @@ export interface ILendingPoolInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "FundAddressUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FundDeposit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FundWithdraw"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OTokenUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ReserveInitialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
@@ -251,32 +277,10 @@ export type FundWithdrawEvent = TypedEvent<
 
 export type FundWithdrawEventFilter = TypedEventFilter<FundWithdrawEvent>;
 
-export interface OTokenUpgradedEventObject {
-  proxy: string;
-  implementation: string;
-}
-export type OTokenUpgradedEvent = TypedEvent<
-  [string, string],
-  OTokenUpgradedEventObject
->;
-
-export type OTokenUpgradedEventFilter = TypedEventFilter<OTokenUpgradedEvent>;
-
 export interface PausedEventObject {}
 export type PausedEvent = TypedEvent<[], PausedEventObject>;
 
 export type PausedEventFilter = TypedEventFilter<PausedEvent>;
-
-export interface ReserveInitializedEventObject {
-  oToken: string;
-}
-export type ReserveInitializedEvent = TypedEvent<
-  [string],
-  ReserveInitializedEventObject
->;
-
-export type ReserveInitializedEventFilter =
-  TypedEventFilter<ReserveInitializedEvent>;
 
 export interface UnpausedEventObject {}
 export type UnpausedEvent = TypedEvent<[], UnpausedEventObject>;
@@ -346,10 +350,26 @@ export interface ILendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    initReserve(
+      oToken: PromiseOrValue<string>,
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     paused(overrides?: CallOverrides): Promise<[boolean]>;
+
+    setConfiguration(
+      configuration: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     setPause(
       val: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    updateFuncAddress(
+      fundAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -389,10 +409,26 @@ export interface ILendingPool extends BaseContract {
 
   getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+  initReserve(
+    oToken: PromiseOrValue<string>,
+    fundAddress: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   paused(overrides?: CallOverrides): Promise<boolean>;
+
+  setConfiguration(
+    configuration: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   setPause(
     val: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  updateFuncAddress(
+    fundAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -432,10 +468,26 @@ export interface ILendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initReserve(
+      oToken: PromiseOrValue<string>,
+      fundAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     paused(overrides?: CallOverrides): Promise<boolean>;
+
+    setConfiguration(
+      configuration: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setPause(
       val: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateFuncAddress(
+      fundAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -490,24 +542,8 @@ export interface ILendingPool extends BaseContract {
       amount?: null
     ): FundWithdrawEventFilter;
 
-    "OTokenUpgraded(address,address)"(
-      proxy?: PromiseOrValue<string> | null,
-      implementation?: PromiseOrValue<string> | null
-    ): OTokenUpgradedEventFilter;
-    OTokenUpgraded(
-      proxy?: PromiseOrValue<string> | null,
-      implementation?: PromiseOrValue<string> | null
-    ): OTokenUpgradedEventFilter;
-
     "Paused()"(): PausedEventFilter;
     Paused(): PausedEventFilter;
-
-    "ReserveInitialized(address)"(
-      oToken?: PromiseOrValue<string> | null
-    ): ReserveInitializedEventFilter;
-    ReserveInitialized(
-      oToken?: PromiseOrValue<string> | null
-    ): ReserveInitializedEventFilter;
 
     "Unpaused()"(): UnpausedEventFilter;
     Unpaused(): UnpausedEventFilter;
@@ -545,10 +581,26 @@ export interface ILendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initReserve(
+      oToken: PromiseOrValue<string>,
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     paused(overrides?: CallOverrides): Promise<BigNumber>;
+
+    setConfiguration(
+      configuration: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     setPause(
       val: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    updateFuncAddress(
+      fundAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -589,10 +641,26 @@ export interface ILendingPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    initReserve(
+      oToken: PromiseOrValue<string>,
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    setConfiguration(
+      configuration: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     setPause(
       val: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateFuncAddress(
+      fundAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

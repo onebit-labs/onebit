@@ -53,15 +53,10 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _;
   }
 
-  modifier onlyPoolAdmin {
-    require(_addressesProvider.getPoolAdmin() == msg.sender, Errors.CALLER_NOT_POOL_ADMIN);
-    _;
-  }
-
-  modifier onlyEmergencyAdmin {
+  modifier onlyLendingPoolConfigurator() {
     require(
-      _addressesProvider.getEmergencyAdmin() == msg.sender,
-      Errors.LPC_CALLER_NOT_EMERGENCY_ADMIN
+      _addressesProvider.getLendingPoolConfigurator() == msg.sender,
+      Errors.LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR
     );
     _;
   }
@@ -181,7 +176,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     return amountToWithdraw;
   }
 
-  function withdrawFund(uint256 amount) external override whenNotPaused onlyPoolAdmin returns (uint256) {
+  function withdrawFund(uint256 amount) external override whenNotPaused onlyPoolOperator returns (uint256) {
     uint256 currentTimestamp = block.timestamp;
     require(amount > 0, Errors.VL_INVALID_AMOUNT);
     require((currentTimestamp >= _reserve.purchaseEndTimestamp) && (currentTimestamp < _reserve.redemptionBeginTimestamp), Errors.VL_NOT_IN_LOCK_PERIOD);
@@ -224,7 +219,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _reserve.updateNetValue(netValue, oldNetValue, currentTimestamp);
   }
 
-  function initializeNextPeroid(uint16 managementFeeRate, uint16 performanceFeeRate, uint128 purchaseUpperLimit,
+  function initializeNextPeriod(uint16 managementFeeRate, uint16 performanceFeeRate, uint128 purchaseUpperLimit,
     uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, 
     uint40 redemptionBeginTimestamp)
     external
@@ -291,7 +286,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
    * - Only callable by the PoolOperator contract
    * @param val `true` to pause the reserve, `false` to un-pause it
    */
-  function setPause(bool val) external override onlyEmergencyAdmin {
+  function setPause(bool val) external override onlyLendingPoolConfigurator {
     _paused = val;
     if (_paused) {
       emit Paused();
@@ -300,89 +295,26 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     }
   }
 
-  function updateFuncAddress(address fundAddress) external onlyPoolAdmin {
+  function updateFuncAddress(address fundAddress) external override onlyLendingPoolConfigurator {
     require(fundAddress != address(0), Errors.LPC_INVALID_ADDRESSES_PROVIDER_ID);
     _reserve.fundAddress = fundAddress;
     emit FundAddressUpdated(fundAddress);
   }
 
+  function initReserve(address oToken, address fundAddress) external override onlyLendingPoolConfigurator {
+    _reserve.init(oToken, fundAddress);
+  }
+
   /**
-   * @dev Updates the vToken implementation for the reserve
+   * @dev Sets the configuration bitmap of the reserve as a whole
+   * - Only callable by the LendingPoolConfigurator contract
+   * @param configuration The new configuration bitmap
    **/
-  function updateOToken(UpdateOTokenInput calldata input) external onlyPoolAdmin {
-
-    uint256 decimals = _reserve.configuration.getParamsMemory();
-
-    bytes memory encodedCall = abi.encodeWithSelector(
-        IInitializableOToken.initialize.selector,
-        address(this),
-        decimals,
-        input.name,
-        input.symbol,
-        input.params
-      );
-
-    _upgradeImplementation(
-      _reserve.oTokenAddress,
-      input.implementation,
-      encodedCall
-    );
-
-    emit OTokenUpgraded(_reserve.oTokenAddress, input.implementation);
-  }
-
-  function initReserve(InitReserveInput calldata input) external onlyPoolAdmin {
-    address oTokenProxyAddress =
-      _initContractWithProxy(
-        input.oTokenImpl,
-        abi.encodeWithSelector(
-          IInitializableOToken.initialize.selector,
-          address(this),
-          input.underlyingAsset,
-          input.underlyingAssetDecimals,
-          input.oTokenName,
-          input.oTokenSymbol,
-          input.params
-        )
-      );
-
-    _reserve.init(oTokenProxyAddress, input.fundAddress);
-
-    DataTypes.ReserveConfigurationMap memory currentConfig = _reserve.configuration;
-
-    currentConfig.setDecimals(input.underlyingAssetDecimals);
-
-    currentConfig.setActive(true);
-    currentConfig.setFrozen(false);
-
-    _reserve.configuration.data = currentConfig.data;
-
-    emit ReserveInitialized(
-      oTokenProxyAddress
-    );
-  }
-
-  function _initContractWithProxy(address implementation, bytes memory initParams)
-    internal
-    returns (address)
+  function setConfiguration(uint256 configuration)
+    external
+    override
+    onlyLendingPoolConfigurator
   {
-    InitializableImmutableAdminUpgradeabilityProxy proxy =
-      new InitializableImmutableAdminUpgradeabilityProxy(address(this));
-
-    proxy.initialize(implementation, initParams);
-
-    return address(proxy);
+    _reserve.configuration.data = configuration;
   }
-
-  function _upgradeImplementation(
-    address proxyAddress,
-    address implementation,
-    bytes memory initParams
-  ) internal {
-    InitializableImmutableAdminUpgradeabilityProxy proxy =
-      InitializableImmutableAdminUpgradeabilityProxy(payable(proxyAddress));
-
-    proxy.upgradeToAndCall(implementation, initParams);
-  }
-
 }

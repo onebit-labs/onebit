@@ -32,16 +32,16 @@ export interface ILendingPoolAddressesProviderInterface
     "getAddress(bytes32)": FunctionFragment;
     "getEmergencyAdmin()": FunctionFragment;
     "getLendingPool()": FunctionFragment;
+    "getLendingPoolConfigurator()": FunctionFragment;
     "getMarketId()": FunctionFragment;
-    "getOToken()": FunctionFragment;
     "getPoolAdmin()": FunctionFragment;
     "getPoolOperator()": FunctionFragment;
     "setAddress(bytes32,address)": FunctionFragment;
     "setAddressAsProxy(bytes32,address)": FunctionFragment;
     "setEmergencyAdmin(address)": FunctionFragment;
+    "setLendingPoolConfiguratorImpl(address)": FunctionFragment;
     "setLendingPoolImpl(address)": FunctionFragment;
     "setMarketId(string)": FunctionFragment;
-    "setOTokenImpl(address)": FunctionFragment;
     "setPoolAdmin(address)": FunctionFragment;
     "setPoolOperator(address)": FunctionFragment;
   };
@@ -51,16 +51,16 @@ export interface ILendingPoolAddressesProviderInterface
       | "getAddress"
       | "getEmergencyAdmin"
       | "getLendingPool"
+      | "getLendingPoolConfigurator"
       | "getMarketId"
-      | "getOToken"
       | "getPoolAdmin"
       | "getPoolOperator"
       | "setAddress"
       | "setAddressAsProxy"
       | "setEmergencyAdmin"
+      | "setLendingPoolConfiguratorImpl"
       | "setLendingPoolImpl"
       | "setMarketId"
-      | "setOTokenImpl"
       | "setPoolAdmin"
       | "setPoolOperator"
   ): FunctionFragment;
@@ -78,10 +78,13 @@ export interface ILendingPoolAddressesProviderInterface
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getLendingPoolConfigurator",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getMarketId",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "getOToken", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getPoolAdmin",
     values?: undefined
@@ -103,15 +106,15 @@ export interface ILendingPoolAddressesProviderInterface
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setLendingPoolConfiguratorImpl",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setLendingPoolImpl",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setMarketId",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setOTokenImpl",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -133,10 +136,13 @@ export interface ILendingPoolAddressesProviderInterface
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getLendingPoolConfigurator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getMarketId",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getOToken", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getPoolAdmin",
     data: BytesLike
@@ -155,15 +161,15 @@ export interface ILendingPoolAddressesProviderInterface
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setLendingPoolConfiguratorImpl",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setLendingPoolImpl",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "setMarketId",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setOTokenImpl",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -179,9 +185,9 @@ export interface ILendingPoolAddressesProviderInterface
     "AddressSet(bytes32,address,bool)": EventFragment;
     "ConfigurationAdminUpdated(address)": EventFragment;
     "EmergencyAdminUpdated(address)": EventFragment;
+    "LendingPoolConfiguratorUpdated(address)": EventFragment;
     "LendingPoolUpdated(address)": EventFragment;
     "MarketIdSet(string)": EventFragment;
-    "OTokenUpdated(address)": EventFragment;
     "PoolOperatorUpdated(address)": EventFragment;
     "ProxyCreated(bytes32,address)": EventFragment;
   };
@@ -189,9 +195,11 @@ export interface ILendingPoolAddressesProviderInterface
   getEvent(nameOrSignatureOrTopic: "AddressSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ConfigurationAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EmergencyAdminUpdated"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "LendingPoolConfiguratorUpdated"
+  ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LendingPoolUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MarketIdSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OTokenUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PoolOperatorUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProxyCreated"): EventFragment;
 }
@@ -230,6 +238,17 @@ export type EmergencyAdminUpdatedEvent = TypedEvent<
 export type EmergencyAdminUpdatedEventFilter =
   TypedEventFilter<EmergencyAdminUpdatedEvent>;
 
+export interface LendingPoolConfiguratorUpdatedEventObject {
+  newAddress: string;
+}
+export type LendingPoolConfiguratorUpdatedEvent = TypedEvent<
+  [string],
+  LendingPoolConfiguratorUpdatedEventObject
+>;
+
+export type LendingPoolConfiguratorUpdatedEventFilter =
+  TypedEventFilter<LendingPoolConfiguratorUpdatedEvent>;
+
 export interface LendingPoolUpdatedEventObject {
   newAddress: string;
 }
@@ -247,13 +266,6 @@ export interface MarketIdSetEventObject {
 export type MarketIdSetEvent = TypedEvent<[string], MarketIdSetEventObject>;
 
 export type MarketIdSetEventFilter = TypedEventFilter<MarketIdSetEvent>;
-
-export interface OTokenUpdatedEventObject {
-  newAddress: string;
-}
-export type OTokenUpdatedEvent = TypedEvent<[string], OTokenUpdatedEventObject>;
-
-export type OTokenUpdatedEventFilter = TypedEventFilter<OTokenUpdatedEvent>;
 
 export interface PoolOperatorUpdatedEventObject {
   newAddress: string;
@@ -313,9 +325,9 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     getLendingPool(overrides?: CallOverrides): Promise<[string]>;
 
-    getMarketId(overrides?: CallOverrides): Promise<[string]>;
+    getLendingPoolConfigurator(overrides?: CallOverrides): Promise<[string]>;
 
-    getOToken(overrides?: CallOverrides): Promise<[string]>;
+    getMarketId(overrides?: CallOverrides): Promise<[string]>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<[string]>;
 
@@ -338,6 +350,11 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setLendingPoolConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setLendingPoolImpl(
       pool: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -345,11 +362,6 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     setMarketId(
       marketId: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setOTokenImpl(
-      oToken: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -373,9 +385,9 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
   getLendingPool(overrides?: CallOverrides): Promise<string>;
 
-  getMarketId(overrides?: CallOverrides): Promise<string>;
+  getLendingPoolConfigurator(overrides?: CallOverrides): Promise<string>;
 
-  getOToken(overrides?: CallOverrides): Promise<string>;
+  getMarketId(overrides?: CallOverrides): Promise<string>;
 
   getPoolAdmin(overrides?: CallOverrides): Promise<string>;
 
@@ -398,6 +410,11 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setLendingPoolConfiguratorImpl(
+    configurator: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setLendingPoolImpl(
     pool: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -405,11 +422,6 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
   setMarketId(
     marketId: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setOTokenImpl(
-    oToken: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -433,9 +445,9 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     getLendingPool(overrides?: CallOverrides): Promise<string>;
 
-    getMarketId(overrides?: CallOverrides): Promise<string>;
+    getLendingPoolConfigurator(overrides?: CallOverrides): Promise<string>;
 
-    getOToken(overrides?: CallOverrides): Promise<string>;
+    getMarketId(overrides?: CallOverrides): Promise<string>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<string>;
 
@@ -458,6 +470,11 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setLendingPoolConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setLendingPoolImpl(
       pool: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -465,11 +482,6 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     setMarketId(
       marketId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setOTokenImpl(
-      oToken: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -510,6 +522,13 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
       newAddress?: PromiseOrValue<string> | null
     ): EmergencyAdminUpdatedEventFilter;
 
+    "LendingPoolConfiguratorUpdated(address)"(
+      newAddress?: PromiseOrValue<string> | null
+    ): LendingPoolConfiguratorUpdatedEventFilter;
+    LendingPoolConfiguratorUpdated(
+      newAddress?: PromiseOrValue<string> | null
+    ): LendingPoolConfiguratorUpdatedEventFilter;
+
     "LendingPoolUpdated(address)"(
       newAddress?: PromiseOrValue<string> | null
     ): LendingPoolUpdatedEventFilter;
@@ -519,13 +538,6 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     "MarketIdSet(string)"(newMarketId?: null): MarketIdSetEventFilter;
     MarketIdSet(newMarketId?: null): MarketIdSetEventFilter;
-
-    "OTokenUpdated(address)"(
-      newAddress?: PromiseOrValue<string> | null
-    ): OTokenUpdatedEventFilter;
-    OTokenUpdated(
-      newAddress?: PromiseOrValue<string> | null
-    ): OTokenUpdatedEventFilter;
 
     "PoolOperatorUpdated(address)"(
       newAddress?: PromiseOrValue<string> | null
@@ -554,9 +566,9 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     getLendingPool(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getMarketId(overrides?: CallOverrides): Promise<BigNumber>;
+    getLendingPoolConfigurator(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getOToken(overrides?: CallOverrides): Promise<BigNumber>;
+    getMarketId(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -579,6 +591,11 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setLendingPoolConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setLendingPoolImpl(
       pool: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -586,11 +603,6 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     setMarketId(
       marketId: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setOTokenImpl(
-      oToken: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -615,9 +627,11 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     getLendingPool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getMarketId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getLendingPoolConfigurator(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
-    getOToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getMarketId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -640,6 +654,11 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setLendingPoolConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setLendingPoolImpl(
       pool: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -647,11 +666,6 @@ export interface ILendingPoolAddressesProvider extends BaseContract {
 
     setMarketId(
       marketId: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setOTokenImpl(
-      oToken: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

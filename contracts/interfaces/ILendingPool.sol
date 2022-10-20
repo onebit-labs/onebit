@@ -76,6 +76,8 @@ interface ILendingPool {
 
   function withdrawFund(uint256 amount) external returns (uint256);
 
+  function initReserve(address oToken, address fundAddress) external;
+
   /**
    * @dev Returns the configuration of the reserve
    * @return The configuration of the reserve
@@ -84,6 +86,8 @@ interface ILendingPool {
     external
     view
     returns (DataTypes.ReserveConfigurationMap memory);
+
+  function setConfiguration(uint256 configuration) external;
 
   /**
    * @dev Returns the normalized income normalized income of the reserve
@@ -103,39 +107,5 @@ interface ILendingPool {
 
   function paused() external view returns (bool);
 
-  struct InitReserveInput {
-    address oTokenImpl;
-    uint8 underlyingAssetDecimals;
-    address underlyingAsset;
-    string underlyingAssetName;
-    string oTokenName;
-    string oTokenSymbol;
-    address fundAddress;
-    bytes params;
-  }
-
-  struct UpdateOTokenInput {
-    string name;
-    string symbol;
-    address implementation;
-    bytes params;
-  }
-
-  /**
-   * @dev Emitted when a reserve is initialized.
-   * @param oToken The address of the associated vToken contract
-   **/
-  event ReserveInitialized(
-    address indexed oToken
-  );
-
-  /**
-   * @dev Emitted when an oToken implementation is upgraded
-   * @param proxy The oToken proxy address
-   * @param implementation The new oToken implementation
-   **/
-  event OTokenUpgraded(
-    address indexed proxy,
-    address indexed implementation
-  );
+  function updateFuncAddress(address fundAddress) external;
 }

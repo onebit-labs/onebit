@@ -132,3 +132,7 @@ export const filterMapBy = (raw: { [key: string]: any }, list: { [key: string]: 
       obj[key] = raw[key];
       return obj;
     }, list);
+
+export const readDateString = (date: string) => {
+  return Math.floor(new Date(date).getTime() / 1000);
+}

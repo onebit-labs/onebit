@@ -4,23 +4,19 @@ import {LendingPoolAddressesProviderRegistry__factory} from '../types/factories/
 import {LendingPoolAddressesProvider__factory} from '../types/factories/LendingPoolAddressesProvider__factory';
 import {LendingPool__factory, LendingPoolLibraryAddresses} from '../types/factories/LendingPool__factory';
 import {ReserveLogic__factory} from '../types/factories/libraries/logic/ReserveLogic__factory'
+import {LendingPoolConfigurator__factory} from '../types/factories/LendingPoolConfigurator__factory'
 import {OToken__factory} from '../types/factories/OToken__factory';
 import {MintableERC20__factory} from '../types/factories/MintableERC20__factory';
 import { IERC20Metadata__factory } from '../types/factories/dependencies/openzeppelin/contracts/IERC20Metadata__factory';
-import { ILendingPool } from '../types/LendingPool';
 import { eContractid, eNetwork } from '../helpers/types';
-import {getDb, waitForTx} from '../helpers/misc-utils';
+import {getDb, getMarketDb, waitForTx} from '../helpers/misc-utils';
 
 task('deploy-registry', 'Deploy registry')
 .addFlag('verify', 'Verify contracts at Etherscan')
 //.addFlag('test', 'Test environment.')
 .setAction(async ({verify}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
-    const signerAddress = await signer.getAddress();
-
     await withSaveAndVerify(
         //@ts-ignore
         await new LendingPoolAddressesProviderRegistry__factory(signer).deploy(),
@@ -32,20 +28,19 @@ task('deploy-registry', 'Deploy registry')
 
 task('deploy-provider', 'Deploy Provider')
 .addFlag('verify', 'Verify contracts at Etherscan')
+.addParam('market', 'The market ID')
 //.addFlag('test', 'Test environment.')
-.setAction(async ({verify}, DRE) => {
+.setAction(async ({verify, market}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
-    const signerAddress = await signer.getAddress();
-    const args = ['test'];
+    const args = [market];
     const provider = await withSaveAndVerify(
         //@ts-ignore
         await new LendingPoolAddressesProvider__factory(signer).deploy(...args),
         eContractid.LendingPoolAddressesProvider,
         args,
-        verify
+        verify,
+        market
         );
     const registry = await LendingPoolAddressesProviderRegistry__factory.connect(
         (await getDb()
@@ -65,11 +60,7 @@ task('deploy-reserve-logic', 'Deploy reserve logic')
 //.addFlag('test', 'Test environment.')
 .setAction(async ({verify}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
-    const signerAddress = await signer.getAddress();
-    const args = [];
     const reserveLogic = await withSaveAndVerify(
         await new ReserveLogic__factory(signer).deploy(),
         eContractid.ReserveLogic,
@@ -80,14 +71,11 @@ task('deploy-reserve-logic', 'Deploy reserve logic')
 
 task('deploy-lending-pool', 'Deploy lending pool')
 .addFlag('verify', 'Verify contracts at Etherscan')
+.addParam('market', 'The market ID')
 //.addFlag('test', 'Test environment.')
-.setAction(async ({verify}, DRE) => {
+.setAction(async ({verify, market}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
-    const signerAddress = await signer.getAddress();
-    const args = [];
     const reserveLogicAddress = (await getDb()
         .get(`${eContractid.ReserveLogic}.${DRE.network.name}`)
         .value()).address;
@@ -102,8 +90,8 @@ task('deploy-lending-pool', 'Deploy lending pool')
         verify
         );
     const provider = await LendingPoolAddressesProvider__factory.connect(
-        (await getDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}`)
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -113,21 +101,47 @@ task('deploy-lending-pool', 'Deploy lending pool')
     await insertContractAddressInDb(
         eContractid.LendingPool,
         lendingPoolProxyAddress,
+        market
+    );
+})
+
+task('deploy-lending-pool-configurator', 'Deploy lending pool configurator')
+.addFlag('verify', 'Verify contracts at Etherscan')
+.addParam('market', 'The market ID')
+.setAction(async ({verify, market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const configuratorImpl = await withSaveAndVerify(
+        await new LendingPoolConfigurator__factory(signer).deploy(),
+        eContractid.LendingPoolConfiguratorImpl,
+        [],
+        verify
+    );
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setLendingPoolConfiguratorImpl(configuratorImpl.address))
+    );
+    const configuratorAddress = await provider.getLendingPoolConfigurator();
+    await insertContractAddressInDb(
+        eContractid.LendingPoolConfigurator,
+        configuratorAddress,
+        market
     );
 })
 
 task('set-pool-admin', 'set pool admin')
-.addFlag('verify', 'Verify contracts at Etherscan')
-//.addFlag('test', 'Test environment.')
-.setAction(async ({verify}, DRE) => {
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
     const provider = await LendingPoolAddressesProvider__factory.connect(
-        (await getDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}`)
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -136,17 +150,14 @@ task('set-pool-admin', 'set pool admin')
 })
 
 task('set-pool-operator', 'set pool operator')
-.addFlag('verify', 'Verify contracts at Etherscan')
-//.addFlag('test', 'Test environment.')
-.setAction(async ({verify}, DRE) => {
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
     const provider = await LendingPoolAddressesProvider__factory.connect(
-        (await getDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}`)
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -155,17 +166,14 @@ task('set-pool-operator', 'set pool operator')
 })
 
 task('set-emergency-admin', 'set emergency admin')
-.addFlag('verify', 'Verify contracts at Etherscan')
-//.addFlag('test', 'Test environment.')
-.setAction(async ({verify}, DRE) => {
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
     const provider = await LendingPoolAddressesProvider__factory.connect(
-        (await getDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}`)
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -175,12 +183,9 @@ task('set-emergency-admin', 'set emergency admin')
 
 task('deploy-otoken', 'Deploy OToken')
 .addFlag('verify', 'Verify contracts at Etherscan')
-//.addFlag('test', 'Test environment.')
 .setAction(async ({verify}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
     const signer = await getFirstSigner();
-    const signerAddress = await signer.getAddress();
     const oToken = await withSaveAndVerify(
         await new OToken__factory(signer).deploy(),
         eContractid.OToken,
@@ -193,10 +198,7 @@ task('deploy-usdt', 'Deploy USDT')
 .addFlag('verify', 'Verify contracts at Etherscan')
 .setAction(async({verify}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
-    
     const signer = await getFirstSigner();
-    const signerAddress = await signer.getAddress();
     const args: [string, string, string] = ['USDT', 'USDT', '18'];
     const usdt = await withSaveAndVerify(
         await new MintableERC20__factory(signer).deploy(...args),
@@ -208,15 +210,13 @@ task('deploy-usdt', 'Deploy USDT')
 
 task('init-reserve', 'Initialize the reserve')
 .addParam('fundAddress', 'The address to withdraw fund to')
-.setAction(async ({verify, fundAddress}, DRE) => {
+.addParam('market', 'The market ID')
+.setAction(async ({fundAddress, market}, DRE) => {
     await DRE.run('set-DRE');
-    const network = <eNetwork>DRE.network.name;
     const signer = await getFirstSigner();
-    const signerAddress = await signer.getAddress();
-    const db = await getDb();
-    const pool = await LendingPool__factory.connect(
-        (await getDb()
-          .get(`${eContractid.LendingPool}.${DRE.network.name}`)
+    const configurator = await LendingPoolConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolConfigurator}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     const oTokenAddress = (await getDb()
@@ -245,12 +245,6 @@ task('init-reserve', 'Initialize the reserve')
         params: '0x10',
     };
     await waitForTx(
-        await ( pool.initReserve(reserveData))
+        await ( configurator.initReserve(reserveData))
     );
 })
-
-
-
-
-
-

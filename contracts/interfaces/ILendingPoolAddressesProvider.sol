@@ -11,31 +11,12 @@ pragma solidity 0.8.9;
 interface ILendingPoolAddressesProvider {
   event MarketIdSet(string newMarketId);
   event LendingPoolUpdated(address indexed newAddress);
-  event OTokenUpdated(address indexed newAddress);
+  event LendingPoolConfiguratorUpdated(address indexed newAddress);
   event ConfigurationAdminUpdated(address indexed newAddress);
   event EmergencyAdminUpdated(address indexed newAddress);
   event PoolOperatorUpdated(address indexed newAddress);
   event ProxyCreated(bytes32 id, address indexed newAddress);
   event AddressSet(bytes32 id, address indexed newAddress, bool hasProxy);
-
-  struct InitReserveInput {
-    address oTokenImpl;
-    uint8 underlyingAssetDecimals;
-    address underlyingAsset;
-    address fundAddress;
-    string underlyingAssetName;
-    string oTokenName;
-    string oTokenSymbol;
-    bytes params;
-  }
-
-  struct InitOtokenInput {
-    address asset;
-    string name;
-    string symbol;
-    address implementation;
-    bytes params;
-  }
 
   function getMarketId() external view returns (string memory);
 
@@ -51,6 +32,10 @@ interface ILendingPoolAddressesProvider {
 
   function setLendingPoolImpl(address pool) external;
 
+  function getLendingPoolConfigurator() external view returns (address);
+
+  function setLendingPoolConfiguratorImpl(address configurator) external;
+
   function getPoolOperator() external view returns (address);
 
   function setPoolOperator(address configurator) external;
@@ -62,8 +47,4 @@ interface ILendingPoolAddressesProvider {
   function getEmergencyAdmin() external view returns (address);
 
   function setEmergencyAdmin(address admin) external;
-
-  function getOToken() external view returns(address);
-
-  function setOTokenImpl(address oToken) external;
 }

@@ -8,5 +8,6 @@ export { IncentivizedERC20__factory } from "./IncentivizedERC20__factory";
 export { LendingPool__factory } from "./LendingPool__factory";
 export { LendingPoolAddressesProvider__factory } from "./LendingPoolAddressesProvider__factory";
 export { LendingPoolAddressesProviderRegistry__factory } from "./LendingPoolAddressesProviderRegistry__factory";
+export { LendingPoolConfigurator__factory } from "./LendingPoolConfigurator__factory";
 export { MintableERC20__factory } from "./MintableERC20__factory";
 export { OToken__factory } from "./OToken__factory";

@@ -11,6 +11,7 @@ export type { IncentivizedERC20 } from "./IncentivizedERC20";
 export type { LendingPool } from "./LendingPool";
 export type { LendingPoolAddressesProvider } from "./LendingPoolAddressesProvider";
 export type { LendingPoolAddressesProviderRegistry } from "./LendingPoolAddressesProviderRegistry";
+export type { LendingPoolConfigurator } from "./LendingPoolConfigurator";
 export type { MintableERC20 } from "./MintableERC20";
 export type { OToken } from "./OToken";
 export * as factories from "./factories";
@@ -59,6 +60,8 @@ export type { ILendingPoolAddressesProvider } from "./interfaces/ILendingPoolAdd
 export { ILendingPoolAddressesProvider__factory } from "./factories/interfaces/ILendingPoolAddressesProvider__factory";
 export type { ILendingPoolAddressesProviderRegistry } from "./interfaces/ILendingPoolAddressesProviderRegistry";
 export { ILendingPoolAddressesProviderRegistry__factory } from "./factories/interfaces/ILendingPoolAddressesProviderRegistry__factory";
+export type { ILendingPoolConfigurator } from "./interfaces/ILendingPoolConfigurator";
+export { ILendingPoolConfigurator__factory } from "./factories/interfaces/ILendingPoolConfigurator__factory";
 export type { IOToken } from "./interfaces/IOToken";
 export { IOToken__factory } from "./factories/interfaces/IOToken__factory";
 export type { IScaledBalanceToken } from "./interfaces/IScaledBalanceToken";
@@ -66,6 +69,7 @@ export { IScaledBalanceToken__factory } from "./factories/interfaces/IScaledBala
 export { LendingPool__factory } from "./factories/LendingPool__factory";
 export { LendingPoolAddressesProvider__factory } from "./factories/LendingPoolAddressesProvider__factory";
 export { LendingPoolAddressesProviderRegistry__factory } from "./factories/LendingPoolAddressesProviderRegistry__factory";
+export { LendingPoolConfigurator__factory } from "./factories/LendingPoolConfigurator__factory";
 export type { BaseImmutableAdminUpgradeabilityProxy } from "./libraries/aave-upgradeability/BaseImmutableAdminUpgradeabilityProxy";
 export { BaseImmutableAdminUpgradeabilityProxy__factory } from "./factories/libraries/aave-upgradeability/BaseImmutableAdminUpgradeabilityProxy__factory";
 export type { InitializableImmutableAdminUpgradeabilityProxy } from "./libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy";

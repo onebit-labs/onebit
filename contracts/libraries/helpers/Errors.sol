@@ -40,7 +40,8 @@ library Errors {
   string public constant VL_INVALID_FUND_ADDRESS = '12'; // 'Invalid fund address.'
   string public constant VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0 = '19'; // 'The underlying balance needs to be greater than 0'
   string public constant LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE = '26'; // 'The actual balance of the protocol is inconsistent'
-  string public constant LP_CALLER_NOT_POOL_OPERATOR = '27'; // 'The caller of the function is not the pool operator.'
+  string public constant LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR = '27';
+  string public constant LP_CALLER_NOT_POOL_OPERATOR = '28'; // 'The caller of the function is not the pool operator.'
   string public constant CT_CALLER_MUST_BE_LENDING_POOL = '29'; // 'The caller of this function must be a lending pool'
   string public constant CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF = '30'; // 'User cannot give allowance to himself'
   string public constant CT_TRANSFER_AMOUNT_NOT_GT_0 = '31'; // 'Transferred amount needs to be greater than zero'

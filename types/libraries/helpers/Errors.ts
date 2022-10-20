@@ -41,6 +41,7 @@ export interface ErrorsInterface extends utils.Interface {
     "LPC_INVALID_OTOKEN_POOL_ADDRESS()": FunctionFragment;
     "LPC_RESERVE_LIQUIDITY_NOT_0()": FunctionFragment;
     "LP_CALLER_MUST_BE_AN_OTOKEN()": FunctionFragment;
+    "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR()": FunctionFragment;
     "LP_CALLER_NOT_POOL_OPERATOR()": FunctionFragment;
     "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE()": FunctionFragment;
     "LP_IS_PAUSED()": FunctionFragment;
@@ -92,6 +93,7 @@ export interface ErrorsInterface extends utils.Interface {
       | "LPC_INVALID_OTOKEN_POOL_ADDRESS"
       | "LPC_RESERVE_LIQUIDITY_NOT_0"
       | "LP_CALLER_MUST_BE_AN_OTOKEN"
+      | "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR"
       | "LP_CALLER_NOT_POOL_OPERATOR"
       | "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE"
       | "LP_IS_PAUSED"
@@ -196,6 +198,10 @@ export interface ErrorsInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "LP_CALLER_MUST_BE_AN_OTOKEN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -385,6 +391,10 @@ export interface ErrorsInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "LP_CALLER_MUST_BE_AN_OTOKEN",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -582,6 +592,10 @@ export interface Errors extends BaseContract {
 
     LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<[string]>;
 
+    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<[string]>;
 
     LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
@@ -693,6 +707,10 @@ export interface Errors extends BaseContract {
 
   LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
 
+  LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<string>;
 
   LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
@@ -803,6 +821,10 @@ export interface Errors extends BaseContract {
     LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<string>;
 
     LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
+
+    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<string>;
 
@@ -929,6 +951,10 @@ export interface Errors extends BaseContract {
     LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<BigNumber>;
 
     LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<BigNumber>;
+
+    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1071,6 +1097,10 @@ export interface Errors extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     LP_CALLER_MUST_BE_AN_OTOKEN(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

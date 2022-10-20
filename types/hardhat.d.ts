@@ -105,6 +105,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ILendingPoolAddressesProviderRegistry__factory>;
     getContractFactory(
+      name: "ILendingPoolConfigurator",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ILendingPoolConfigurator__factory>;
+    getContractFactory(
       name: "IOToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IOToken__factory>;
@@ -124,6 +128,10 @@ declare module "hardhat/types/runtime" {
       name: "LendingPoolAddressesProviderRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.LendingPoolAddressesProviderRegistry__factory>;
+    getContractFactory(
+      name: "LendingPoolConfigurator",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LendingPoolConfigurator__factory>;
     getContractFactory(
       name: "BaseImmutableAdminUpgradeabilityProxy",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -261,6 +269,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ILendingPoolAddressesProviderRegistry>;
     getContractAt(
+      name: "ILendingPoolConfigurator",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ILendingPoolConfigurator>;
+    getContractAt(
       name: "IOToken",
       address: string,
       signer?: ethers.Signer
@@ -285,6 +298,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.LendingPoolAddressesProviderRegistry>;
+    getContractAt(
+      name: "LendingPoolConfigurator",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LendingPoolConfigurator>;
     getContractAt(
       name: "BaseImmutableAdminUpgradeabilityProxy",
       address: string,

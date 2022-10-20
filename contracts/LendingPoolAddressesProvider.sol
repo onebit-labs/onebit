@@ -21,6 +21,7 @@ contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider 
   mapping(bytes32 => address) private _addresses;
 
   bytes32 private constant LENDING_POOL = 'LENDING_POOL';
+  bytes32 private constant LENDING_POOL_CONFIGURATOR = 'LENDING_POOL_CONFIGURATOR';
   bytes32 private constant POOL_OPERATOR = 'POOL_OPERATOR';
   bytes32 private constant POOL_ADMIN = 'POOL_ADMIN';
   bytes32 private constant EMERGENCY_ADMIN = 'EMERGENCY_ADMIN';
@@ -102,6 +103,24 @@ contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider 
   }
 
   /**
+   * @dev Returns the address of the LendingPoolConfigurator proxy
+   * @return The LendingPoolConfigurator proxy address
+   **/
+  function getLendingPoolConfigurator() external view override returns (address) {
+    return getAddress(LENDING_POOL_CONFIGURATOR);
+  }
+
+  /**
+   * @dev Updates the implementation of the LendingPoolConfigurator, or creates the proxy
+   * setting the new `configurator` implementation on the first time calling it
+   * @param configurator The new LendingPoolConfigurator implementation
+   **/
+  function setLendingPoolConfiguratorImpl(address configurator) external override onlyOwner {
+    _updateImpl(LENDING_POOL_CONFIGURATOR, configurator);
+    emit LendingPoolConfiguratorUpdated(configurator);
+  }
+
+  /**
    * @dev Returns the address of the PoolOperator
    * @return The PoolOperator address
    **/
@@ -136,24 +155,6 @@ contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider 
   function setEmergencyAdmin(address emergencyAdmin) external override onlyOwner {
     _addresses[EMERGENCY_ADMIN] = emergencyAdmin;
     emit EmergencyAdminUpdated(emergencyAdmin);
-  }
-
-  /**
-   * @dev Returns the address of the OToken proxy
-   * @return The OToken proxy address
-   **/
-  function getOToken() external view override returns (address) {
-    return getAddress(OTOKEN);
-  }
-
-  /**
-   * @dev Updates the implementation of the OToken, or creates the proxy
-   * setting the new `otoken` implementation on the first time calling it
-   * @param otoken The new LendingPool implementation
-   **/
-  function setOTokenImpl(address otoken) external override onlyOwner {
-    _updateImpl(OTOKEN, otoken);
-    emit OTokenUpdated(otoken);
   }
 
   /**
