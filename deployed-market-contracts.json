@@ -1,0 +1,57 @@
+{
+  "LendingPoolAddressesProvider": {
+    "goerli": {
+      "OneBit_1_USDT": {
+        "address": "0xc80770fcA0906B6c2EC0A0F9D78721a76Ecd6bd4",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-USDT-1": {
+        "address": "0x754819146536d247b228B6a251D49BA2F139DC7A",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-USDT-2": {
+        "address": "0x74FC2BAF5eB17fB9343bf903926fd510e6e53896",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      }
+    },
+    "localhost": {
+      "Onebit-USDT-1": {
+        "address": "0xEDEa08Ebb8177a159Ec365e4aF554bfEd845D361",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      }
+    }
+  },
+  "LendingPool": {
+    "goerli": {
+      "OneBit_1_USDT": {
+        "address": "0xd5F9247229D1001daCeA817dAF4112680eEe9d6E"
+      },
+      "Onebit-USDT-1": {
+        "address": "0x7Fa6222bc44d575f750F3CEDc43C7224cc08b82B"
+      },
+      "Onebit-USDT-2": {
+        "address": "0x6Bafba601Ad936081dE5B67b9c39bA2Bff539dD6"
+      }
+    },
+    "localhost": {
+      "Onebit-USDT-1": {
+        "address": "0x7824AfFd5787F993c3b3a293EC7cA22f338164de"
+      }
+    }
+  },
+  "LendingPoolConfigurator": {
+    "localhost": {
+      "Onebit-USDT-1": {
+        "address": "0x686715380Db64Ca0A11A64423dCFC3f09A26BE0c"
+      }
+    },
+    "goerli": {
+      "Onebit-USDT-1": {
+        "address": "0xeF68Be202346507375F87c466aB12C3d46eD183a"
+      },
+      "Onebit-USDT-2": {
+        "address": "0xC728c79aCB2b9Be6b9238A1fdC4Aa260088128b1"
+      }
+    }
+  }
+}

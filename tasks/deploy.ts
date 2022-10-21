@@ -105,6 +105,33 @@ task('deploy-lending-pool', 'Deploy lending pool')
     );
 })
 
+task('register-lending-pool', 'Deploy lending pool')
+.addParam('market', 'The market ID')
+//.addFlag('test', 'Test environment.')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const poolImpl = await LendingPool__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPoolImpl}.${DRE.network.name}`)
+          .value()).address,
+        signer);
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setLendingPoolImpl(poolImpl.address) )
+    );
+    const lendingPoolProxyAddress = await provider.getLendingPool();
+    await insertContractAddressInDb(
+        eContractid.LendingPool,
+        lendingPoolProxyAddress,
+        market
+    );
+})
+
 task('deploy-lending-pool-configurator', 'Deploy lending pool configurator')
 .addFlag('verify', 'Verify contracts at Etherscan')
 .addParam('market', 'The market ID')
@@ -117,6 +144,33 @@ task('deploy-lending-pool-configurator', 'Deploy lending pool configurator')
         [],
         verify
     );
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setLendingPoolConfiguratorImpl(configuratorImpl.address))
+    );
+    const configuratorAddress = await provider.getLendingPoolConfigurator();
+    await insertContractAddressInDb(
+        eContractid.LendingPoolConfigurator,
+        configuratorAddress,
+        market
+    );
+})
+
+task('register-lending-pool-configurator', 'Deploy lending pool configurator')
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const configuratorImpl = await LendingPoolConfigurator__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPoolConfiguratorImpl}.${DRE.network.name}`)
+          .value()).address,
+        
+        signer);
     const provider = await LendingPoolAddressesProvider__factory.connect(
         (await getMarketDb()
           .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)

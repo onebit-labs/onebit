@@ -22,6 +22,7 @@ if (!SKIP_LOAD) {
 }
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const GOERLI_PRIVATE_KEY = process.env.GOERLI_PRIVATE_KEY;
+const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY;
 const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
 
 const config: HardhatUserConfig = {
@@ -62,10 +63,16 @@ const config: HardhatUserConfig = {
       url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [`${GOERLI_PRIVATE_KEY}`],
     },
+    sepolia: {
+      chainId: 11155111,
+      url: "https://rpc.sepolia.dev",
+      accounts: [`${SEPOLIA_PRIVATE_KEY}`],
+    }
   },
   etherscan: {
     apiKey: {
       goerli: ETHERSCAN_KEY,
+      sepolia: ETHERSCAN_KEY,
       mainnet: ETHERSCAN_KEY,
     }
   },

@@ -14,6 +14,7 @@ export enum eEthereumNetwork {
   localhost = 'localhost',
   hardhat = 'hardhat',
   goerli = 'goerli',
+  sepolia = 'seploia',
   mainnet = 'mainnet',
 }
 
@@ -213,6 +214,7 @@ export interface iEthereumParamsPerNetwork<T> {
   [eEthereumNetwork.localhost]: T;
   [eEthereumNetwork.hardhat]: T;
   [eEthereumNetwork.goerli]: T;
+  [eEthereumNetwork.sepolia]: T;
   [eEthereumNetwork.mainnet]: T;
 }
 
@@ -220,6 +222,7 @@ export interface iParamsBuilderPerNetwork<T> {
   [eEthereumNetwork.localhost]?: T;
   [eEthereumNetwork.hardhat]?: T;
   [eEthereumNetwork.goerli]?: T;
+  [eEthereumNetwork.sepolia]?: T;
   [eEthereumNetwork.mainnet]?: T;
 }
 
