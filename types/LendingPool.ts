@@ -261,7 +261,9 @@ export interface LendingPoolInterface extends utils.Interface {
     "FundAddressUpdated(address)": EventFragment;
     "FundDeposit(address,uint256)": EventFragment;
     "FundWithdraw(address,uint256)": EventFragment;
+    "NetValueUpdated(uint256,uint256,uint256,uint256,uint256)": EventFragment;
     "Paused()": EventFragment;
+    "PeriodInitialized(uint256,uint40,uint40,uint40,uint16,uint16)": EventFragment;
     "Unpaused()": EventFragment;
     "Withdraw(address,address,uint256)": EventFragment;
   };
@@ -270,7 +272,9 @@ export interface LendingPoolInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "FundAddressUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FundDeposit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FundWithdraw"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NetValueUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PeriodInitialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
@@ -321,10 +325,40 @@ export type FundWithdrawEvent = TypedEvent<
 
 export type FundWithdrawEventFilter = TypedEventFilter<FundWithdrawEvent>;
 
+export interface NetValueUpdatedEventObject {
+  previousNetValue: BigNumber;
+  newNetValue: BigNumber;
+  previousLiquidityIndex: BigNumber;
+  newLiquidityIndex: BigNumber;
+  currentLiquidityRate: BigNumber;
+}
+export type NetValueUpdatedEvent = TypedEvent<
+  [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber],
+  NetValueUpdatedEventObject
+>;
+
+export type NetValueUpdatedEventFilter = TypedEventFilter<NetValueUpdatedEvent>;
+
 export interface PausedEventObject {}
 export type PausedEvent = TypedEvent<[], PausedEventObject>;
 
 export type PausedEventFilter = TypedEventFilter<PausedEvent>;
+
+export interface PeriodInitializedEventObject {
+  previousLiquidityIndex: BigNumber;
+  purchaseBeginTimestamp: number;
+  purchaseEndTimestamp: number;
+  redemptionBeginTimestamp: number;
+  managementFeeRate: number;
+  performanceFeeRate: number;
+}
+export type PeriodInitializedEvent = TypedEvent<
+  [BigNumber, number, number, number, number, number],
+  PeriodInitializedEventObject
+>;
+
+export type PeriodInitializedEventFilter =
+  TypedEventFilter<PeriodInitializedEvent>;
 
 export interface UnpausedEventObject {}
 export type UnpausedEvent = TypedEvent<[], UnpausedEventObject>;
@@ -652,8 +686,40 @@ export interface LendingPool extends BaseContract {
       amount?: null
     ): FundWithdrawEventFilter;
 
+    "NetValueUpdated(uint256,uint256,uint256,uint256,uint256)"(
+      previousNetValue?: null,
+      newNetValue?: null,
+      previousLiquidityIndex?: null,
+      newLiquidityIndex?: null,
+      currentLiquidityRate?: null
+    ): NetValueUpdatedEventFilter;
+    NetValueUpdated(
+      previousNetValue?: null,
+      newNetValue?: null,
+      previousLiquidityIndex?: null,
+      newLiquidityIndex?: null,
+      currentLiquidityRate?: null
+    ): NetValueUpdatedEventFilter;
+
     "Paused()"(): PausedEventFilter;
     Paused(): PausedEventFilter;
+
+    "PeriodInitialized(uint256,uint40,uint40,uint40,uint16,uint16)"(
+      previousLiquidityIndex?: null,
+      purchaseBeginTimestamp?: null,
+      purchaseEndTimestamp?: null,
+      redemptionBeginTimestamp?: null,
+      managementFeeRate?: null,
+      performanceFeeRate?: null
+    ): PeriodInitializedEventFilter;
+    PeriodInitialized(
+      previousLiquidityIndex?: null,
+      purchaseBeginTimestamp?: null,
+      purchaseEndTimestamp?: null,
+      redemptionBeginTimestamp?: null,
+      managementFeeRate?: null,
+      performanceFeeRate?: null
+    ): PeriodInitializedEventFilter;
 
     "Unpaused()"(): UnpausedEventFilter;
     Unpaused(): UnpausedEventFilter;

@@ -69,6 +69,27 @@ task('deploy-reserve-logic', 'Deploy reserve logic')
     );
 })
 
+task('deploy-lending-pool-impl', 'Deploy lending pool implements')
+.addFlag('verify', 'Verify contracts at Etherscan')
+//.addFlag('test', 'Test environment.')
+.setAction(async ({verify}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const reserveLogicAddress = (await getDb()
+        .get(`${eContractid.ReserveLogic}.${DRE.network.name}`)
+        .value()).address;
+    const libraries = {
+        ["contracts/libraries/logic/ReserveLogic.sol:ReserveLogic"]: reserveLogicAddress,
+    };
+    const poolImpl = await new LendingPool__factory(libraries, signer).deploy();
+    const pool = await withSaveAndVerify(
+        poolImpl,
+        eContractid.LendingPoolImpl,
+        [],
+        verify
+        );
+})
+
 task('deploy-lending-pool', 'Deploy lending pool')
 .addFlag('verify', 'Verify contracts at Etherscan')
 .addParam('market', 'The market ID')
@@ -130,6 +151,38 @@ task('register-lending-pool', 'Deploy lending pool')
         lendingPoolProxyAddress,
         market
     );
+})
+
+task('update-lending-pool', 'Upgrade a deployed lending pool')
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const poolImpl = await LendingPool__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPoolImpl}.${DRE.network.name}`)
+          .value()).address,
+        signer);
+    
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    const oldLendingPoolAddress = await provider.getLendingPool();
+    console.log('\tSetting lending pool implementation with address:', poolImpl.address);
+    await waitForTx(
+        await ( provider.setLendingPoolImpl(poolImpl.address) )
+    );
+    const lendingPoolProxyAddress = await provider.getLendingPool();
+    if(lendingPoolProxyAddress != oldLendingPoolAddress){
+        console.log('\tLending pool proxy is changed to:', lendingPoolProxyAddress);
+        await insertContractAddressInDb(
+            eContractid.LendingPool,
+            lendingPoolProxyAddress,
+            market
+        );
+    }
 })
 
 task('deploy-lending-pool-configurator', 'Deploy lending pool configurator')

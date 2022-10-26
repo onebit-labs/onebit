@@ -94,8 +94,88 @@ const _abi = [
   },
   {
     anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "previousNetValue",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newNetValue",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "previousLiquidityIndex",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newLiquidityIndex",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "currentLiquidityRate",
+        type: "uint256",
+      },
+    ],
+    name: "NetValueUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
     inputs: [],
     name: "Paused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "previousLiquidityIndex",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint40",
+        name: "purchaseBeginTimestamp",
+        type: "uint40",
+      },
+      {
+        indexed: false,
+        internalType: "uint40",
+        name: "purchaseEndTimestamp",
+        type: "uint40",
+      },
+      {
+        indexed: false,
+        internalType: "uint40",
+        name: "redemptionBeginTimestamp",
+        type: "uint40",
+      },
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "managementFeeRate",
+        type: "uint16",
+      },
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "performanceFeeRate",
+        type: "uint16",
+      },
+    ],
+    name: "PeriodInitialized",
     type: "event",
   },
   {

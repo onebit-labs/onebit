@@ -38,7 +38,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant LENDINGPOOL_REVISION = 0x1;
+  uint256 public constant LENDINGPOOL_REVISION = 0x2;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.LP_IS_PAUSED);
@@ -217,6 +217,8 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     address oToken = _reserve.oTokenAddress;
     uint256 oldNetValue = IOToken(oToken).scaledTotalSupply().rayMul(_reserve.previousLiquidityIndex);
     _reserve.updateNetValue(netValue, oldNetValue, currentTimestamp);
+    
+    emit NetValueUpdated(oldNetValue, IOToken(oToken).totalSupply(), _reserve.previousLiquidityIndex, _reserve.liquidityIndex, _reserve.currentLiquidityRate);
   }
 
   function initializeNextPeriod(uint16 managementFeeRate, uint16 performanceFeeRate, uint128 purchaseUpperLimit,
@@ -238,6 +240,8 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _reserve.purchaseBeginTimestamp = purchaseBeginTimestamp;
     _reserve.purchaseEndTimestamp = purchaseEndTimestamp;
     _reserve.redemptionBeginTimestamp = redemptionBeginTimestamp;
+
+    emit PeriodInitialized(_reserve.previousLiquidityIndex, purchaseBeginTimestamp, purchaseEndTimestamp, redemptionBeginTimestamp, managementFeeRate, performanceFeeRate);
   }
 
   /**
