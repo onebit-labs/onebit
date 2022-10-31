@@ -24,6 +24,9 @@ const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const GOERLI_PRIVATE_KEY = process.env.GOERLI_PRIVATE_KEY;
 const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY;
 const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
+const BSCSCAN_API_KEY = process.env.BSCSCAN_API_KEY;
+const BSC_TESTNET_PRIVATE_KEY = process.env.BSC_TESTNET_PRIVATE_KEY;
+const BSC_PRIVATE_KEY = process.env.BSC_PRIVATE_KEY;
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -67,13 +70,25 @@ const config: HardhatUserConfig = {
       chainId: 11155111,
       url: "https://rpc.sepolia.dev",
       accounts: [`${SEPOLIA_PRIVATE_KEY}`],
-    }
+    },
+    bsc_testnet: {
+      chainId: 97,
+      url: `https://data-seed-prebsc-1-s1.binance.org:8545`,
+      accounts: [`${BSC_TESTNET_PRIVATE_KEY}`],
+    },
+    bsc: {
+      chainId: 56,
+      url: `https://bsc-dataseed1.binance.org`,
+      accounts: [`${BSC_PRIVATE_KEY}`],
+    },
   },
   etherscan: {
     apiKey: {
       goerli: ETHERSCAN_KEY,
       sepolia: ETHERSCAN_KEY,
       mainnet: ETHERSCAN_KEY,
+      bscTestnet: BSCSCAN_API_KEY,
+      bsc: BSCSCAN_API_KEY,
     }
   },
 };

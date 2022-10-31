@@ -7,6 +7,10 @@
     "localhost": {
       "address": "0x3Bb2d790458e5B35B2487e74206EbE0eF7893519",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc_testnet": {
+      "address": "0x8516f269D07b7db3B7a52cD7EDB70305203aCC58",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
   "LendingPoolAddressesProvider": {
@@ -23,6 +27,10 @@
     "localhost": {
       "address": "0x86Ed5d5d204f607DF9235A8df1efb7bA957CF1CA",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc_testnet": {
+      "address": "0x138D86DCd8FEe1d2a90733ABa70702C22C615b9d",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
   "LendingPoolImpl": {
@@ -32,6 +40,10 @@
     },
     "localhost": {
       "address": "0xb71f8eDE637AB07EFecaE9313278159b52e111eE",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc_testnet": {
+      "address": "0xA97D3e6D4F6adc6ebC1aa3643dF3bfFD8a6bbc4D",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
@@ -57,6 +69,10 @@
     },
     "localhost": {
       "address": "0x3aeb90153E27e4d4534600f945fBf3E1441eE771",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc_testnet": {
+      "address": "0x9F77380dD2516E581D2A64fD3E3c8D1B78B7c8F5",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
