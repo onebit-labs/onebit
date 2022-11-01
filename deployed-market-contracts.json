@@ -8,6 +8,24 @@
       "Onebit-USDT-2": {
         "address": "0x74FC2BAF5eB17fB9343bf903926fd510e6e53896",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-USDT-3": {
+        "address": "0xd617314AEFC7E787f02b2090cc8B3E4224B8A69A",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      }
+    },
+    "bsc_testnet": {
+      "Onebit-USDT-1": {
+        "address": "0x21C1Ca432e94A9fD9Fc4a48bA008EF6f0ba9ba7C",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-USDT-2": {
+        "address": "0xDbB7fD2c4F7B106A598EB895CcbB3481C890b100",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-USDT-3": {
+        "address": "0x345355aA1AcE537Cf12a660425d1ea9eE1b9de56",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       }
     }
   },
@@ -18,6 +36,20 @@
       },
       "Onebit-USDT-2": {
         "address": "0x6Bafba601Ad936081dE5B67b9c39bA2Bff539dD6"
+      },
+      "Onebit-USDT-3": {
+        "address": "0x9eeE6E40D8fA90C47bc22c15fD3dC1F7aa301970"
+      }
+    },
+    "bsc_testnet": {
+      "Onebit-USDT-1": {
+        "address": "0x88cB3059Bc2227A0a8Ff1A870D360Cf0f79e90cc"
+      },
+      "Onebit-USDT-2": {
+        "address": "0x4B5BDB36dC87F80742633d74A12bD6603D0DaEb8"
+      },
+      "Onebit-USDT-3": {
+        "address": "0xec19A736d45Ead16646d6fA5DDfc8D37A508BDAF"
       }
     }
   },
@@ -28,6 +60,20 @@
       },
       "Onebit-USDT-2": {
         "address": "0xC728c79aCB2b9Be6b9238A1fdC4Aa260088128b1"
+      },
+      "Onebit-USDT-3": {
+        "address": "0xF87900B3EfD57e1D6Caccbbf2B7aAf8dE3Cf7C9D"
+      }
+    },
+    "bsc_testnet": {
+      "Onebit-USDT-1": {
+        "address": "0x1B55E259bB14fD4498489239f5707867A80a1345"
+      },
+      "Onebit-USDT-2": {
+        "address": "0x838D3F145332588A06De9c28BAAbf7359370D10d"
+      },
+      "Onebit-USDT-3": {
+        "address": "0xB470C36a0f20f8d8706fa5d4C2545eFcfF9070f6"
       }
     }
   },

@@ -24,7 +24,7 @@ task('deploy-registry', 'Deploy registry')
         [],
         verify
         );
-})
+});
 
 task('deploy-provider', 'Deploy Provider')
 .addFlag('verify', 'Verify contracts at Etherscan')
@@ -53,7 +53,7 @@ task('deploy-provider', 'Deploy Provider')
             1
         )
     );
-})
+});
 
 task('deploy-reserve-logic', 'Deploy reserve logic')
 .addFlag('verify', 'Verify contracts at Etherscan')
@@ -67,7 +67,7 @@ task('deploy-reserve-logic', 'Deploy reserve logic')
         [],
         verify
     );
-})
+});
 
 task('deploy-lending-pool-impl', 'Deploy lending pool implements')
 .addFlag('verify', 'Verify contracts at Etherscan')
@@ -88,7 +88,7 @@ task('deploy-lending-pool-impl', 'Deploy lending pool implements')
         [],
         verify
         );
-})
+});
 
 task('deploy-lending-pool', 'Deploy lending pool')
 .addFlag('verify', 'Verify contracts at Etherscan')
@@ -124,7 +124,7 @@ task('deploy-lending-pool', 'Deploy lending pool')
         lendingPoolProxyAddress,
         market
     );
-})
+});
 
 task('register-lending-pool', 'Deploy lending pool')
 .addParam('market', 'The market ID')
@@ -151,7 +151,7 @@ task('register-lending-pool', 'Deploy lending pool')
         lendingPoolProxyAddress,
         market
     );
-})
+});
 
 task('update-lending-pool', 'Upgrade a deployed lending pool')
 .addParam('market', 'The market ID')
@@ -183,7 +183,7 @@ task('update-lending-pool', 'Upgrade a deployed lending pool')
             market
         );
     }
-})
+});
 
 task('deploy-lending-pool-configurator', 'Deploy lending pool configurator')
 .addFlag('verify', 'Verify contracts at Etherscan')
@@ -211,7 +211,20 @@ task('deploy-lending-pool-configurator', 'Deploy lending pool configurator')
         configuratorAddress,
         market
     );
-})
+});
+
+task('deploy-lending-pool-configurator-impl', 'Deploy lending pool configurator')
+.addFlag('verify', 'Verify contracts at Etherscan')
+.setAction(async ({verify, market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const configuratorImpl = await withSaveAndVerify(
+        await new LendingPoolConfigurator__factory(signer).deploy(),
+        eContractid.LendingPoolConfiguratorImpl,
+        [],
+        verify
+    );
+});
 
 task('register-lending-pool-configurator', 'Deploy lending pool configurator')
 .addParam('market', 'The market ID')
@@ -238,7 +251,38 @@ task('register-lending-pool-configurator', 'Deploy lending pool configurator')
         configuratorAddress,
         market
     );
-})
+});
+
+task('update-lending-pool-configurator', 'Update lending pool Configurator')
+  .addParam('market', `The market ID`)
+  .setAction(async ({ market }, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const configuratorImpl = await LendingPoolConfigurator__factory.connect(
+        (await getDb()
+          .get(`${eContractid.LendingPoolConfiguratorImpl}.${DRE.network.name}`)
+          .value()).address,    
+        signer);
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    console.log(
+        '\tSetting lending pool configurator implementation with address:',
+        configuratorImpl.address);
+    await waitForTx(
+        await ( provider.setLendingPoolConfiguratorImpl(configuratorImpl.address))
+    );
+      
+    const lendingPoolConfiguratorProxyAddress = await provider.getLendingPoolConfigurator();
+
+    await insertContractAddressInDb(
+        eContractid.LendingPoolConfigurator,
+        lendingPoolConfiguratorProxyAddress,
+        market
+    );
+});
 
 task('set-pool-admin', 'set pool admin')
 .addParam('market', 'The market ID')

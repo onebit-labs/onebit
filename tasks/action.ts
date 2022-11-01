@@ -44,7 +44,7 @@ task('test-deposit', '')
         (await getDb().get(`USDT.${DRE.network.name}`).value()).address,
         signer
     );
-    const totalAsset = new BigNumber(1000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
+    const totalAsset = new BigNumber(100000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
     await waitForTx(
         await (
             usdt.mint(totalAsset)
