@@ -359,6 +359,21 @@ task('deploy-usdt', 'Deploy USDT')
         );
 })
 
+
+task('deploy-btc', 'Deploy BTC')
+.addFlag('verify', 'Verify contracts at Etherscan')
+.setAction(async({verify}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const args: [string, string, string] = ['BTC', 'BTC', '18'];
+    const usdt = await withSaveAndVerify(
+        await new MintableERC20__factory(signer).deploy(...args),
+        'USDT',
+        args,
+        verify
+        );
+})
+
 task('init-reserve', 'Initialize the reserve')
 .addParam('fundAddress', 'The address to withdraw fund to')
 .addParam('market', 'The market ID')
@@ -397,5 +412,16 @@ task('init-reserve', 'Initialize the reserve')
     };
     await waitForTx(
         await ( configurator.initReserve(reserveData))
+    );
+    const pool = await LendingPool__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    const oTokenProxyAddress = (await pool.getReserveData()).oTokenAddress;
+    await insertContractAddressInDb(
+        eContractid.OToken,
+        oTokenProxyAddress,
+        market
     );
 })

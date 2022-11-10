@@ -11,10 +11,11 @@ task('init-next-period', 'Initialize next period')
 .addParam('managementFeeRate', 'the rate of management fee')
 .addParam('performanceFeeRate', 'the rate of performance fee')
 .addParam('purchaseUpperLimit', 'upper limit for purchase')
+.addParam('softUpperLimit', '')
 .addParam('purchaseBeginTimestamp', 'purchase begin time stamp')
 .addParam('purchaseEndTimestamp', 'purchase end timestamp')
 .addParam('redemptionBeginTimestamp', 'redemptionBeginTimestamp')
-.setAction(async ({market, managementFeeRate, performanceFeeRate, purchaseUpperLimit, 
+.setAction(async ({market, managementFeeRate, performanceFeeRate, purchaseUpperLimit, softUpperLimit,
                    purchaseBeginTimestamp, purchaseEndTimestamp, redemptionBeginTimestamp}
                    , DRE) => {
     await DRE.run('set-DRE');
@@ -28,8 +29,9 @@ task('init-next-period', 'Initialize next period')
     const _purchaseEndTimestamp = readDateString(purchaseEndTimestamp);
     const _redemptionBeginTimestamp = readDateString(redemptionBeginTimestamp);
     const _purchaseUpperLimit = new BigNumber(purchaseUpperLimit).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
+    const _softUpperLimit = new BigNumber(softUpperLimit).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
     await waitForTx(
-        await ( pool.initializeNextPeriod(managementFeeRate, performanceFeeRate, _purchaseUpperLimit,
+        await ( pool.initializeNextPeriod(managementFeeRate, performanceFeeRate, _purchaseUpperLimit, _softUpperLimit,
             _purchaseBeginTimestamp, _purchaseEndTimestamp, _redemptionBeginTimestamp))
     );
 });
@@ -63,7 +65,7 @@ task('test-deposit', '')
     );
     await waitForTx(
         await (
-            pool.deposit(new BigNumber(1000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed(),
+            pool.deposit(new BigNumber(100000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed(),
             signerAddress,
             0))
     );

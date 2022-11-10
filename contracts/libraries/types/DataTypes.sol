@@ -8,7 +8,7 @@ library DataTypes {
     //the liquidity index. Expressed in ray
     uint128 liquidityIndex;
     //the current supply rate. Expressed in ray
-    uint128 currentLiquidityRate;
+    int128 currentLiquidityRate;
     uint128 previousLiquidityIndex;
     uint128 purchaseUpperLimit;
     uint40 lastUpdateTimestamp;
@@ -21,6 +21,7 @@ library DataTypes {
     //tokens addresses
     address oTokenAddress;
     address fundAddress;
+    uint128 softUpperLimit;
   }
 
   struct ReserveConfigurationMap {

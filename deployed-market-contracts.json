@@ -10,7 +10,23 @@
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       },
       "Onebit-USDT-3": {
-        "address": "0xd617314AEFC7E787f02b2090cc8B3E4224B8A69A",
+        "address": "0x2DcE7d0be40cAc17cBbc95496054e1331BA4b036",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0xE69C92c3508c6DC3Fa552ca848DA3FD16Ea72ec5",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-Smart-Trend-USDT": {
+        "address": "0x37e574B7ad45c47bCa87FE46A57de0CE40Be4461",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-Smart-Trend-BTC": {
+        "address": "0x43115B2B9204C10eBc07B3a0BE67716e78E321A1",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-Smart-Trend-USDT-Demo": {
+        "address": "0x8B10782FDeAC0DB3D9eF7e04CE6A6e5515FFa1C4",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       }
     },
@@ -38,7 +54,19 @@
         "address": "0x6Bafba601Ad936081dE5B67b9c39bA2Bff539dD6"
       },
       "Onebit-USDT-3": {
-        "address": "0x9eeE6E40D8fA90C47bc22c15fD3dC1F7aa301970"
+        "address": "0x4e7Acb32138aDdA70590aceECc2f342833D7D463"
+      },
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0x5c68A39b3fB66cA4e09AA94310B41368CaD50768"
+      },
+      "Onebit-Smart-Trend-USDT": {
+        "address": "0xFd3b332C59c6638c7f31de4F4a5879b432Ee9391"
+      },
+      "Onebit-Smart-Trend-BTC": {
+        "address": "0x046E3e526C473E19d49B0C809280EA2D3Cae4a1b"
+      },
+      "Onebit-Smart-Trend-USDT-Demo": {
+        "address": "0xfB1b2E81068C7f2Dbabfb83253c89d81Bf34b27E"
       }
     },
     "bsc_testnet": {
@@ -62,7 +90,19 @@
         "address": "0xC728c79aCB2b9Be6b9238A1fdC4Aa260088128b1"
       },
       "Onebit-USDT-3": {
-        "address": "0xF87900B3EfD57e1D6Caccbbf2B7aAf8dE3Cf7C9D"
+        "address": "0x456776800Cb3243Db9E11D4B2501fd51F7DdB470"
+      },
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0x378B47b807E0F310E2823C850FfC2c48abCe5dFA"
+      },
+      "Onebit-Smart-Trend-USDT": {
+        "address": "0xc3bcA8f66B7E96474623aCd6B6Feca3D96969F0d"
+      },
+      "Onebit-Smart-Trend-BTC": {
+        "address": "0x7F95c29C9c4e78c01725824f2f24CC99c97A858b"
+      },
+      "Onebit-Smart-Trend-USDT-Demo": {
+        "address": "0xd8Fc7AAB9b6B3D414796dc63cF1bE252EBa06Fcf"
       }
     },
     "bsc_testnet": {
@@ -84,6 +124,18 @@
       },
       "Onebit-USDT-2": {
         "address": "0x11157633d159a0fBb421F54Bc6d8B4cD77d44aF2"
+      },
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0x894ebE36CD815fd32862D4f3d595Bfa38f1646D4"
+      },
+      "Onebit-Smart-Trend-USDT": {
+        "address": "0xD7c7c17D5932b4D17b57755Fc53Ab95Dd55319d8"
+      },
+      "Onebit-Smart-Trend-USDT-Demo": {
+        "address": "0x4A34A721644a1B3037c2455C7aA567b166a311AA"
+      },
+      "Onebit-Smart-Trend-BTC": {
+        "address": "0xE384d11b9E0f04B45D4011dB6085Ac6D9D150D40"
       }
     }
   }

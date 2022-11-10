@@ -221,7 +221,9 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     emit NetValueUpdated(oldNetValue, IOToken(oToken).totalSupply(), _reserve.previousLiquidityIndex, _reserve.liquidityIndex, _reserve.currentLiquidityRate);
   }
 
-  function initializeNextPeriod(uint16 managementFeeRate, uint16 performanceFeeRate, uint128 purchaseUpperLimit,
+  function initializeNextPeriod(uint16 managementFeeRate, uint16 performanceFeeRate, 
+    uint128 purchaseUpperLimit,
+    uint128 softUpperLimit,
     uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, 
     uint40 redemptionBeginTimestamp)
     external
@@ -236,12 +238,33 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _reserve.performanceFeeRate = performanceFeeRate;
     _reserve.purchaseUpperLimit = purchaseUpperLimit;
     _reserve.previousLiquidityIndex = _reserve.liquidityIndex;
-    _reserve.currentLiquidityRate = uint128(WadRayMath.ray());
+    _reserve.currentLiquidityRate = int128(int256(WadRayMath.ray()));
     _reserve.purchaseBeginTimestamp = purchaseBeginTimestamp;
     _reserve.purchaseEndTimestamp = purchaseEndTimestamp;
     _reserve.redemptionBeginTimestamp = redemptionBeginTimestamp;
+    _reserve.lastUpdateTimestamp = purchaseEndTimestamp;
+    _reserve.softUpperLimit = softUpperLimit;
 
     emit PeriodInitialized(_reserve.previousLiquidityIndex, purchaseBeginTimestamp, purchaseEndTimestamp, redemptionBeginTimestamp, managementFeeRate, performanceFeeRate);
+  }
+
+  function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external onlyPoolOperator
+  {
+    require(newPurchaseEndTimestamp < _reserve.purchaseEndTimestamp);
+    require(newPurchaseEndTimestamp > _reserve.purchaseBeginTimestamp);
+    require(newPurchaseEndTimestamp >= uint40(block.timestamp));
+    uint40 previousTimestamp = _reserve.purchaseEndTimestamp;
+    _reserve.purchaseEndTimestamp = newPurchaseEndTimestamp;
+    emit PurchaseEndTimestampMoved(previousTimestamp, newPurchaseEndTimestamp);
+  }
+
+  function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external onlyPoolOperator
+  {
+    require(newRedemptionBeginTimestamp > _reserve.purchaseEndTimestamp);
+    require(newRedemptionBeginTimestamp >= uint40(block.timestamp));
+    uint40 previousTimestamp = _reserve.redemptionBeginTimestamp;
+    _reserve.redemptionBeginTimestamp = newRedemptionBeginTimestamp;
+    emit RedemptionBeginTimestampMoved(previousTimestamp, newRedemptionBeginTimestamp);
   }
 
   /**

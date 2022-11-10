@@ -43,7 +43,7 @@ library ReserveLogic {
       currentTimestamp = reserve.redemptionBeginTimestamp;
     }
     if((currentTimestamp > timestamp) && (currentTimestamp > reserve.purchaseEndTimestamp)){
-      return MathUtils.calculateLinearInterest(reserve.currentLiquidityRate, currentTimestamp, timestamp).rayMul(reserve.liquidityIndex);
+      return uint256(MathUtils.calculateLinearInterest(reserve.currentLiquidityRate, currentTimestamp, timestamp)).rayMul(reserve.liquidityIndex);
     }
     else{
       return reserve.liquidityIndex;
@@ -82,6 +82,7 @@ library ReserveLogic {
     uint256 newNetValue = netValue - managementFee - performanceFee;
     uint256 currentLiquidityRate = newNetValue.rayDiv(oldNetValue);
     reserve.liquidityIndex = uint128(currentLiquidityRate.rayMul(reserve.previousLiquidityIndex));
-    reserve.currentLiquidityRate = uint128((currentLiquidityRate - WadRayMath.ray()) * MathUtils.SECONDS_PER_YEAR / timedelta);
+    reserve.currentLiquidityRate = int128(int256(currentLiquidityRate - WadRayMath.ray()) * int256(MathUtils.SECONDS_PER_YEAR) / int256(timedelta));
+    reserve.lastUpdateTimestamp = uint40(currentTimestamp);
   }
 }

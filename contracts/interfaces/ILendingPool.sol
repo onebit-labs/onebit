@@ -33,9 +33,13 @@ interface ILendingPool {
 
   event FundAddressUpdated(address indexed newFundAddress);
 
-  event NetValueUpdated(uint256 previousNetValue, uint256 newNetValue, uint256 previousLiquidityIndex, uint256 newLiquidityIndex, uint256 currentLiquidityRate);
+  event NetValueUpdated(uint256 previousNetValue, uint256 newNetValue, uint256 previousLiquidityIndex, uint256 newLiquidityIndex, int256 currentLiquidityRate);
 
   event PeriodInitialized(uint256 previousLiquidityIndex, uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, uint40 redemptionBeginTimestamp, uint16 managementFeeRate, uint16 performanceFeeRate);
+
+  event PurchaseEndTimestampMoved(uint40 previousTimestamp, uint40 newTimetamp);
+
+  event RedemptionBeginTimestampMoved(uint40 previousTimestamp, uint40 newTimetamp);
 
   /**
    * @dev Emitted when the pause is triggered.

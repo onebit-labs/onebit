@@ -50,6 +50,7 @@ export declare namespace DataTypes {
     performanceFeeRate: PromiseOrValue<BigNumberish>;
     oTokenAddress: PromiseOrValue<string>;
     fundAddress: PromiseOrValue<string>;
+    softUpperLimit: PromiseOrValue<BigNumberish>;
   };
 
   export type ReserveDataStructOutput = [
@@ -65,7 +66,8 @@ export declare namespace DataTypes {
     number,
     number,
     string,
-    string
+    string,
+    BigNumber
   ] & {
     configuration: DataTypes.ReserveConfigurationMapStructOutput;
     liquidityIndex: BigNumber;
@@ -80,6 +82,7 @@ export declare namespace DataTypes {
     performanceFeeRate: number;
     oTokenAddress: string;
     fundAddress: string;
+    softUpperLimit: BigNumber;
   };
 }
 
@@ -94,7 +97,9 @@ export interface LendingPoolInterface extends utils.Interface {
     "getReserveNormalizedIncome()": FunctionFragment;
     "initReserve(address,address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
-    "initializeNextPeriod(uint16,uint16,uint128,uint40,uint40,uint40)": FunctionFragment;
+    "initializeNextPeriod(uint16,uint16,uint128,uint128,uint40,uint40,uint40)": FunctionFragment;
+    "moveTheLockPeriod(uint40)": FunctionFragment;
+    "moveTheRedemptionPeriod(uint40)": FunctionFragment;
     "paused()": FunctionFragment;
     "setConfiguration(uint256)": FunctionFragment;
     "setPause(bool)": FunctionFragment;
@@ -116,6 +121,8 @@ export interface LendingPoolInterface extends utils.Interface {
       | "initReserve"
       | "initialize"
       | "initializeNextPeriod"
+      | "moveTheLockPeriod"
+      | "moveTheRedemptionPeriod"
       | "paused"
       | "setConfiguration"
       | "setPause"
@@ -173,8 +180,17 @@ export interface LendingPoolInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveTheLockPeriod",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveTheRedemptionPeriod",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
@@ -236,6 +252,14 @@ export interface LendingPoolInterface extends utils.Interface {
     functionFragment: "initializeNextPeriod",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "moveTheLockPeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "moveTheRedemptionPeriod",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setConfiguration",
@@ -261,9 +285,11 @@ export interface LendingPoolInterface extends utils.Interface {
     "FundAddressUpdated(address)": EventFragment;
     "FundDeposit(address,uint256)": EventFragment;
     "FundWithdraw(address,uint256)": EventFragment;
-    "NetValueUpdated(uint256,uint256,uint256,uint256,uint256)": EventFragment;
+    "NetValueUpdated(uint256,uint256,uint256,uint256,int256)": EventFragment;
     "Paused()": EventFragment;
     "PeriodInitialized(uint256,uint40,uint40,uint40,uint16,uint16)": EventFragment;
+    "PurchaseEndTimestampMoved(uint40,uint40)": EventFragment;
+    "RedemptionBeginTimestampMoved(uint40,uint40)": EventFragment;
     "Unpaused()": EventFragment;
     "Withdraw(address,address,uint256)": EventFragment;
   };
@@ -275,6 +301,10 @@ export interface LendingPoolInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NetValueUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PeriodInitialized"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PurchaseEndTimestampMoved"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "RedemptionBeginTimestampMoved"
+  ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
@@ -359,6 +389,30 @@ export type PeriodInitializedEvent = TypedEvent<
 
 export type PeriodInitializedEventFilter =
   TypedEventFilter<PeriodInitializedEvent>;
+
+export interface PurchaseEndTimestampMovedEventObject {
+  previousTimestamp: number;
+  newTimetamp: number;
+}
+export type PurchaseEndTimestampMovedEvent = TypedEvent<
+  [number, number],
+  PurchaseEndTimestampMovedEventObject
+>;
+
+export type PurchaseEndTimestampMovedEventFilter =
+  TypedEventFilter<PurchaseEndTimestampMovedEvent>;
+
+export interface RedemptionBeginTimestampMovedEventObject {
+  previousTimestamp: number;
+  newTimetamp: number;
+}
+export type RedemptionBeginTimestampMovedEvent = TypedEvent<
+  [number, number],
+  RedemptionBeginTimestampMovedEventObject
+>;
+
+export type RedemptionBeginTimestampMovedEventFilter =
+  TypedEventFilter<RedemptionBeginTimestampMovedEvent>;
 
 export interface UnpausedEventObject {}
 export type UnpausedEvent = TypedEvent<[], UnpausedEventObject>;
@@ -445,9 +499,20 @@ export interface LendingPool extends BaseContract {
       managementFeeRate: PromiseOrValue<BigNumberish>,
       performanceFeeRate: PromiseOrValue<BigNumberish>,
       purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
       purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -526,9 +591,20 @@ export interface LendingPool extends BaseContract {
     managementFeeRate: PromiseOrValue<BigNumberish>,
     performanceFeeRate: PromiseOrValue<BigNumberish>,
     purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+    softUpperLimit: PromiseOrValue<BigNumberish>,
     purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
     purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
     redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  moveTheLockPeriod(
+    newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  moveTheRedemptionPeriod(
+    newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -607,9 +683,20 @@ export interface LendingPool extends BaseContract {
       managementFeeRate: PromiseOrValue<BigNumberish>,
       performanceFeeRate: PromiseOrValue<BigNumberish>,
       purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
       purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -686,7 +773,7 @@ export interface LendingPool extends BaseContract {
       amount?: null
     ): FundWithdrawEventFilter;
 
-    "NetValueUpdated(uint256,uint256,uint256,uint256,uint256)"(
+    "NetValueUpdated(uint256,uint256,uint256,uint256,int256)"(
       previousNetValue?: null,
       newNetValue?: null,
       previousLiquidityIndex?: null,
@@ -720,6 +807,24 @@ export interface LendingPool extends BaseContract {
       managementFeeRate?: null,
       performanceFeeRate?: null
     ): PeriodInitializedEventFilter;
+
+    "PurchaseEndTimestampMoved(uint40,uint40)"(
+      previousTimestamp?: null,
+      newTimetamp?: null
+    ): PurchaseEndTimestampMovedEventFilter;
+    PurchaseEndTimestampMoved(
+      previousTimestamp?: null,
+      newTimetamp?: null
+    ): PurchaseEndTimestampMovedEventFilter;
+
+    "RedemptionBeginTimestampMoved(uint40,uint40)"(
+      previousTimestamp?: null,
+      newTimetamp?: null
+    ): RedemptionBeginTimestampMovedEventFilter;
+    RedemptionBeginTimestampMoved(
+      previousTimestamp?: null,
+      newTimetamp?: null
+    ): RedemptionBeginTimestampMovedEventFilter;
 
     "Unpaused()"(): UnpausedEventFilter;
     Unpaused(): UnpausedEventFilter;
@@ -774,9 +879,20 @@ export interface LendingPool extends BaseContract {
       managementFeeRate: PromiseOrValue<BigNumberish>,
       performanceFeeRate: PromiseOrValue<BigNumberish>,
       purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
       purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -858,9 +974,20 @@ export interface LendingPool extends BaseContract {
       managementFeeRate: PromiseOrValue<BigNumberish>,
       performanceFeeRate: PromiseOrValue<BigNumberish>,
       purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
       purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

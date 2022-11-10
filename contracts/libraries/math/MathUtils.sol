@@ -16,15 +16,15 @@ library MathUtils {
    * @return The interest rate linearly accumulated during the timeDelta, in ray
    **/
 
-  function calculateLinearInterest(uint256 rate, uint40 currentTimestamp, uint40 lastUpdateTimestamp)
+  function calculateLinearInterest(int256 rate, uint40 currentTimestamp, uint40 lastUpdateTimestamp)
     internal
     pure
-    returns (uint256)
+    returns (int256)
   {
     //solium-disable-next-line
     uint256 timeDifference = uint256(currentTimestamp) - uint256(lastUpdateTimestamp);
 
-    return (rate * timeDifference / SECONDS_PER_YEAR + WadRayMath.ray());
+    return (rate * int256(timeDifference) / int256(SECONDS_PER_YEAR) + int256(WadRayMath.ray()));
   }
 
   /**
