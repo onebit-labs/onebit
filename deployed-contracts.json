@@ -66,6 +66,12 @@
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
+  "BTC": {
+    "goerli": {
+      "address": "0x097AAe0C41B15683376f4dE4D0cf353a69A5cf41",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
   "OToken": {
     "goerli": {
       "address": "0x8A41a474de4b2F62f279BE51d291330366387e6c",

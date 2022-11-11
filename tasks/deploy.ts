@@ -365,10 +365,10 @@ task('deploy-btc', 'Deploy BTC')
 .setAction(async({verify}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const args: [string, string, string] = ['BTC', 'BTC', '18'];
+    const args: [string, string, string] = ['WBTC', 'WBTC', '18'];
     const usdt = await withSaveAndVerify(
         await new MintableERC20__factory(signer).deploy(...args),
-        'USDT',
+        'BTC',
         args,
         verify
         );
@@ -377,7 +377,8 @@ task('deploy-btc', 'Deploy BTC')
 task('init-reserve', 'Initialize the reserve')
 .addParam('fundAddress', 'The address to withdraw fund to')
 .addParam('market', 'The market ID')
-.setAction(async ({fundAddress, market}, DRE) => {
+.addParam('assetId', 'The asset')
+.setAction(async ({fundAddress, market, assetId}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
     const configurator = await LendingPoolConfigurator__factory.connect(
@@ -389,7 +390,7 @@ task('init-reserve', 'Initialize the reserve')
                              .get(`${eContractid.OToken}.${DRE.network.name}`)
                              .value()).address;
     const assetAddress = (await getDb()
-                             .get(`USDT.${DRE.network.name}`)
+                             .get(`${assetId}.${DRE.network.name}`)
                              .value()).address;
     const asset = await IERC20Metadata__factory.connect(
         assetAddress,
