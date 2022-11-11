@@ -30,8 +30,11 @@ task('init-next-period', 'Initialize next period')
     const _redemptionBeginTimestamp = readDateString(redemptionBeginTimestamp);
     const _purchaseUpperLimit = new BigNumber(purchaseUpperLimit).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
     const _softUpperLimit = new BigNumber(softUpperLimit).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
+    // console.log(`${managementFeeRate}, ${performanceFeeRate}, ${_purchaseUpperLimit}, ${_softUpperLimit}, ${_purchaseBeginTimestamp}, ${_purchaseEndTimestamp}, ${_redemptionBeginTimestamp}`);
     await waitForTx(
-        await ( pool.initializeNextPeriod(managementFeeRate, performanceFeeRate, _purchaseUpperLimit, _softUpperLimit,
+        await ( pool.initializeNextPeriod(
+            managementFeeRate, performanceFeeRate, 
+            _purchaseUpperLimit, _softUpperLimit,
             _purchaseBeginTimestamp, _purchaseEndTimestamp, _redemptionBeginTimestamp))
     );
 });

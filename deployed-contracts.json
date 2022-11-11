@@ -54,7 +54,7 @@
   },
   "USDT": {
     "goerli": {
-      "address": "0x5c674632e44E5b42b17C4344D6D5bc4B6Dc5A8a9",
+      "address": "0x982284793466a001e4513e59668eC711a44E049e",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "localhost": {
@@ -68,7 +68,7 @@
   },
   "BTC": {
     "goerli": {
-      "address": "0x097AAe0C41B15683376f4dE4D0cf353a69A5cf41",
+      "address": "0x18A57eCbf7ff0AaA12476A60Ae044ff34537969a",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   },
