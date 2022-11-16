@@ -39,10 +39,13 @@ library ReserveLogic {
     uint40 timestamp = reserve.lastUpdateTimestamp;
     uint40 currentTimestamp = uint40(block.timestamp);
 
+    if(currentTimestamp <= reserve.purchaseEndTimestamp) { // In a purchase period, just return current index.
+      return reserve.liquidityIndex;
+    }
     if(currentTimestamp > reserve.redemptionBeginTimestamp){
       currentTimestamp = reserve.redemptionBeginTimestamp;
     }
-    if((currentTimestamp > timestamp) && (currentTimestamp > reserve.purchaseEndTimestamp)){
+    if(currentTimestamp > timestamp){
       return uint256(MathUtils.calculateLinearInterest(reserve.currentLiquidityRate, currentTimestamp, timestamp)).rayMul(reserve.liquidityIndex);
     }
     else{
@@ -66,23 +69,27 @@ library ReserveLogic {
     reserve.fundAddress = fundAddress;
   }
 
-  function updateNetValue(DataTypes.ReserveData storage reserve, uint256 netValue, uint256 oldNetValue, uint256 currentTimestamp)
+  function updateNetValue(DataTypes.ReserveData storage reserve, uint256 netValue, uint256 totalSupply, uint256 currentTimestamp)
     internal
   {
     uint256 timedelta = currentTimestamp - uint256(reserve.purchaseEndTimestamp);
     uint256 managementFee = 0; 
     uint256 performanceFee = 0;
+    uint256 oldNetValue = uint256(reserve.previousLiquidityIndex);
+    uint256 currentLiquidityRate = 0;
     if(netValue > oldNetValue){
       performanceFee = PercentageMath.percentMul(netValue - oldNetValue, reserve.performanceFeeRate);
-      managementFee = PercentageMath.percentMul(netValue, reserve.managementFeeRate) * timedelta / MathUtils.SECONDS_PER_YEAR;
+      managementFee = PercentageMath.percentMul(netValue, reserve.managementFeeRate);
+      currentLiquidityRate = reserve.managementFeeRate * netValue;
     }
     else {
-      managementFee = PercentageMath.percentMul(oldNetValue, reserve.managementFeeRate) * timedelta / MathUtils.SECONDS_PER_YEAR;
+      managementFee = PercentageMath.percentMul(oldNetValue, reserve.managementFeeRate);
+      currentLiquidityRate = reserve.managementFeeRate * oldNetValue;
     }
-    uint256 newNetValue = netValue - managementFee - performanceFee;
-    uint256 currentLiquidityRate = newNetValue.rayDiv(oldNetValue);
-    reserve.liquidityIndex = uint128(currentLiquidityRate.rayMul(reserve.previousLiquidityIndex));
-    reserve.currentLiquidityRate = int128(int256(currentLiquidityRate - WadRayMath.ray()) * int256(MathUtils.SECONDS_PER_YEAR) / int256(timedelta));
+    uint256 newNetValue = netValue - managementFee * timedelta / MathUtils.SECONDS_PER_YEAR - performanceFee;
+    currentLiquidityRate = currentLiquidityRate.rayDiv(newNetValue) / 10000;
+    reserve.liquidityIndex = uint128(newNetValue);
+    reserve.currentLiquidityRate = int128(-int256(currentLiquidityRate));
     reserve.lastUpdateTimestamp = uint40(currentTimestamp);
   }
 }

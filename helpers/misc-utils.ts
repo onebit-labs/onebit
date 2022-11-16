@@ -19,6 +19,12 @@ export const evmSnapshot = async () => await DRE.ethers.provider.send('evm_snaps
 
 export const evmRevert = async (id: string) => DRE.ethers.provider.send('evm_revert', [id]);
 
+export const evmForward = async (timedelta: number) => await DRE.ethers.provider.send('evm_increaseTime', [timedelta]);
+
+export const evmForwardTo = async (timestamp: number) => await DRE.ethers.provider.send('evm_setNextBlockTimestamp', [timestamp]);
+
+export const evmMine = async() => await DRE.ethers.provider.send('evm_mine', []);
+
 
 export const waitForTx = async (tx: ContractTransaction) => {
   const isTester = DRE ? DRE.network.name == 'hardhat': true;

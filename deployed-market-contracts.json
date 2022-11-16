@@ -17,6 +17,12 @@
         "address": "0x2c9C9Ec84f858c611004e0B2231C1B9D27164806",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       }
+    },
+    "hardhat": {
+      "Test Pool": {
+        "address": "0xf784709d2317D872237C4bC22f867d1BAe2913AB",
+        "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+      }
     }
   },
   "LendingPool": {
@@ -32,6 +38,11 @@
       },
       "Onebit-Smart-Trend-USDT-Demo": {
         "address": "0x6633665728737D3aEbE62a257802C14cCa3E1cE4"
+      }
+    },
+    "hardhat": {
+      "Test Pool": {
+        "address": "0x93892E7ef9aB548bcb7b00354A51A84A4Fe94Cd7"
       }
     }
   },
@@ -49,6 +60,11 @@
       "Onebit-Smart-Trend-USDT-Demo": {
         "address": "0xDCC3323E1627fA0F6D1F2f0b13FD879D841E0dA7"
       }
+    },
+    "hardhat": {
+      "Test Pool": {
+        "address": "0xcBC2b18ac2b34512881B0966460B92696A844621"
+      }
     }
   },
   "OToken": {
@@ -64,6 +80,11 @@
       },
       "Onebit-Smart-Trend-BTC": {
         "address": "0xa8e4ec8b4103c683c981f4B2306D416fEf1DeA4d"
+      }
+    },
+    "hardhat": {
+      "Test Pool": {
+        "address": "0x02f9390BbB41924225F6d5C621e5dF56A3Ad6E9a"
       }
     }
   }

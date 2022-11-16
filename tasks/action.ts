@@ -5,6 +5,7 @@ import {MintableERC20__factory} from '../types/factories/MintableERC20__factory'
 import { eContractid, eNetwork } from '../helpers/types';
 import {getDb, getMarketDb, waitForTx, readDateString} from '../helpers/misc-utils';
 import {BigNumber} from 'bignumber.js';
+import { OToken__factory } from '../types/factories/OToken__factory';
 
 task('init-next-period', 'Initialize next period')
 .addParam('market', 'The market ID')
@@ -36,6 +37,46 @@ task('init-next-period', 'Initialize next period')
             managementFeeRate, performanceFeeRate, 
             _purchaseUpperLimit, _softUpperLimit,
             _purchaseBeginTimestamp, _purchaseEndTimestamp, _redemptionBeginTimestamp))
+    );
+});
+
+task('get-current-value', 'get the current value')
+.addParam('market', 'The market ID')
+.setAction(async ({market}
+                   , DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const pool = await LendingPool__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    const otoken = await OToken__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.OToken}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    const original_value = await otoken.scaledTotalSupply();
+    const value = await otoken.totalSupply();
+    console.log(`original_value: ${original_value}, value: ${value}`);
+});
+
+task('update-net-value', 'update the net value')
+.addParam('market', 'The market ID')
+.addParam('netValue', 'the net value')
+.setAction(async ({market, netValue}
+                   , DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const pool = await LendingPool__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    const _netValue = new BigNumber(netValue).toFixed();
+    // console.log(`${managementFeeRate}, ${performanceFeeRate}, ${_purchaseUpperLimit}, ${_softUpperLimit}, ${_purchaseBeginTimestamp}, ${_purchaseEndTimestamp}, ${_redemptionBeginTimestamp}`);
+    await waitForTx(
+        await ( pool.updateNetValue(_netValue))
     );
 });
 

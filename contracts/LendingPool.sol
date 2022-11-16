@@ -38,7 +38,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant LENDINGPOOL_REVISION = 0x2;
+  uint256 public constant LENDINGPOOL_REVISION = 0x5;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.LP_IS_PAUSED);
@@ -215,8 +215,9 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     uint256 currentTimestamp = block.timestamp;
     require((uint40(currentTimestamp) >= _reserve.purchaseEndTimestamp) && (uint40(currentTimestamp) < _reserve.redemptionBeginTimestamp), Errors.VL_NOT_IN_LOCK_PERIOD);
     address oToken = _reserve.oTokenAddress;
-    uint256 oldNetValue = IOToken(oToken).scaledTotalSupply().rayMul(_reserve.previousLiquidityIndex);
-    _reserve.updateNetValue(netValue, oldNetValue, currentTimestamp);
+    uint256 totalSupply = IOToken(oToken).scaledTotalSupply();
+    uint256 oldNetValue = IOToken(oToken).totalSupply();
+    _reserve.updateNetValue(netValue, totalSupply, currentTimestamp);
     
     emit NetValueUpdated(oldNetValue, IOToken(oToken).totalSupply(), _reserve.previousLiquidityIndex, _reserve.liquidityIndex, _reserve.currentLiquidityRate);
   }
@@ -237,8 +238,9 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _reserve.managementFeeRate = managementFeeRate;
     _reserve.performanceFeeRate = performanceFeeRate;
     _reserve.purchaseUpperLimit = purchaseUpperLimit;
-    _reserve.previousLiquidityIndex = _reserve.liquidityIndex;
-    _reserve.currentLiquidityRate = int128(int256(WadRayMath.ray()));
+    _reserve.previousLiquidityIndex = uint128(_reserve.getNormalizedIncome());
+    _reserve.liquidityIndex = _reserve.previousLiquidityIndex;
+    _reserve.currentLiquidityRate = int128( - int256(PercentageMath.percentMul(WadRayMath.ray(), managementFeeRate)));
     _reserve.purchaseBeginTimestamp = purchaseBeginTimestamp;
     _reserve.purchaseEndTimestamp = purchaseEndTimestamp;
     _reserve.redemptionBeginTimestamp = redemptionBeginTimestamp;

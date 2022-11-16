@@ -11,6 +11,10 @@
     "bsc_testnet": {
       "address": "0x687d7528fa96e009005e8fdec3696957e0D0002e",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "hardhat": {
+      "address": "0xf4e77E5Da47AC3125140c470c71cBca77B5c638c",
+      "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
   "LendingPoolAddressesProvider": {
@@ -21,7 +25,7 @@
   },
   "ReserveLogic": {
     "goerli": {
-      "address": "0x691A99bBAF8003b5d0201Ee54e7bE546E27e9816",
+      "address": "0xE86b277aaa5112F8b37a56fDaf9462E14637a463",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "localhost": {
@@ -31,11 +35,15 @@
     "bsc_testnet": {
       "address": "0xf4B20280F2ED9eebe1e23c4ff112D9745055D74B",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "hardhat": {
+      "address": "0x038B86d9d8FAFdd0a02ebd1A476432877b0107C8",
+      "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
   "LendingPoolImpl": {
     "goerli": {
-      "address": "0x3df1Ddb582f89616544A4a060Da4328191D30Ff7",
+      "address": "0xffE4Ee3bA8859292B4409436bF76B014534e9fB6",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "localhost": {
@@ -45,6 +53,10 @@
     "bsc_testnet": {
       "address": "0x9a882442B68412F29e0C220dFCCF40D47D36fc2F",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "hardhat": {
+      "address": "0x1A1FEe7EeD918BD762173e4dc5EfDB8a78C924A8",
+      "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
   "LendingPool": {
@@ -64,6 +76,10 @@
     "bsc_testnet": {
       "address": "0x9544B8E5Bb3B278B7b102E9434bb671De38807ad",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "hardhat": {
+      "address": "0x7c2C195CD6D34B8F845992d380aADB2730bB9C6F",
+      "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
   "BTC": {
@@ -84,6 +100,10 @@
     "bsc_testnet": {
       "address": "0x9Bff2716192322D4Dd1be07B9720FE4e3BA600DF",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "hardhat": {
+      "address": "0x0078371BDeDE8aAc7DeBfFf451B74c5EDB385Af7",
+      "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
   "LendingPoolConfiguratorImpl": {
@@ -98,6 +118,16 @@
     "bsc_testnet": {
       "address": "0x975b5eB88Ab4E438D6b10dDB3570E5c60062b18C",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "hardhat": {
+      "address": "0xc4905364b78a742ccce7B890A89514061E47068D",
+      "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+    }
+  },
+  "WBTC": {
+    "hardhat": {
+      "address": "0x8858eeB3DfffA017D4BCE9801D340D36Cf895CCf",
+      "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   }
 }

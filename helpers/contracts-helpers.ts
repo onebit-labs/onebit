@@ -18,6 +18,7 @@ import {
 import { Artifact } from 'hardhat/types';
 import { verifyEtherscanContract } from './etherscan-verification';
 import { ZERO_ADDRESS } from './constants';
+import { IERC20Metadata__factory } from '../types/factories/dependencies/openzeppelin/contracts/IERC20Metadata__factory';
 
 export const getFirstSigner = async () => (await getEthersSigners())[0];
 
@@ -139,7 +140,7 @@ export const verifyContract = async (
   };
 
 export const getParamPerNetwork = <T>(param: iParamsPerNetwork<T>, network: eNetwork) => {
-  const { localhost, hardhat, goerli, sepolia, mainnet } =
+  const { localhost, hardhat, goerli,  mainnet } =
     param as iEthereumParamsPerNetwork<T>;
   if (process.env.FORK) {
     return param[process.env.FORK as eNetwork] as T;
@@ -152,8 +153,6 @@ export const getParamPerNetwork = <T>(param: iParamsPerNetwork<T>, network: eNet
       return hardhat;
     case eEthereumNetwork.goerli:
       return goerli;
-    case eEthereumNetwork.sepolia:
-      return sepolia;
     case eEthereumNetwork.mainnet:
       return mainnet;
   }
@@ -183,6 +182,21 @@ export const deployContract = async <ContractType extends Contract>(
 };
 
 export const convertToString = (input: number) => new BigNumber(input).toString();
+
+export const convertToCurrencyDecimals = async (tokenAddress: tEthereumAddress, amount: string) => {
+  const token = await IERC20Metadata__factory.connect(tokenAddress, await getFirstSigner());
+  let decimals = (await token.decimals()).toString();
+
+  return ethers.utils.parseUnits(amount, decimals);
+};
+
+export const convertToCurrencyUnits = async (tokenAddress: string, amount: string) => {
+  const token = await IERC20Metadata__factory.connect(tokenAddress, await getFirstSigner());
+  let decimals = new BigNumber(await token.decimals());
+  const currencyUnit = new BigNumber(10).pow(decimals);
+  const amountInCurrencyUnits = new BigNumber(amount).div(currencyUnit);
+  return amountInCurrencyUnits.toFixed();
+};
 
 export const buildPermitParams = (
   chainId: number,
