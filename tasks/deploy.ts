@@ -332,6 +332,22 @@ task('set-emergency-admin', 'set emergency admin')
     );
 })
 
+task('set-kyc-admin', 'set KYC admin')
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const provider = await LendingPoolAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setKYCAdmin(signerAddress) )
+    );
+})
+
 task('deploy-otoken', 'Deploy OToken')
 .addFlag('verify', 'Verify contracts at Etherscan')
 .setAction(async ({verify}, DRE) => {

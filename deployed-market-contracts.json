@@ -16,6 +16,10 @@
       "Onebit-Smart-Trend-USDT-Demo": {
         "address": "0x2c9C9Ec84f858c611004e0B2231C1B9D27164806",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+      },
+      "Onebit-Smart-Trend-USDT-Whitelist-Test": {
+        "address": "0x7fA89212Bef83f433D91aE4d2Beb2aE159b4AF41",
+        "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       }
     },
     "hardhat": {
@@ -38,6 +42,9 @@
       },
       "Onebit-Smart-Trend-USDT-Demo": {
         "address": "0x6633665728737D3aEbE62a257802C14cCa3E1cE4"
+      },
+      "Onebit-Smart-Trend-USDT-Whitelist-Test": {
+        "address": "0x764B877215968De6B56f31F717832E930A2D8b1f"
       }
     },
     "hardhat": {
@@ -59,6 +66,9 @@
       },
       "Onebit-Smart-Trend-USDT-Demo": {
         "address": "0xDCC3323E1627fA0F6D1F2f0b13FD879D841E0dA7"
+      },
+      "Onebit-Smart-Trend-USDT-Whitelist-Test": {
+        "address": "0xD39985175FAB071e2045C2c6A980423fE3b07613"
       }
     },
     "hardhat": {
@@ -80,6 +90,9 @@
       },
       "Onebit-Smart-Trend-BTC": {
         "address": "0xa8e4ec8b4103c683c981f4B2306D416fEf1DeA4d"
+      },
+      "Onebit-Smart-Trend-USDT-Whitelist-Test": {
+        "address": "0xeF2920071b3215D3076073aDd7B8246c2f9BAa28"
       }
     },
     "hardhat": {
