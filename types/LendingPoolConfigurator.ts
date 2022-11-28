@@ -77,10 +77,14 @@ export declare namespace ILendingPoolConfigurator {
 export interface LendingPoolConfiguratorInterface extends utils.Interface {
   functions: {
     "activateReserve()": FunctionFragment;
+    "addToWhitelist(address)": FunctionFragment;
+    "batchAddToWhitelist(address[])": FunctionFragment;
+    "batchRemoveFromWhitelist(address[])": FunctionFragment;
     "deactivateReserve()": FunctionFragment;
     "freezeReserve()": FunctionFragment;
     "initReserve((address,uint8,address,address,string,string,string,bytes))": FunctionFragment;
     "initialize(address)": FunctionFragment;
+    "removeFromWhitelist(address)": FunctionFragment;
     "setPoolPause(bool)": FunctionFragment;
     "unfreezeReserve()": FunctionFragment;
     "updateFundAddress(address)": FunctionFragment;
@@ -90,10 +94,14 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "activateReserve"
+      | "addToWhitelist"
+      | "batchAddToWhitelist"
+      | "batchRemoveFromWhitelist"
       | "deactivateReserve"
       | "freezeReserve"
       | "initReserve"
       | "initialize"
+      | "removeFromWhitelist"
       | "setPoolPause"
       | "unfreezeReserve"
       | "updateFundAddress"
@@ -103,6 +111,18 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "activateReserve",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addToWhitelist",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "batchAddToWhitelist",
+    values: [PromiseOrValue<string>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "batchRemoveFromWhitelist",
+    values: [PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "deactivateReserve",
@@ -118,6 +138,10 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "removeFromWhitelist",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -142,6 +166,18 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "addToWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "batchAddToWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "batchRemoveFromWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "deactivateReserve",
     data: BytesLike
   ): Result;
@@ -154,6 +190,10 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeFromWhitelist",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setPoolPause",
     data: BytesLike
@@ -281,6 +321,21 @@ export interface LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     deactivateReserve(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -296,6 +351,11 @@ export interface LendingPoolConfigurator extends BaseContract {
 
     initialize(
       provider: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -323,6 +383,21 @@ export interface LendingPoolConfigurator extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  addToWhitelist(
+    user: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  batchAddToWhitelist(
+    users: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  batchRemoveFromWhitelist(
+    users: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   deactivateReserve(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -338,6 +413,11 @@ export interface LendingPoolConfigurator extends BaseContract {
 
   initialize(
     provider: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  removeFromWhitelist(
+    user: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -363,6 +443,21 @@ export interface LendingPoolConfigurator extends BaseContract {
   callStatic: {
     activateReserve(overrides?: CallOverrides): Promise<void>;
 
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     deactivateReserve(overrides?: CallOverrides): Promise<void>;
 
     freezeReserve(overrides?: CallOverrides): Promise<void>;
@@ -374,6 +469,11 @@ export interface LendingPoolConfigurator extends BaseContract {
 
     initialize(
       provider: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -441,6 +541,21 @@ export interface LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     deactivateReserve(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -456,6 +571,11 @@ export interface LendingPoolConfigurator extends BaseContract {
 
     initialize(
       provider: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -484,6 +604,21 @@ export interface LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     deactivateReserve(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -499,6 +634,11 @@ export interface LendingPoolConfigurator extends BaseContract {
 
     initialize(
       provider: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

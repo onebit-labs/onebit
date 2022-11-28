@@ -14,4 +14,6 @@ contract LendingPoolStorage {
   DataTypes.ReserveData internal _reserve;
 
   bool internal _paused;
+
+  mapping ( address => bool ) internal _whitelist;
 }

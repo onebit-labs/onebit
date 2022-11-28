@@ -71,6 +71,19 @@ const _abi = [
         type: "address",
       },
     ],
+    name: "KYCAdminUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newAddress",
+        type: "address",
+      },
+    ],
     name: "LendingPoolConfiguratorUpdated",
     type: "event",
   },
@@ -154,6 +167,19 @@ const _abi = [
   {
     inputs: [],
     name: "getEmergencyAdmin",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getKYCAdmin",
     outputs: [
       {
         internalType: "address",
@@ -274,6 +300,19 @@ const _abi = [
       },
     ],
     name: "setEmergencyAdmin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "admin",
+        type: "address",
+      },
+    ],
+    name: "setKYCAdmin",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

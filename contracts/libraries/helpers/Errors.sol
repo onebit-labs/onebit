@@ -64,6 +64,7 @@ library Errors {
   string public constant LP_CALLER_MUST_BE_AN_OTOKEN = '63';
   string public constant LP_IS_PAUSED = '64'; // 'Pool is paused'
   string public constant LP_NO_MORE_RESERVES_ALLOWED = '65';
+  string public constant LP_NOT_IN_WHITELIST = '66';
   string public constant RC_INVALID_DECIMALS = '70';
   string public constant LPAPR_INVALID_ADDRESSES_PROVIDER_ID = '72';
   string public constant UL_INVALID_INDEX = '77';
@@ -72,5 +73,6 @@ library Errors {
   string public constant CT_CALLER_MUST_BE_CLAIM_ADMIN = '81';
   string public constant CT_TOKEN_CAN_NOT_BE_UNDERLYING = '82';
   string public constant CT_TOKEN_CAN_NOT_BE_SELF = '83';
+  string public constant LPC_CALLER_NOT_KYC_ADMIN = '84';
 
 }

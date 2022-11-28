@@ -38,10 +38,15 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant LENDINGPOOL_REVISION = 0x5;
+  uint256 public constant LENDINGPOOL_REVISION = 0x6;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.LP_IS_PAUSED);
+    _;
+  }
+
+  modifier inWhitelist() {
+    require (_whitelist[msg.sender], Errors.LP_NOT_IN_WHITELIST);
     _;
   }
 
@@ -92,7 +97,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     uint256 amount,
     address onBehalfOf,
     uint16 referralCode
-  ) external override whenNotPaused returns(uint256) {
+  ) external override whenNotPaused inWhitelist returns(uint256) {
     require(amount != 0, Errors.VL_INVALID_AMOUNT);
     uint40 currentTimestamp = uint40(block.timestamp);
 
@@ -146,7 +151,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   function withdraw(
     uint256 amount,
     address to
-  ) external override whenNotPaused returns (uint256) {
+  ) external override whenNotPaused inWhitelist returns (uint256) {
 
     address oToken = _reserve.oTokenAddress;
 
@@ -345,5 +350,33 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     onlyLendingPoolConfigurator
   {
     _reserve.configuration.data = configuration;
+  }
+
+  function addToWhitelist(address user) external override onlyLendingPoolConfigurator
+  {
+    _whitelist[user] = true;
+    emit AddedToWhitelist(user);
+  }
+
+  function batchAddToWhitelist(address[] calldata users) external override onlyLendingPoolConfigurator
+  {
+    for(uint256 i = 0; i < users.length; ++i){
+      _whitelist[users[i]] = true;
+      emit AddedToWhitelist(users[i]);
+    }
+  }
+
+  function removeFromWhitelist(address user) external override onlyLendingPoolConfigurator
+  {
+    _whitelist[user] = false;
+    emit RemoveFromWhitelist(user);
+  }
+
+  function batchRemoveFromWhitelist(address[] calldata users) external override onlyLendingPoolConfigurator
+  {
+    for(uint256 i = 0; i < users.length; ++i){
+      _whitelist[users[i]] = false;
+      emit RemoveFromWhitelist(users[i]);
+    }
   }
 }

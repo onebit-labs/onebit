@@ -41,6 +41,10 @@ interface ILendingPool {
 
   event RedemptionBeginTimestampMoved(uint40 previousTimestamp, uint40 newTimetamp);
 
+  event AddedToWhitelist(address indexed user);
+
+  event RemoveFromWhitelist(address indexed user);
+
   /**
    * @dev Emitted when the pause is triggered.
    */
@@ -85,6 +89,14 @@ interface ILendingPool {
   function withdrawFund(uint256 amount) external returns (uint256);
 
   function initReserve(address oToken, address fundAddress) external;
+
+  function addToWhitelist(address user) external;
+
+  function batchAddToWhitelist(address[] memory users) external;
+
+  function removeFromWhitelist(address user) external;
+
+  function batchRemoveFromWhitelist(address[] memory users) external;
 
   /**
    * @dev Returns the configuration of the reserve

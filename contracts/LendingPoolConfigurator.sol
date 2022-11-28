@@ -42,7 +42,15 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
     _;
   }
 
-  uint256 internal constant CONFIGURATOR_REVISION = 0x1;
+  modifier onlyKYCAdmin {
+    require(
+      addressesProvider.getKYCAdmin() == msg.sender || addressesProvider.getPoolAdmin() == msg.sender,
+      Errors.LPC_CALLER_NOT_KYC_ADMIN
+    );
+    _;
+  }
+
+  uint256 internal constant CONFIGURATOR_REVISION = 0x2;
 
   function getRevision() internal pure override returns (uint256) {
     return CONFIGURATOR_REVISION;
@@ -180,6 +188,22 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
     pool.setPause(val);
   }
 
+  function batchAddToWhitelist(address[] calldata users) external onlyKYCAdmin {
+    pool.batchAddToWhitelist(users);
+  }
+
+  function addToWhitelist(address user) external onlyKYCAdmin {
+    pool.addToWhitelist(user);
+  }
+
+  function batchRemoveFromWhitelist(address[] calldata users) external onlyKYCAdmin {
+    pool.batchRemoveFromWhitelist(users);
+  }
+
+  function removeFromWhitelist(address user) external onlyKYCAdmin {
+    pool.removeFromWhitelist(user);
+  }
+
   function _initContractWithProxy(address implementation, bytes memory initParams)
     internal
     returns (address)
@@ -202,5 +226,7 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
 
     proxy.upgradeToAndCall(implementation, initParams);
   }
+
+
 
 }

@@ -89,6 +89,9 @@ export declare namespace DataTypes {
 export interface LendingPoolInterface extends utils.Interface {
   functions: {
     "LENDINGPOOL_REVISION()": FunctionFragment;
+    "addToWhitelist(address)": FunctionFragment;
+    "batchAddToWhitelist(address[])": FunctionFragment;
+    "batchRemoveFromWhitelist(address[])": FunctionFragment;
     "deposit(uint256,address,uint16)": FunctionFragment;
     "depositFund(uint256)": FunctionFragment;
     "getAddressesProvider()": FunctionFragment;
@@ -101,6 +104,7 @@ export interface LendingPoolInterface extends utils.Interface {
     "moveTheLockPeriod(uint40)": FunctionFragment;
     "moveTheRedemptionPeriod(uint40)": FunctionFragment;
     "paused()": FunctionFragment;
+    "removeFromWhitelist(address)": FunctionFragment;
     "setConfiguration(uint256)": FunctionFragment;
     "setPause(bool)": FunctionFragment;
     "updateFuncAddress(address)": FunctionFragment;
@@ -112,6 +116,9 @@ export interface LendingPoolInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "LENDINGPOOL_REVISION"
+      | "addToWhitelist"
+      | "batchAddToWhitelist"
+      | "batchRemoveFromWhitelist"
       | "deposit"
       | "depositFund"
       | "getAddressesProvider"
@@ -124,6 +131,7 @@ export interface LendingPoolInterface extends utils.Interface {
       | "moveTheLockPeriod"
       | "moveTheRedemptionPeriod"
       | "paused"
+      | "removeFromWhitelist"
       | "setConfiguration"
       | "setPause"
       | "updateFuncAddress"
@@ -135,6 +143,18 @@ export interface LendingPoolInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "LENDINGPOOL_REVISION",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addToWhitelist",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "batchAddToWhitelist",
+    values: [PromiseOrValue<string>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "batchRemoveFromWhitelist",
+    values: [PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "deposit",
@@ -194,6 +214,10 @@ export interface LendingPoolInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "removeFromWhitelist",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setConfiguration",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -220,6 +244,18 @@ export interface LendingPoolInterface extends utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "LENDINGPOOL_REVISION",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addToWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "batchAddToWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "batchRemoveFromWhitelist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
@@ -262,6 +298,10 @@ export interface LendingPoolInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "removeFromWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setConfiguration",
     data: BytesLike
   ): Result;
@@ -281,6 +321,7 @@ export interface LendingPoolInterface extends utils.Interface {
   ): Result;
 
   events: {
+    "AddedToWhitelist(address)": EventFragment;
     "Deposit(address,address,uint256,uint16)": EventFragment;
     "FundAddressUpdated(address)": EventFragment;
     "FundDeposit(address,uint256)": EventFragment;
@@ -290,10 +331,12 @@ export interface LendingPoolInterface extends utils.Interface {
     "PeriodInitialized(uint256,uint40,uint40,uint40,uint16,uint16)": EventFragment;
     "PurchaseEndTimestampMoved(uint40,uint40)": EventFragment;
     "RedemptionBeginTimestampMoved(uint40,uint40)": EventFragment;
+    "RemoveFromWhitelist(address)": EventFragment;
     "Unpaused()": EventFragment;
     "Withdraw(address,address,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AddedToWhitelist"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Deposit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FundAddressUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FundDeposit"): EventFragment;
@@ -305,9 +348,21 @@ export interface LendingPoolInterface extends utils.Interface {
   getEvent(
     nameOrSignatureOrTopic: "RedemptionBeginTimestampMoved"
   ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RemoveFromWhitelist"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
+
+export interface AddedToWhitelistEventObject {
+  user: string;
+}
+export type AddedToWhitelistEvent = TypedEvent<
+  [string],
+  AddedToWhitelistEventObject
+>;
+
+export type AddedToWhitelistEventFilter =
+  TypedEventFilter<AddedToWhitelistEvent>;
 
 export interface DepositEventObject {
   user: string;
@@ -414,6 +469,17 @@ export type RedemptionBeginTimestampMovedEvent = TypedEvent<
 export type RedemptionBeginTimestampMovedEventFilter =
   TypedEventFilter<RedemptionBeginTimestampMovedEvent>;
 
+export interface RemoveFromWhitelistEventObject {
+  user: string;
+}
+export type RemoveFromWhitelistEvent = TypedEvent<
+  [string],
+  RemoveFromWhitelistEventObject
+>;
+
+export type RemoveFromWhitelistEventFilter =
+  TypedEventFilter<RemoveFromWhitelistEvent>;
+
 export interface UnpausedEventObject {}
 export type UnpausedEvent = TypedEvent<[], UnpausedEventObject>;
 
@@ -459,6 +525,21 @@ export interface LendingPool extends BaseContract {
 
   functions: {
     LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     deposit(
       amount: PromiseOrValue<BigNumberish>,
@@ -518,6 +599,11 @@ export interface LendingPool extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setConfiguration(
       configuration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -551,6 +637,21 @@ export interface LendingPool extends BaseContract {
   };
 
   LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
+
+  addToWhitelist(
+    user: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  batchAddToWhitelist(
+    users: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  batchRemoveFromWhitelist(
+    users: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   deposit(
     amount: PromiseOrValue<BigNumberish>,
@@ -610,6 +711,11 @@ export interface LendingPool extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
+  removeFromWhitelist(
+    user: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setConfiguration(
     configuration: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -643,6 +749,21 @@ export interface LendingPool extends BaseContract {
 
   callStatic: {
     LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     deposit(
       amount: PromiseOrValue<BigNumberish>,
@@ -702,6 +823,11 @@ export interface LendingPool extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setConfiguration(
       configuration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -735,6 +861,13 @@ export interface LendingPool extends BaseContract {
   };
 
   filters: {
+    "AddedToWhitelist(address)"(
+      user?: PromiseOrValue<string> | null
+    ): AddedToWhitelistEventFilter;
+    AddedToWhitelist(
+      user?: PromiseOrValue<string> | null
+    ): AddedToWhitelistEventFilter;
+
     "Deposit(address,address,uint256,uint16)"(
       user?: PromiseOrValue<string> | null,
       onBehalfOf?: PromiseOrValue<string> | null,
@@ -826,6 +959,13 @@ export interface LendingPool extends BaseContract {
       newTimetamp?: null
     ): RedemptionBeginTimestampMovedEventFilter;
 
+    "RemoveFromWhitelist(address)"(
+      user?: PromiseOrValue<string> | null
+    ): RemoveFromWhitelistEventFilter;
+    RemoveFromWhitelist(
+      user?: PromiseOrValue<string> | null
+    ): RemoveFromWhitelistEventFilter;
+
     "Unpaused()"(): UnpausedEventFilter;
     Unpaused(): UnpausedEventFilter;
 
@@ -843,6 +983,21 @@ export interface LendingPool extends BaseContract {
 
   estimateGas: {
     LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     deposit(
       amount: PromiseOrValue<BigNumberish>,
@@ -898,6 +1053,11 @@ export interface LendingPool extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setConfiguration(
       configuration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -933,6 +1093,21 @@ export interface LendingPool extends BaseContract {
   populateTransaction: {
     LENDINGPOOL_REVISION(
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    addToWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    batchAddToWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    batchRemoveFromWhitelist(
+      users: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     deposit(
@@ -992,6 +1167,11 @@ export interface LendingPool extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    removeFromWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     setConfiguration(
       configuration: PromiseOrValue<BigNumberish>,

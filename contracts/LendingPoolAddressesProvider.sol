@@ -25,6 +25,7 @@ contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider 
   bytes32 private constant POOL_OPERATOR = 'POOL_OPERATOR';
   bytes32 private constant POOL_ADMIN = 'POOL_ADMIN';
   bytes32 private constant EMERGENCY_ADMIN = 'EMERGENCY_ADMIN';
+  bytes32 private constant KYC_ADMIN = 'KYC_ADMIN';
   bytes32 private constant OTOKEN = 'OTOKEN';
   
   constructor(string memory marketId) public {
@@ -155,6 +156,15 @@ contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider 
   function setEmergencyAdmin(address emergencyAdmin) external override onlyOwner {
     _addresses[EMERGENCY_ADMIN] = emergencyAdmin;
     emit EmergencyAdminUpdated(emergencyAdmin);
+  }
+
+  function getKYCAdmin() external view override returns (address) {
+    return getAddress(KYC_ADMIN);
+  }
+
+  function setKYCAdmin(address kycAdmin) external override onlyOwner {
+    _addresses[KYC_ADMIN] = kycAdmin;
+    emit KYCAdminUpdated(kycAdmin);
   }
 
   /**

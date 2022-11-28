@@ -14,6 +14,7 @@ interface ILendingPoolAddressesProvider {
   event LendingPoolConfiguratorUpdated(address indexed newAddress);
   event ConfigurationAdminUpdated(address indexed newAddress);
   event EmergencyAdminUpdated(address indexed newAddress);
+  event KYCAdminUpdated(address indexed newAddress);
   event PoolOperatorUpdated(address indexed newAddress);
   event ProxyCreated(bytes32 id, address indexed newAddress);
   event AddressSet(bytes32 id, address indexed newAddress, bool hasProxy);
@@ -47,4 +48,8 @@ interface ILendingPoolAddressesProvider {
   function getEmergencyAdmin() external view returns (address);
 
   function setEmergencyAdmin(address admin) external;
+
+  function getKYCAdmin() external view returns (address);
+
+  function setKYCAdmin(address admin) external;
 }

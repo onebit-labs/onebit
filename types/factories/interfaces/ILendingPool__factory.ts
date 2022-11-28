@@ -19,6 +19,19 @@ const _abi = [
         name: "user",
         type: "address",
       },
+    ],
+    name: "AddedToWhitelist",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
       {
         indexed: true,
         internalType: "address",
@@ -218,6 +231,19 @@ const _abi = [
   },
   {
     anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "RemoveFromWhitelist",
+    type: "event",
+  },
+  {
+    anonymous: false,
     inputs: [],
     name: "Unpaused",
     type: "event",
@@ -246,6 +272,45 @@ const _abi = [
     ],
     name: "Withdraw",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "addToWhitelist",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "users",
+        type: "address[]",
+      },
+    ],
+    name: "batchAddToWhitelist",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "users",
+        type: "address[]",
+      },
+    ],
+    name: "batchRemoveFromWhitelist",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -456,6 +521,19 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "removeFromWhitelist",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
