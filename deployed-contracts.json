@@ -43,7 +43,7 @@
   },
   "LendingPoolImpl": {
     "goerli": {
-      "address": "0x40eecB69Ed7AA03a935Ae26aA6b30bEBA1562007",
+      "address": "0xd2A765B8E64Ae77bd6cf72476Aa87A028C3DD51f",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "localhost": {
@@ -112,7 +112,7 @@
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "goerli": {
-      "address": "0x94328e31F8e703dAF5e5107D30CEc2D7315BBe16",
+      "address": "0x7886b7f90499A3Fc6Af296eA5ec2E97C2a17E01c",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "bsc_testnet": {
