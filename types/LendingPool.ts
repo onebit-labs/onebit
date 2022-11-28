@@ -98,16 +98,19 @@ export interface LendingPoolInterface extends utils.Interface {
     "getConfiguration()": FunctionFragment;
     "getReserveData()": FunctionFragment;
     "getReserveNormalizedIncome()": FunctionFragment;
+    "getWhitelistExpiration()": FunctionFragment;
     "initReserve(address,address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "initializeNextPeriod(uint16,uint16,uint128,uint128,uint40,uint40,uint40)": FunctionFragment;
+    "isInWhitelist(address)": FunctionFragment;
     "moveTheLockPeriod(uint40)": FunctionFragment;
     "moveTheRedemptionPeriod(uint40)": FunctionFragment;
     "paused()": FunctionFragment;
     "removeFromWhitelist(address)": FunctionFragment;
     "setConfiguration(uint256)": FunctionFragment;
+    "setFuncAddress(address)": FunctionFragment;
     "setPause(bool)": FunctionFragment;
-    "updateFuncAddress(address)": FunctionFragment;
+    "setWhitelistExpiration(uint256)": FunctionFragment;
     "updateNetValue(uint256)": FunctionFragment;
     "withdraw(uint256,address)": FunctionFragment;
     "withdrawFund(uint256)": FunctionFragment;
@@ -125,16 +128,19 @@ export interface LendingPoolInterface extends utils.Interface {
       | "getConfiguration"
       | "getReserveData"
       | "getReserveNormalizedIncome"
+      | "getWhitelistExpiration"
       | "initReserve"
       | "initialize"
       | "initializeNextPeriod"
+      | "isInWhitelist"
       | "moveTheLockPeriod"
       | "moveTheRedemptionPeriod"
       | "paused"
       | "removeFromWhitelist"
       | "setConfiguration"
+      | "setFuncAddress"
       | "setPause"
-      | "updateFuncAddress"
+      | "setWhitelistExpiration"
       | "updateNetValue"
       | "withdraw"
       | "withdrawFund"
@@ -185,6 +191,10 @@ export interface LendingPoolInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getWhitelistExpiration",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "initReserve",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
@@ -205,6 +215,10 @@ export interface LendingPoolInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "isInWhitelist",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "moveTheLockPeriod",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -222,12 +236,16 @@ export interface LendingPoolInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setFuncAddress",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setPause",
     values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
-    functionFragment: "updateFuncAddress",
-    values: [PromiseOrValue<string>]
+    functionFragment: "setWhitelistExpiration",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "updateNetValue",
@@ -280,12 +298,20 @@ export interface LendingPoolInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getWhitelistExpiration",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "initReserve",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "initializeNextPeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isInWhitelist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -305,9 +331,13 @@ export interface LendingPoolInterface extends utils.Interface {
     functionFragment: "setConfiguration",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setFuncAddress",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setPause", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "updateFuncAddress",
+    functionFragment: "setWhitelistExpiration",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -321,7 +351,7 @@ export interface LendingPoolInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "AddedToWhitelist(address)": EventFragment;
+    "AddedToWhitelist(address,uint256)": EventFragment;
     "Deposit(address,address,uint256,uint16)": EventFragment;
     "FundAddressUpdated(address)": EventFragment;
     "FundDeposit(address,uint256)": EventFragment;
@@ -333,6 +363,7 @@ export interface LendingPoolInterface extends utils.Interface {
     "RedemptionBeginTimestampMoved(uint40,uint40)": EventFragment;
     "RemoveFromWhitelist(address)": EventFragment;
     "Unpaused()": EventFragment;
+    "WhitelistExpirationUpdated(uint256)": EventFragment;
     "Withdraw(address,address,uint256)": EventFragment;
   };
 
@@ -350,14 +381,16 @@ export interface LendingPoolInterface extends utils.Interface {
   ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RemoveFromWhitelist"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "WhitelistExpirationUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
 
 export interface AddedToWhitelistEventObject {
   user: string;
+  expirationTime: BigNumber;
 }
 export type AddedToWhitelistEvent = TypedEvent<
-  [string],
+  [string, BigNumber],
   AddedToWhitelistEventObject
 >;
 
@@ -485,6 +518,17 @@ export type UnpausedEvent = TypedEvent<[], UnpausedEventObject>;
 
 export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
+export interface WhitelistExpirationUpdatedEventObject {
+  newExpiration: BigNumber;
+}
+export type WhitelistExpirationUpdatedEvent = TypedEvent<
+  [BigNumber],
+  WhitelistExpirationUpdatedEventObject
+>;
+
+export type WhitelistExpirationUpdatedEventFilter =
+  TypedEventFilter<WhitelistExpirationUpdatedEvent>;
+
 export interface WithdrawEventObject {
   user: string;
   to: string;
@@ -565,6 +609,10 @@ export interface LendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    getWhitelistExpiration(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     initReserve(
       oToken: PromiseOrValue<string>,
       fundAddress: PromiseOrValue<string>,
@@ -584,6 +632,11 @@ export interface LendingPool extends BaseContract {
       purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    isInWhitelist(
+      user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -609,13 +662,18 @@ export interface LendingPool extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setFuncAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    updateFuncAddress(
-      fundAddress: PromiseOrValue<string>,
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -677,6 +735,10 @@ export interface LendingPool extends BaseContract {
 
   getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+  getWhitelistExpiration(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   initReserve(
     oToken: PromiseOrValue<string>,
     fundAddress: PromiseOrValue<string>,
@@ -696,6 +758,11 @@ export interface LendingPool extends BaseContract {
     purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
     purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
     redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  isInWhitelist(
+    user: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -721,13 +788,18 @@ export interface LendingPool extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setFuncAddress(
+    fundAddress: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setPause(
     val: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  updateFuncAddress(
-    fundAddress: PromiseOrValue<string>,
+  setWhitelistExpiration(
+    expiration: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -789,6 +861,8 @@ export interface LendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getWhitelistExpiration(overrides?: CallOverrides): Promise<BigNumber>;
+
     initReserve(
       oToken: PromiseOrValue<string>,
       fundAddress: PromiseOrValue<string>,
@@ -810,6 +884,11 @@ export interface LendingPool extends BaseContract {
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    isInWhitelist(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     moveTheLockPeriod(
       newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
@@ -833,13 +912,18 @@ export interface LendingPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setFuncAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setPause(
       val: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    updateFuncAddress(
-      fundAddress: PromiseOrValue<string>,
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -861,11 +945,13 @@ export interface LendingPool extends BaseContract {
   };
 
   filters: {
-    "AddedToWhitelist(address)"(
-      user?: PromiseOrValue<string> | null
+    "AddedToWhitelist(address,uint256)"(
+      user?: PromiseOrValue<string> | null,
+      expirationTime?: null
     ): AddedToWhitelistEventFilter;
     AddedToWhitelist(
-      user?: PromiseOrValue<string> | null
+      user?: PromiseOrValue<string> | null,
+      expirationTime?: null
     ): AddedToWhitelistEventFilter;
 
     "Deposit(address,address,uint256,uint16)"(
@@ -969,6 +1055,13 @@ export interface LendingPool extends BaseContract {
     "Unpaused()"(): UnpausedEventFilter;
     Unpaused(): UnpausedEventFilter;
 
+    "WhitelistExpirationUpdated(uint256)"(
+      newExpiration?: null
+    ): WhitelistExpirationUpdatedEventFilter;
+    WhitelistExpirationUpdated(
+      newExpiration?: null
+    ): WhitelistExpirationUpdatedEventFilter;
+
     "Withdraw(address,address,uint256)"(
       user?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
@@ -1019,6 +1112,10 @@ export interface LendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getWhitelistExpiration(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     initReserve(
       oToken: PromiseOrValue<string>,
       fundAddress: PromiseOrValue<string>,
@@ -1038,6 +1135,11 @@ export interface LendingPool extends BaseContract {
       purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    isInWhitelist(
+      user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1063,13 +1165,18 @@ export interface LendingPool extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setFuncAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    updateFuncAddress(
-      fundAddress: PromiseOrValue<string>,
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1134,6 +1241,10 @@ export interface LendingPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getWhitelistExpiration(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     initReserve(
       oToken: PromiseOrValue<string>,
       fundAddress: PromiseOrValue<string>,
@@ -1153,6 +1264,11 @@ export interface LendingPool extends BaseContract {
       purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
       redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    isInWhitelist(
+      user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1178,13 +1294,18 @@ export interface LendingPool extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setFuncAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    updateFuncAddress(
-      fundAddress: PromiseOrValue<string>,
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

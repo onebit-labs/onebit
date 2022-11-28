@@ -30,9 +30,4 @@ library DataTypes {
     //bit 9: reserve is frozen
     uint256 data;
   }
-
-  struct TimeLock {
-    uint40 expiration;
-    uint16 lockType;
-  }
 }

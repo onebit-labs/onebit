@@ -442,3 +442,19 @@ task('init-reserve', 'Initialize the reserve')
         market
     );
 })
+
+task('set-whitelist-expiration', 'Set the expiration of whitelist')
+.addParam('expiration', 'The new expiration for every new entry')
+.addParam('market', 'The market ID')
+.setAction(async ({expiration, market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const configurator = await LendingPoolConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.LendingPoolConfigurator}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( configurator.setWhitelistExpiration(expiration))
+    );
+})

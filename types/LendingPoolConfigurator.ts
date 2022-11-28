@@ -85,9 +85,10 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
     "initReserve((address,uint8,address,address,string,string,string,bytes))": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "removeFromWhitelist(address)": FunctionFragment;
+    "setFundAddress(address)": FunctionFragment;
     "setPoolPause(bool)": FunctionFragment;
+    "setWhitelistExpiration(uint256)": FunctionFragment;
     "unfreezeReserve()": FunctionFragment;
-    "updateFundAddress(address)": FunctionFragment;
     "updateOToken((string,string,address,bytes))": FunctionFragment;
   };
 
@@ -102,9 +103,10 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
       | "initReserve"
       | "initialize"
       | "removeFromWhitelist"
+      | "setFundAddress"
       | "setPoolPause"
+      | "setWhitelistExpiration"
       | "unfreezeReserve"
-      | "updateFundAddress"
       | "updateOToken"
   ): FunctionFragment;
 
@@ -145,16 +147,20 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setFundAddress",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setPoolPause",
     values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
-    functionFragment: "unfreezeReserve",
-    values?: undefined
+    functionFragment: "setWhitelistExpiration",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "updateFundAddress",
-    values: [PromiseOrValue<string>]
+    functionFragment: "unfreezeReserve",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "updateOToken",
@@ -195,15 +201,19 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setFundAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setPoolPause",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "unfreezeReserve",
+    functionFragment: "setWhitelistExpiration",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "updateFundAddress",
+    functionFragment: "unfreezeReserve",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -359,17 +369,22 @@ export interface LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setFundAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setPoolPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    unfreezeReserve(
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    updateFundAddress(
-      fundAddress: PromiseOrValue<string>,
+    unfreezeReserve(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -421,17 +436,22 @@ export interface LendingPoolConfigurator extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setFundAddress(
+    fundAddress: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setPoolPause(
     val: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  unfreezeReserve(
+  setWhitelistExpiration(
+    expiration: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  updateFundAddress(
-    fundAddress: PromiseOrValue<string>,
+  unfreezeReserve(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -477,17 +497,22 @@ export interface LendingPoolConfigurator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setFundAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setPoolPause(
       val: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    unfreezeReserve(overrides?: CallOverrides): Promise<void>;
-
-    updateFundAddress(
-      fundAddress: PromiseOrValue<string>,
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    unfreezeReserve(overrides?: CallOverrides): Promise<void>;
 
     updateOToken(
       input: ILendingPoolConfigurator.UpdateOTokenInputStruct,
@@ -579,17 +604,22 @@ export interface LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setFundAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setPoolPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    unfreezeReserve(
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    updateFundAddress(
-      fundAddress: PromiseOrValue<string>,
+    unfreezeReserve(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -642,17 +672,22 @@ export interface LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setFundAddress(
+      fundAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setPoolPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    unfreezeReserve(
+    setWhitelistExpiration(
+      expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    updateFundAddress(
-      fundAddress: PromiseOrValue<string>,
+    unfreezeReserve(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

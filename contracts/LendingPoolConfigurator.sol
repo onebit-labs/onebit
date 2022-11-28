@@ -50,7 +50,7 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
     _;
   }
 
-  uint256 internal constant CONFIGURATOR_REVISION = 0x2;
+  uint256 internal constant CONFIGURATOR_REVISION = 0x3;
 
   function getRevision() internal pure override returns (uint256) {
     return CONFIGURATOR_REVISION;
@@ -121,9 +121,9 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
     emit OTokenUpgraded(reserveData.oTokenAddress, input.implementation);
   }
 
-  function updateFundAddress(address fundAddress) external onlyPoolAdmin {
+  function setFundAddress(address fundAddress) external onlyPoolAdmin {
     ILendingPool cachedPool = pool;
-    pool.updateFuncAddress(fundAddress);
+    pool.setFuncAddress(fundAddress);
   }
 
   /**
@@ -202,6 +202,10 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
 
   function removeFromWhitelist(address user) external onlyKYCAdmin {
     pool.removeFromWhitelist(user);
+  }
+
+  function setWhitelistExpiration(uint256 expiration) external onlyPoolAdmin {
+    pool.setWhitelistExpiration(expiration);
   }
 
   function _initContractWithProxy(address implementation, bytes memory initParams)

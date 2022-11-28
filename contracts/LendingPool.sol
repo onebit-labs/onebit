@@ -38,15 +38,10 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant LENDINGPOOL_REVISION = 0x6;
+  uint256 public constant LENDINGPOOL_REVISION = 0x7;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.LP_IS_PAUSED);
-    _;
-  }
-
-  modifier inWhitelist() {
-    require (_whitelist[msg.sender], Errors.LP_NOT_IN_WHITELIST);
     _;
   }
 
@@ -97,9 +92,10 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     uint256 amount,
     address onBehalfOf,
     uint16 referralCode
-  ) external override whenNotPaused inWhitelist returns(uint256) {
+  ) external override whenNotPaused returns(uint256) {
     require(amount != 0, Errors.VL_INVALID_AMOUNT);
     uint40 currentTimestamp = uint40(block.timestamp);
+    require (_whitelist[msg.sender] > block.timestamp, Errors.LP_NOT_IN_WHITELIST);
 
     (bool isActive, bool isFrozen) = _reserve.configuration.getFlags();
     require((currentTimestamp >= _reserve.purchaseBeginTimestamp) 
@@ -151,7 +147,8 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   function withdraw(
     uint256 amount,
     address to
-  ) external override whenNotPaused inWhitelist returns (uint256) {
+  ) external override whenNotPaused returns (uint256) {
+    require (_whitelist[msg.sender] > block.timestamp, Errors.LP_NOT_IN_WHITELIST);
 
     address oToken = _reserve.oTokenAddress;
 
@@ -329,7 +326,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     }
   }
 
-  function updateFuncAddress(address fundAddress) external override onlyLendingPoolConfigurator {
+  function setFuncAddress(address fundAddress) external override onlyLendingPoolConfigurator {
     require(fundAddress != address(0), Errors.LPC_INVALID_ADDRESSES_PROVIDER_ID);
     _reserve.fundAddress = fundAddress;
     emit FundAddressUpdated(fundAddress);
@@ -354,29 +351,47 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
 
   function addToWhitelist(address user) external override onlyLendingPoolConfigurator
   {
-    _whitelist[user] = true;
-    emit AddedToWhitelist(user);
+    uint256 expiration = block.timestamp + _whitelistExpiration;
+    _whitelist[user] = expiration;
+    emit AddedToWhitelist(user, expiration);
   }
 
   function batchAddToWhitelist(address[] calldata users) external override onlyLendingPoolConfigurator
   {
     for(uint256 i = 0; i < users.length; ++i){
-      _whitelist[users[i]] = true;
-      emit AddedToWhitelist(users[i]);
+      uint256 expiration = block.timestamp + _whitelistExpiration;
+      _whitelist[users[i]] = expiration;
+      emit AddedToWhitelist(users[i], expiration);
     }
   }
 
   function removeFromWhitelist(address user) external override onlyLendingPoolConfigurator
   {
-    _whitelist[user] = false;
+    _whitelist[user] = 0;
     emit RemoveFromWhitelist(user);
   }
 
   function batchRemoveFromWhitelist(address[] calldata users) external override onlyLendingPoolConfigurator
   {
     for(uint256 i = 0; i < users.length; ++i){
-      _whitelist[users[i]] = false;
+      _whitelist[users[i]] = 0;
       emit RemoveFromWhitelist(users[i]);
     }
+  }
+
+  function isInWhitelist(address user) external override returns(bool)
+  {
+    return _whitelist[user] > block.timestamp;
+  }
+
+  function getWhitelistExpiration() external override returns(uint256)
+  {
+    return _whitelistExpiration;
+  }
+
+  function setWhitelistExpiration(uint256 expiration) external override onlyLendingPoolConfigurator
+  {
+    _whitelistExpiration = expiration;
+    emit WhitelistExpirationUpdated(expiration);
   }
 }

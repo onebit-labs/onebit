@@ -19,6 +19,12 @@ const _abi = [
         name: "user",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "expirationTime",
+        type: "uint256",
+      },
     ],
     name: "AddedToWhitelist",
     type: "event",
@@ -246,6 +252,19 @@ const _abi = [
     anonymous: false,
     inputs: [],
     name: "Unpaused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newExpiration",
+        type: "uint256",
+      },
+    ],
+    name: "WhitelistExpirationUpdated",
     type: "event",
   },
   {
@@ -493,6 +512,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getWhitelistExpiration",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -507,6 +539,25 @@ const _abi = [
     ],
     name: "initReserve",
     outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "isInWhitelist",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -552,6 +603,19 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "fundAddress",
+        type: "address",
+      },
+    ],
+    name: "setFuncAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bool",
         name: "val",
         type: "bool",
@@ -565,12 +629,12 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "fundAddress",
-        type: "address",
+        internalType: "uint256",
+        name: "expiration",
+        type: "uint256",
       },
     ],
-    name: "updateFuncAddress",
+    name: "setWhitelistExpiration",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

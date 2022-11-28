@@ -15,5 +15,7 @@ contract LendingPoolStorage {
 
   bool internal _paused;
 
-  mapping ( address => bool ) internal _whitelist;
+  uint256 internal _whitelistExpiration;
+
+  mapping ( address => uint256 ) internal _whitelist;
 }
