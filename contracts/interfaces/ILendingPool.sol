@@ -102,6 +102,8 @@ interface ILendingPool {
 
   function isInWhitelist(address user) external returns (bool);
 
+  function getUserExpirationTimestamp(address user) external returns(uint256);
+
   /**
    * @dev Returns the configuration of the reserve
    * @return The configuration of the reserve

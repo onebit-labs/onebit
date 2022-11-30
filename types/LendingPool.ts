@@ -98,6 +98,7 @@ export interface LendingPoolInterface extends utils.Interface {
     "getConfiguration()": FunctionFragment;
     "getReserveData()": FunctionFragment;
     "getReserveNormalizedIncome()": FunctionFragment;
+    "getUserExpirationTimestamp(address)": FunctionFragment;
     "getWhitelistExpiration()": FunctionFragment;
     "initReserve(address,address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
@@ -128,6 +129,7 @@ export interface LendingPoolInterface extends utils.Interface {
       | "getConfiguration"
       | "getReserveData"
       | "getReserveNormalizedIncome"
+      | "getUserExpirationTimestamp"
       | "getWhitelistExpiration"
       | "initReserve"
       | "initialize"
@@ -189,6 +191,10 @@ export interface LendingPoolInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getReserveNormalizedIncome",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getUserExpirationTimestamp",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getWhitelistExpiration",
@@ -295,6 +301,10 @@ export interface LendingPoolInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getReserveNormalizedIncome",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getUserExpirationTimestamp",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -609,6 +619,11 @@ export interface LendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    getUserExpirationTimestamp(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     getWhitelistExpiration(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -735,6 +750,11 @@ export interface LendingPool extends BaseContract {
 
   getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+  getUserExpirationTimestamp(
+    user: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   getWhitelistExpiration(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -860,6 +880,11 @@ export interface LendingPool extends BaseContract {
     ): Promise<DataTypes.ReserveDataStructOutput>;
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getUserExpirationTimestamp(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getWhitelistExpiration(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1112,6 +1137,11 @@ export interface LendingPool extends BaseContract {
 
     getReserveNormalizedIncome(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getUserExpirationTimestamp(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     getWhitelistExpiration(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1239,6 +1269,11 @@ export interface LendingPool extends BaseContract {
 
     getReserveNormalizedIncome(
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getUserExpirationTimestamp(
+      user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     getWhitelistExpiration(
