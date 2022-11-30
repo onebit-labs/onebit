@@ -43,7 +43,7 @@
   },
   "LendingPoolImpl": {
     "goerli": {
-      "address": "0xd2A765B8E64Ae77bd6cf72476Aa87A028C3DD51f",
+      "address": "0xcBaBFcF5cbEBb8b39557b544802D3AAe98027A9A",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "localhost": {
