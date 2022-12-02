@@ -38,7 +38,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant LENDINGPOOL_REVISION = 0x8;
+  uint256 public constant LENDINGPOOL_REVISION = 0x9;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.LP_IS_PAUSED);
@@ -379,12 +379,12 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     }
   }
 
-  function isInWhitelist(address user) external override returns(bool)
+  function isInWhitelist(address user) external view override returns(bool)
   {
     return _whitelist[user] > block.timestamp;
   }
 
-  function getUserExpirationTimestamp(address user) external override returns(uint256)
+  function getUserExpirationTimestamp(address user) external view override returns(uint256)
   {
     return _whitelist[user];
   }

@@ -621,8 +621,8 @@ export interface LendingPool extends BaseContract {
 
     getUserExpirationTimestamp(
       user: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     getWhitelistExpiration(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -652,8 +652,8 @@ export interface LendingPool extends BaseContract {
 
     isInWhitelist(
       user: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     moveTheLockPeriod(
       newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
@@ -752,8 +752,8 @@ export interface LendingPool extends BaseContract {
 
   getUserExpirationTimestamp(
     user: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   getWhitelistExpiration(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -783,8 +783,8 @@ export interface LendingPool extends BaseContract {
 
   isInWhitelist(
     user: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   moveTheLockPeriod(
     newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
@@ -1139,7 +1139,7 @@ export interface LendingPool extends BaseContract {
 
     getUserExpirationTimestamp(
       user: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getWhitelistExpiration(
@@ -1170,7 +1170,7 @@ export interface LendingPool extends BaseContract {
 
     isInWhitelist(
       user: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     moveTheLockPeriod(
@@ -1273,7 +1273,7 @@ export interface LendingPool extends BaseContract {
 
     getUserExpirationTimestamp(
       user: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getWhitelistExpiration(
@@ -1304,7 +1304,7 @@ export interface LendingPool extends BaseContract {
 
     isInWhitelist(
       user: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     moveTheLockPeriod(
