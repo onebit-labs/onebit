@@ -8,3 +8,4 @@ export type { ILendingPoolAddressesProviderRegistry } from "./ILendingPoolAddres
 export type { ILendingPoolConfigurator } from "./ILendingPoolConfigurator";
 export type { IOToken } from "./IOToken";
 export type { IScaledBalanceToken } from "./IScaledBalanceToken";
+export type { ITimelockedExecutor } from "./ITimelockedExecutor";

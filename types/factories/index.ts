@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as dependencies from "./dependencies";
+export * as governanace from "./governanace";
 export * as interfaces from "./interfaces";
 export * as libraries from "./libraries";
 export { IncentivizedERC20__factory } from "./IncentivizedERC20__factory";

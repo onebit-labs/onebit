@@ -29,6 +29,7 @@ export enum eContractid {
   OToken = 'OToken',
   ETH = 'ETH',
   LendingPoolImpl = 'LendingPoolImpl',
+  TimelockedExecutor = 'TimelockedExecutor',
 }
 
 /*

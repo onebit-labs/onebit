@@ -10,6 +10,7 @@ import {MintableERC20__factory} from '../types/factories/MintableERC20__factory'
 import { IERC20Metadata__factory } from '../types/factories/dependencies/openzeppelin/contracts/IERC20Metadata__factory';
 import { eContractid, eNetwork } from '../helpers/types';
 import {getDb, getMarketDb, waitForTx} from '../helpers/misc-utils';
+import { TimelockedExecutor__factory } from '../types/factories/governanace/TimelockedExecutor__factory';
 
 task('deploy-registry', 'Deploy registry')
 .addFlag('verify', 'Verify contracts at Etherscan')
@@ -457,4 +458,33 @@ task('set-whitelist-expiration', 'Set the expiration of whitelist')
     await waitForTx(
         await ( configurator.setWhitelistExpiration(expiration))
     );
+})
+
+
+task('deploy-timelocked-executor', 'Deploy timelocked executor')
+.addFlag('verify', 'Verify contracts at Etherscan')
+.addFlag('test', 'Test environment.')
+.setAction(async ({verify, test}, DRE) => {
+    await DRE.run('set-DRE');
+    const ONE_DAY_IN_SECS = 24 * 60 * 60;
+    const ONE_WEEK_IN_SECS = 7 * ONE_DAY_IN_SECS;
+    const TWO_DAYS_IN_SECS = 2 * ONE_DAY_IN_SECS;
+    const ONE_HOUR_IN_SECS = 60 * 60;
+    const ONE_MINUTE_IN_SECS = 60;
+    
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const args = [signerAddress,
+        test?ONE_MINUTE_IN_SECS.toString():TWO_DAYS_IN_SECS.toString(),
+        ONE_WEEK_IN_SECS.toString(),
+        test?ONE_MINUTE_IN_SECS.toString():ONE_DAY_IN_SECS.toString(),
+        ONE_WEEK_IN_SECS.toString()];
+
+    await withSaveAndVerify(
+        //@ts-ignore
+        await new TimelockedExecutor__factory(signer).deploy(...args),
+        eContractid.TimelockedExecutor,
+        args,
+        verify
+        );
 })

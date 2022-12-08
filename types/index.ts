@@ -3,6 +3,8 @@
 /* eslint-disable */
 import type * as dependencies from "./dependencies";
 export type { dependencies };
+import type * as governanace from "./governanace";
+export type { governanace };
 import type * as interfaces from "./interfaces";
 export type { interfaces };
 import type * as libraries from "./libraries";
@@ -51,6 +53,8 @@ export type { TransparentUpgradeableProxy } from "./dependencies/openzeppelin/up
 export { TransparentUpgradeableProxy__factory } from "./factories/dependencies/openzeppelin/upgradeability/TransparentUpgradeableProxy__factory";
 export type { UpgradeabilityProxy } from "./dependencies/openzeppelin/upgradeability/UpgradeabilityProxy";
 export { UpgradeabilityProxy__factory } from "./factories/dependencies/openzeppelin/upgradeability/UpgradeabilityProxy__factory";
+export type { TimelockedExecutor } from "./governanace/TimelockedExecutor";
+export { TimelockedExecutor__factory } from "./factories/governanace/TimelockedExecutor__factory";
 export { IncentivizedERC20__factory } from "./factories/IncentivizedERC20__factory";
 export type { IInitializableOToken } from "./interfaces/IInitializableOToken";
 export { IInitializableOToken__factory } from "./factories/interfaces/IInitializableOToken__factory";
@@ -66,6 +70,8 @@ export type { IOToken } from "./interfaces/IOToken";
 export { IOToken__factory } from "./factories/interfaces/IOToken__factory";
 export type { IScaledBalanceToken } from "./interfaces/IScaledBalanceToken";
 export { IScaledBalanceToken__factory } from "./factories/interfaces/IScaledBalanceToken__factory";
+export type { ITimelockedExecutor } from "./interfaces/ITimelockedExecutor";
+export { ITimelockedExecutor__factory } from "./factories/interfaces/ITimelockedExecutor__factory";
 export { LendingPool__factory } from "./factories/LendingPool__factory";
 export { LendingPoolAddressesProvider__factory } from "./factories/LendingPoolAddressesProvider__factory";
 export { LendingPoolAddressesProviderRegistry__factory } from "./factories/LendingPoolAddressesProviderRegistry__factory";

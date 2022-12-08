@@ -85,6 +85,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UpgradeabilityProxy__factory>;
     getContractFactory(
+      name: "TimelockedExecutor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TimelockedExecutor__factory>;
+    getContractFactory(
       name: "IncentivizedERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IncentivizedERC20__factory>;
@@ -116,6 +120,10 @@ declare module "hardhat/types/runtime" {
       name: "IScaledBalanceToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IScaledBalanceToken__factory>;
+    getContractFactory(
+      name: "ITimelockedExecutor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITimelockedExecutor__factory>;
     getContractFactory(
       name: "LendingPool",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -244,6 +252,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.UpgradeabilityProxy>;
     getContractAt(
+      name: "TimelockedExecutor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TimelockedExecutor>;
+    getContractAt(
       name: "IncentivizedERC20",
       address: string,
       signer?: ethers.Signer
@@ -283,6 +296,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IScaledBalanceToken>;
+    getContractAt(
+      name: "ITimelockedExecutor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITimelockedExecutor>;
     getContractAt(
       name: "LendingPool",
       address: string,

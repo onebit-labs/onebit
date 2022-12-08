@@ -8,3 +8,4 @@ export { ILendingPoolAddressesProviderRegistry__factory } from "./ILendingPoolAd
 export { ILendingPoolConfigurator__factory } from "./ILendingPoolConfigurator__factory";
 export { IOToken__factory } from "./IOToken__factory";
 export { IScaledBalanceToken__factory } from "./IScaledBalanceToken__factory";
+export { ITimelockedExecutor__factory } from "./ITimelockedExecutor__factory";
