@@ -7,16 +7,16 @@ import {Ownable} from './dependencies/openzeppelin/contracts/Ownable.sol';
 // prettier-ignore
 import {InitializableImmutableAdminUpgradeabilityProxy} from './libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol';
 
-import {ILendingPoolAddressesProvider} from './interfaces/ILendingPoolAddressesProvider.sol';
+import {IVaultAddressesProvider} from './interfaces/IVaultAddressesProvider.sol';
 
 /**
- * @title LendingPoolAddressesProvider contract
+ * @title VaultAddressesProvider contract
  * @dev Main registry of addresses part of or connected to the protocol, including permissioned roles
  * - Acting also as factory of proxies and admin of those, so with right to change its implementations
  * - Owned by the Aave Governance
  * @author Aave
  **/
-contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider {
+contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
   string private _marketId;
   mapping(bytes32 => address) private _addresses;
 
@@ -41,7 +41,7 @@ contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider 
   }
 
   /**
-   * @dev Allows to set the market which this LendingPoolAddressesProvider represents
+   * @dev Allows to set the market which this VaultAddressesProvider represents
    * @param marketId The market id
    */
   function setMarketId(string memory marketId) external override onlyOwner {
@@ -86,39 +86,39 @@ contract LendingPoolAddressesProvider is Ownable, ILendingPoolAddressesProvider 
   }
 
   /**
-   * @dev Returns the address of the LendingPool proxy
-   * @return The LendingPool proxy address
+   * @dev Returns the address of the Vault proxy
+   * @return The Vault proxy address
    **/
-  function getLendingPool() external view override returns (address) {
+  function getVault() external view override returns (address) {
     return getAddress(LENDING_POOL);
   }
 
   /**
-   * @dev Updates the implementation of the LendingPool, or creates the proxy
+   * @dev Updates the implementation of the Vault, or creates the proxy
    * setting the new `pool` implementation on the first time calling it
-   * @param pool The new LendingPool implementation
+   * @param pool The new Vault implementation
    **/
-  function setLendingPoolImpl(address pool) external override onlyOwner {
+  function setVaultImpl(address pool) external override onlyOwner {
     _updateImpl(LENDING_POOL, pool);
-    emit LendingPoolUpdated(pool);
+    emit VaultUpdated(pool);
   }
 
   /**
-   * @dev Returns the address of the LendingPoolConfigurator proxy
-   * @return The LendingPoolConfigurator proxy address
+   * @dev Returns the address of the VaultConfigurator proxy
+   * @return The VaultConfigurator proxy address
    **/
-  function getLendingPoolConfigurator() external view override returns (address) {
+  function getVaultConfigurator() external view override returns (address) {
     return getAddress(LENDING_POOL_CONFIGURATOR);
   }
 
   /**
-   * @dev Updates the implementation of the LendingPoolConfigurator, or creates the proxy
+   * @dev Updates the implementation of the VaultConfigurator, or creates the proxy
    * setting the new `configurator` implementation on the first time calling it
-   * @param configurator The new LendingPoolConfigurator implementation
+   * @param configurator The new VaultConfigurator implementation
    **/
-  function setLendingPoolConfiguratorImpl(address configurator) external override onlyOwner {
+  function setVaultConfiguratorImpl(address configurator) external override onlyOwner {
     _updateImpl(LENDING_POOL_CONFIGURATOR, configurator);
-    emit LendingPoolConfiguratorUpdated(configurator);
+    emit VaultConfiguratorUpdated(configurator);
   }
 
   /**

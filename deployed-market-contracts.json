@@ -1,5 +1,5 @@
 {
-  "LendingPoolAddressesProvider": {
+  "VaultAddressesProvider": {
     "goerli": {
       "Onebit-Lightning-Hunter-USDT": {
         "address": "0x5E83dE1387360727Adc92c097ee087D2c49E9394",
@@ -29,7 +29,7 @@
       }
     }
   },
-  "LendingPool": {
+  "Vault": {
     "goerli": {
       "Onebit-Lightning-Hunter-USDT": {
         "address": "0x780DE295A0f6529b46b3cf0d1DdaEecA1BCbCb5C"
@@ -53,7 +53,7 @@
       }
     }
   },
-  "LendingPoolConfigurator": {
+  "VaultConfigurator": {
     "goerli": {
       "Onebit-Lightning-Hunter-USDT": {
         "address": "0x5a2E924c5cDE7fB3BD3c4d494416c4497F0dF854"

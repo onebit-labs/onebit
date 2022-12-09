@@ -24,30 +24,27 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "./common";
+} from "../common";
 
-export interface LendingPoolAddressesProviderInterface extends utils.Interface {
+export interface IVaultAddressesProviderInterface extends utils.Interface {
   functions: {
     "getAddress(bytes32)": FunctionFragment;
     "getEmergencyAdmin()": FunctionFragment;
     "getKYCAdmin()": FunctionFragment;
-    "getLendingPool()": FunctionFragment;
-    "getLendingPoolConfigurator()": FunctionFragment;
     "getMarketId()": FunctionFragment;
     "getPoolAdmin()": FunctionFragment;
     "getPoolOperator()": FunctionFragment;
-    "owner()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
+    "getVault()": FunctionFragment;
+    "getVaultConfigurator()": FunctionFragment;
     "setAddress(bytes32,address)": FunctionFragment;
     "setAddressAsProxy(bytes32,address)": FunctionFragment;
     "setEmergencyAdmin(address)": FunctionFragment;
     "setKYCAdmin(address)": FunctionFragment;
-    "setLendingPoolConfiguratorImpl(address)": FunctionFragment;
-    "setLendingPoolImpl(address)": FunctionFragment;
     "setMarketId(string)": FunctionFragment;
     "setPoolAdmin(address)": FunctionFragment;
     "setPoolOperator(address)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
+    "setVaultConfiguratorImpl(address)": FunctionFragment;
+    "setVaultImpl(address)": FunctionFragment;
   };
 
   getFunction(
@@ -55,23 +52,20 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
       | "getAddress"
       | "getEmergencyAdmin"
       | "getKYCAdmin"
-      | "getLendingPool"
-      | "getLendingPoolConfigurator"
       | "getMarketId"
       | "getPoolAdmin"
       | "getPoolOperator"
-      | "owner"
-      | "renounceOwnership"
+      | "getVault"
+      | "getVaultConfigurator"
       | "setAddress"
       | "setAddressAsProxy"
       | "setEmergencyAdmin"
       | "setKYCAdmin"
-      | "setLendingPoolConfiguratorImpl"
-      | "setLendingPoolImpl"
       | "setMarketId"
       | "setPoolAdmin"
       | "setPoolOperator"
-      | "transferOwnership"
+      | "setVaultConfiguratorImpl"
+      | "setVaultImpl"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -87,14 +81,6 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getLendingPool",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getLendingPoolConfigurator",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "getMarketId",
     values?: undefined
   ): string;
@@ -106,9 +92,9 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     functionFragment: "getPoolOperator",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "getVault", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: "getVaultConfigurator",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -128,14 +114,6 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setLendingPoolConfiguratorImpl",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setLendingPoolImpl",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setMarketId",
     values: [PromiseOrValue<string>]
   ): string;
@@ -148,7 +126,11 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
+    functionFragment: "setVaultConfiguratorImpl",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setVaultImpl",
     values: [PromiseOrValue<string>]
   ): string;
 
@@ -159,14 +141,6 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getKYCAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getLendingPool",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getLendingPoolConfigurator",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -181,9 +155,9 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     functionFragment: "getPoolOperator",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getVault", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "getVaultConfigurator",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setAddress", data: BytesLike): Result;
@@ -200,14 +174,6 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setLendingPoolConfiguratorImpl",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setLendingPoolImpl",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "setMarketId",
     data: BytesLike
   ): Result;
@@ -220,7 +186,11 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "setVaultConfiguratorImpl",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setVaultImpl",
     data: BytesLike
   ): Result;
 
@@ -229,26 +199,22 @@ export interface LendingPoolAddressesProviderInterface extends utils.Interface {
     "ConfigurationAdminUpdated(address)": EventFragment;
     "EmergencyAdminUpdated(address)": EventFragment;
     "KYCAdminUpdated(address)": EventFragment;
-    "LendingPoolConfiguratorUpdated(address)": EventFragment;
-    "LendingPoolUpdated(address)": EventFragment;
     "MarketIdSet(string)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
     "PoolOperatorUpdated(address)": EventFragment;
     "ProxyCreated(bytes32,address)": EventFragment;
+    "VaultConfiguratorUpdated(address)": EventFragment;
+    "VaultUpdated(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "AddressSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ConfigurationAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EmergencyAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "KYCAdminUpdated"): EventFragment;
-  getEvent(
-    nameOrSignatureOrTopic: "LendingPoolConfiguratorUpdated"
-  ): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "LendingPoolUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MarketIdSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PoolOperatorUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProxyCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "VaultConfiguratorUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "VaultUpdated"): EventFragment;
 }
 
 export interface AddressSetEventObject {
@@ -295,46 +261,12 @@ export type KYCAdminUpdatedEvent = TypedEvent<
 
 export type KYCAdminUpdatedEventFilter = TypedEventFilter<KYCAdminUpdatedEvent>;
 
-export interface LendingPoolConfiguratorUpdatedEventObject {
-  newAddress: string;
-}
-export type LendingPoolConfiguratorUpdatedEvent = TypedEvent<
-  [string],
-  LendingPoolConfiguratorUpdatedEventObject
->;
-
-export type LendingPoolConfiguratorUpdatedEventFilter =
-  TypedEventFilter<LendingPoolConfiguratorUpdatedEvent>;
-
-export interface LendingPoolUpdatedEventObject {
-  newAddress: string;
-}
-export type LendingPoolUpdatedEvent = TypedEvent<
-  [string],
-  LendingPoolUpdatedEventObject
->;
-
-export type LendingPoolUpdatedEventFilter =
-  TypedEventFilter<LendingPoolUpdatedEvent>;
-
 export interface MarketIdSetEventObject {
   newMarketId: string;
 }
 export type MarketIdSetEvent = TypedEvent<[string], MarketIdSetEventObject>;
 
 export type MarketIdSetEventFilter = TypedEventFilter<MarketIdSetEvent>;
-
-export interface OwnershipTransferredEventObject {
-  previousOwner: string;
-  newOwner: string;
-}
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  OwnershipTransferredEventObject
->;
-
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface PoolOperatorUpdatedEventObject {
   newAddress: string;
@@ -358,12 +290,30 @@ export type ProxyCreatedEvent = TypedEvent<
 
 export type ProxyCreatedEventFilter = TypedEventFilter<ProxyCreatedEvent>;
 
-export interface LendingPoolAddressesProvider extends BaseContract {
+export interface VaultConfiguratorUpdatedEventObject {
+  newAddress: string;
+}
+export type VaultConfiguratorUpdatedEvent = TypedEvent<
+  [string],
+  VaultConfiguratorUpdatedEventObject
+>;
+
+export type VaultConfiguratorUpdatedEventFilter =
+  TypedEventFilter<VaultConfiguratorUpdatedEvent>;
+
+export interface VaultUpdatedEventObject {
+  newAddress: string;
+}
+export type VaultUpdatedEvent = TypedEvent<[string], VaultUpdatedEventObject>;
+
+export type VaultUpdatedEventFilter = TypedEventFilter<VaultUpdatedEvent>;
+
+export interface IVaultAddressesProvider extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: LendingPoolAddressesProviderInterface;
+  interface: IVaultAddressesProviderInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -394,21 +344,15 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     getKYCAdmin(overrides?: CallOverrides): Promise<[string]>;
 
-    getLendingPool(overrides?: CallOverrides): Promise<[string]>;
-
-    getLendingPoolConfigurator(overrides?: CallOverrides): Promise<[string]>;
-
     getMarketId(overrides?: CallOverrides): Promise<[string]>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<[string]>;
 
     getPoolOperator(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    getVault(overrides?: CallOverrides): Promise<[string]>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    getVaultConfigurator(overrides?: CallOverrides): Promise<[string]>;
 
     setAddress(
       id: PromiseOrValue<BytesLike>,
@@ -418,27 +362,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     setAddressAsProxy(
       id: PromiseOrValue<BytesLike>,
-      implementationAddress: PromiseOrValue<string>,
+      impl: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     setEmergencyAdmin(
-      emergencyAdmin: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     setKYCAdmin(
-      kycAdmin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setLendingPoolConfiguratorImpl(
-      configurator: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setLendingPoolImpl(
-      pool: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -453,12 +387,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setPoolOperator(
-      operator: PromiseOrValue<string>,
+      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    setVaultConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setVaultImpl(
+      pool: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -472,21 +411,15 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
   getKYCAdmin(overrides?: CallOverrides): Promise<string>;
 
-  getLendingPool(overrides?: CallOverrides): Promise<string>;
-
-  getLendingPoolConfigurator(overrides?: CallOverrides): Promise<string>;
-
   getMarketId(overrides?: CallOverrides): Promise<string>;
 
   getPoolAdmin(overrides?: CallOverrides): Promise<string>;
 
   getPoolOperator(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  getVault(overrides?: CallOverrides): Promise<string>;
 
-  renounceOwnership(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getVaultConfigurator(overrides?: CallOverrides): Promise<string>;
 
   setAddress(
     id: PromiseOrValue<BytesLike>,
@@ -496,27 +429,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
   setAddressAsProxy(
     id: PromiseOrValue<BytesLike>,
-    implementationAddress: PromiseOrValue<string>,
+    impl: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   setEmergencyAdmin(
-    emergencyAdmin: PromiseOrValue<string>,
+    admin: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   setKYCAdmin(
-    kycAdmin: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setLendingPoolConfiguratorImpl(
-    configurator: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setLendingPoolImpl(
-    pool: PromiseOrValue<string>,
+    admin: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -531,12 +454,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setPoolOperator(
-    operator: PromiseOrValue<string>,
+    configurator: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  transferOwnership(
-    newOwner: PromiseOrValue<string>,
+  setVaultConfiguratorImpl(
+    configurator: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setVaultImpl(
+    pool: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -550,19 +478,15 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     getKYCAdmin(overrides?: CallOverrides): Promise<string>;
 
-    getLendingPool(overrides?: CallOverrides): Promise<string>;
-
-    getLendingPoolConfigurator(overrides?: CallOverrides): Promise<string>;
-
     getMarketId(overrides?: CallOverrides): Promise<string>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<string>;
 
     getPoolOperator(overrides?: CallOverrides): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    getVault(overrides?: CallOverrides): Promise<string>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    getVaultConfigurator(overrides?: CallOverrides): Promise<string>;
 
     setAddress(
       id: PromiseOrValue<BytesLike>,
@@ -572,27 +496,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     setAddressAsProxy(
       id: PromiseOrValue<BytesLike>,
-      implementationAddress: PromiseOrValue<string>,
+      impl: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setEmergencyAdmin(
-      emergencyAdmin: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setKYCAdmin(
-      kycAdmin: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setLendingPoolConfiguratorImpl(
-      configurator: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setLendingPoolImpl(
-      pool: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -607,12 +521,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
     ): Promise<void>;
 
     setPoolOperator(
-      operator: PromiseOrValue<string>,
+      configurator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    setVaultConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setVaultImpl(
+      pool: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -650,31 +569,8 @@ export interface LendingPoolAddressesProvider extends BaseContract {
       newAddress?: PromiseOrValue<string> | null
     ): KYCAdminUpdatedEventFilter;
 
-    "LendingPoolConfiguratorUpdated(address)"(
-      newAddress?: PromiseOrValue<string> | null
-    ): LendingPoolConfiguratorUpdatedEventFilter;
-    LendingPoolConfiguratorUpdated(
-      newAddress?: PromiseOrValue<string> | null
-    ): LendingPoolConfiguratorUpdatedEventFilter;
-
-    "LendingPoolUpdated(address)"(
-      newAddress?: PromiseOrValue<string> | null
-    ): LendingPoolUpdatedEventFilter;
-    LendingPoolUpdated(
-      newAddress?: PromiseOrValue<string> | null
-    ): LendingPoolUpdatedEventFilter;
-
     "MarketIdSet(string)"(newMarketId?: null): MarketIdSetEventFilter;
     MarketIdSet(newMarketId?: null): MarketIdSetEventFilter;
-
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: PromiseOrValue<string> | null,
-      newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: PromiseOrValue<string> | null,
-      newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
 
     "PoolOperatorUpdated(address)"(
       newAddress?: PromiseOrValue<string> | null
@@ -691,6 +587,20 @@ export interface LendingPoolAddressesProvider extends BaseContract {
       id?: null,
       newAddress?: PromiseOrValue<string> | null
     ): ProxyCreatedEventFilter;
+
+    "VaultConfiguratorUpdated(address)"(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultConfiguratorUpdatedEventFilter;
+    VaultConfiguratorUpdated(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultConfiguratorUpdatedEventFilter;
+
+    "VaultUpdated(address)"(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultUpdatedEventFilter;
+    VaultUpdated(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultUpdatedEventFilter;
   };
 
   estimateGas: {
@@ -703,21 +613,15 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     getKYCAdmin(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getLendingPool(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getLendingPoolConfigurator(overrides?: CallOverrides): Promise<BigNumber>;
-
     getMarketId(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPoolOperator(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    getVault(overrides?: CallOverrides): Promise<BigNumber>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    getVaultConfigurator(overrides?: CallOverrides): Promise<BigNumber>;
 
     setAddress(
       id: PromiseOrValue<BytesLike>,
@@ -727,27 +631,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     setAddressAsProxy(
       id: PromiseOrValue<BytesLike>,
-      implementationAddress: PromiseOrValue<string>,
+      impl: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     setEmergencyAdmin(
-      emergencyAdmin: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     setKYCAdmin(
-      kycAdmin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setLendingPoolConfiguratorImpl(
-      configurator: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setLendingPoolImpl(
-      pool: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -762,12 +656,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
     ): Promise<BigNumber>;
 
     setPoolOperator(
-      operator: PromiseOrValue<string>,
+      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    setVaultConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setVaultImpl(
+      pool: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -782,22 +681,16 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     getKYCAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getLendingPool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getLendingPoolConfigurator(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getMarketId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPoolAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPoolOperator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getVault(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    getVaultConfigurator(
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     setAddress(
@@ -808,27 +701,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
 
     setAddressAsProxy(
       id: PromiseOrValue<BytesLike>,
-      implementationAddress: PromiseOrValue<string>,
+      impl: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     setEmergencyAdmin(
-      emergencyAdmin: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     setKYCAdmin(
-      kycAdmin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setLendingPoolConfiguratorImpl(
-      configurator: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setLendingPoolImpl(
-      pool: PromiseOrValue<string>,
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -843,12 +726,17 @@ export interface LendingPoolAddressesProvider extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setPoolOperator(
-      operator: PromiseOrValue<string>,
+      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    setVaultConfiguratorImpl(
+      configurator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setVaultImpl(
+      pool: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

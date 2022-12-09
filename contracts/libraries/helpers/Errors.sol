@@ -12,12 +12,12 @@ pragma solidity 0.8.9;
  *  - AT = VToken
  *  - SDT = StableDebtToken
  *  - VDT = VariableDebtToken
- *  - LP = LendingPool
- *  - LPAPR = LendingPoolAddressesProviderRegistry
- *  - LPC = LendingPoolConfiguration
+ *  - LP = Vault
+ *  - LPAPR = VaultAddressesProviderRegistry
+ *  - LPC = VaultConfiguration
  *  - RL = ReserveLogic
  *  - NL = NFTVaultLogic
- *  - LPCM = LendingPoolCollateralManager
+ *  - LPCM = VaultCollateralManager
  *  - P = Pausable
  */
 library Errors {

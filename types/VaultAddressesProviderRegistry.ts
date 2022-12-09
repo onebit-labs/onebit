@@ -27,7 +27,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface LendingPoolAddressesProviderRegistryInterface
+export interface VaultAddressesProviderRegistryInterface
   extends utils.Interface {
   functions: {
     "getAddressesProviderIdByAddress(address)": FunctionFragment;
@@ -151,12 +151,12 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface LendingPoolAddressesProviderRegistry extends BaseContract {
+export interface VaultAddressesProviderRegistry extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: LendingPoolAddressesProviderRegistryInterface;
+  interface: VaultAddressesProviderRegistryInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

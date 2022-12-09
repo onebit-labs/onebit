@@ -1,5 +1,5 @@
 {
-  "LendingPoolAddressesProviderRegistry": {
+  "VaultAddressesProviderRegistry": {
     "goerli": {
       "address": "0x092f2D94E31AC359A060A9929F1062aCa761A308",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
@@ -17,7 +17,7 @@
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
-  "LendingPoolAddressesProvider": {
+  "VaultAddressesProvider": {
     "goerli": {
       "address": "0x8586A3e55A43E46e59df02b7494b7fa2E46F2848",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
@@ -41,7 +41,7 @@
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
-  "LendingPoolImpl": {
+  "VaultImpl": {
     "goerli": {
       "address": "0xB01Fec5B9Ab4de539473e8838f00E398D1F698F4",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
@@ -59,7 +59,7 @@
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
-  "LendingPool": {
+  "Vault": {
     "goerli": {
       "address": "0x6aF769F986d87851c68e6f7eBf90E265619C6C8F"
     }
@@ -106,7 +106,7 @@
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
-  "LendingPoolConfiguratorImpl": {
+  "VaultConfiguratorImpl": {
     "localhost": {
       "address": "0x7B67060b9D97CB06F6119fb91c2Fa82E014f60D4",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"

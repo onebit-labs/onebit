@@ -322,7 +322,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract ILendingPool",
+        internalType: "contract IVault",
         name: "pool",
         type: "address",
       },

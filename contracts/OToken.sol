@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import {IERC20} from './dependencies/openzeppelin/contracts/IERC20.sol';
 import {GPv2SafeERC20} from './dependencies/gnosis/contracts/GPv2SafeERC20.sol';
-import {ILendingPool} from './interfaces/ILendingPool.sol';
+import {IVault} from './interfaces/IVault.sol';
 import {IOToken} from './interfaces/IOToken.sol';
 
 import {WadRayMath} from './libraries/math/WadRayMath.sol';
@@ -37,16 +37,16 @@ contract OToken is
 
   bytes32 public DOMAIN_SEPARATOR;
 
-  ILendingPool internal _pool;
+  IVault internal _pool;
   address internal _underlyingAsset;
 
-  modifier onlyLendingPool {
+  modifier onlyVault {
     require(_msgSender() == address(_pool), Errors.CT_CALLER_MUST_BE_LENDING_POOL);
     _;
   }
 
   constructor () {
-    _pool = ILendingPool(address(0));
+    _pool = IVault(address(0));
   }
 
   function getRevision() internal pure virtual override returns (uint256) {
@@ -62,7 +62,7 @@ contract OToken is
    * @param oTokenSymbol The symbol of the vToken
    */
   function initialize(
-    ILendingPool pool,
+    IVault pool,
     address underlyingAsset,
     uint8 oTokenDecimals,
     string calldata oTokenName,
@@ -105,7 +105,7 @@ contract OToken is
 
   /**
    * @dev Burns vTokens from `user` and sends the equivalent amount of underlying to `receiverOfUnderlying`
-   * - Only callable by the LendingPool, as extra state updates there need to be managed
+   * - Only callable by the Vault, as extra state updates there need to be managed
    * @param user The owner of the vTokens, getting them burned
    * @param receiverOfUnderlying The address that will receive the underlying
    * @param amount The amount being burned
@@ -116,7 +116,7 @@ contract OToken is
     address receiverOfUnderlying,
     uint256 amount,
     uint256 index
-  ) external override onlyLendingPool {
+  ) external override onlyVault {
     uint256 amountScaled = amount.rayDiv(index);
     require(amountScaled != 0, Errors.CT_INVALID_BURN_AMOUNT);
     _burn(user, amountScaled);
@@ -129,7 +129,7 @@ contract OToken is
 
   /**
    * @dev Mints `amount` oTokens to `user`
-   * - Only callable by the LendingPool, as extra state updates there need to be managed
+   * - Only callable by the Vault, as extra state updates there need to be managed
    * @param user The address receiving the minted tokens
    * @param amount The amount of tokens getting minted
    * @param index The new liquidity index of the reserve
@@ -139,7 +139,7 @@ contract OToken is
     address user,
     uint256 amount,
     uint256 index
-  ) external override onlyLendingPool returns (bool) {
+  ) external override onlyVault returns (bool) {
     uint256 previousBalance = super.balanceOf(user);
 
     uint256 amountScaled = amount.rayDiv(index);
@@ -225,12 +225,12 @@ contract OToken is
   /**
    * @dev Returns the address of the lending pool where this vToken is used
    **/
-  function POOL() public view returns (ILendingPool) {
+  function POOL() public view returns (IVault) {
     return _pool;
   }
 
   /**
-   * @dev Transfers the underlying asset to `target`. Used by the LendingPool to transfer
+   * @dev Transfers the underlying asset to `target`. Used by the Vault to transfer
    * assets in borrow(), withdraw() and flashLoan()
    * @param target The recipient of the vTokens
    * @param amount The amount getting transferred
@@ -239,7 +239,7 @@ contract OToken is
   function transferUnderlyingTo(address target, uint256 amount)
     external
     override
-    onlyLendingPool
+    onlyVault
     returns (uint256)
   {
     IERC20(_underlyingAsset).safeTransfer(target, amount);
@@ -296,7 +296,7 @@ contract OToken is
     uint256 amount
   ) internal override {
     address underlyingAsset = _underlyingAsset;
-    ILendingPool pool = _pool;
+    IVault pool = _pool;
 
     uint256 index = pool.getReserveNormalizedIncome();
 

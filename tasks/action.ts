@@ -1,6 +1,6 @@
 import { task } from 'hardhat/config';
 import { getFirstSigner } from '../helpers/contracts-helpers';
-import {LendingPool__factory} from '../types/factories/LendingPool__factory';
+import {Vault__factory} from '../types/factories/Vault__factory';
 import {MintableERC20__factory} from '../types/factories/MintableERC20__factory';
 import { eContractid, eNetwork } from '../helpers/types';
 import {getDb, getMarketDb, waitForTx, readDateString} from '../helpers/misc-utils';
@@ -21,9 +21,9 @@ task('init-next-period', 'Initialize next period')
                    , DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const pool = await LendingPool__factory.connect(
+    const pool = await Vault__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     const _purchaseBeginTimestamp = readDateString(purchaseBeginTimestamp);
@@ -46,9 +46,9 @@ task('get-current-value', 'get the current value')
                    , DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const pool = await LendingPool__factory.connect(
+    const pool = await Vault__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     const otoken = await OToken__factory.connect(
@@ -68,9 +68,9 @@ task('update-net-value', 'update the net value')
                    , DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const pool = await LendingPool__factory.connect(
+    const pool = await Vault__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     const _netValue = new BigNumber(netValue).toFixed();
@@ -97,9 +97,9 @@ task('test-deposit', '')
         )
     );
     
-    const pool = await LendingPool__factory.connect(
+    const pool = await Vault__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(

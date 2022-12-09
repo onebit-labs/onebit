@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: agpl-3.0
 pragma solidity 0.8.9;
 
-import {ILendingPool} from './ILendingPool.sol';
+import {IVault} from './IVault.sol';
 
 /**
  * @title IInitializableOToken
@@ -37,7 +37,7 @@ interface IInitializableOToken {
    * @param oTokenSymbol The symbol of the vToken
    */
   function initialize(
-    ILendingPool pool,
+    IVault pool,
     address underlyingAsset,
     uint8 oTokenDecimals,
     string calldata oTokenName,

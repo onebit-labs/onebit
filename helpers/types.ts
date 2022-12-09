@@ -19,16 +19,16 @@ export enum eEthereumNetwork {
 }
 
 export enum eContractid {
-  LendingPoolAddressesProvider = 'LendingPoolAddressesProvider',
-  LendingPoolAddressesProviderRegistry = 'LendingPoolAddressesProviderRegistry',
+  VaultAddressesProvider = 'VaultAddressesProvider',
+  VaultAddressesProviderRegistry = 'VaultAddressesProviderRegistry',
   MintableERC20 = 'MintableERC20',
   ReserveLogic = 'ReserveLogic',
-  LendingPool = 'LendingPool',
-  LendingPoolConfigurator = 'LendingPoolConfigurator',
-  LendingPoolConfiguratorImpl = 'LendingPoolConfiguratorImpl',
+  Vault = 'Vault',
+  VaultConfigurator = 'VaultConfigurator',
+  VaultConfiguratorImpl = 'VaultConfiguratorImpl',
   OToken = 'OToken',
   ETH = 'ETH',
-  LendingPoolImpl = 'LendingPoolImpl',
+  VaultImpl = 'VaultImpl',
   TimelockedExecutor = 'TimelockedExecutor',
 }
 
@@ -37,11 +37,11 @@ export enum eContractid {
  *  - VL = ValidationLogic
  *  - MATH = Math libraries
  *  - AT = vToken or DebtTokens
- *  - LP = LendingPool
- *  - LPAPR = LendingPoolAddressesProviderRegistry
- *  - LPC = LendingPoolConfiguration
+ *  - LP = Vault
+ *  - LPAPR = VaultAddressesProviderRegistry
+ *  - LPC = VaultConfiguration
  *  - RL = ReserveLogic
- *  - LPCM = LendingPoolCollateralManager
+ *  - LPCM = VaultCollateralManager
  *  - P = Pausable
  */
 export enum ProtocolErrors {
@@ -190,7 +190,7 @@ export interface IBaseConfiguration {
   ProtocolGlobalParams: IProtocolGlobalConfig;
   ProviderRegistry: iParamsPerNetwork<tEthereumAddress | undefined>;
   ProviderRegistryOwner: iParamsPerNetwork<tEthereumAddress | undefined>;
-  LendingPool: iParamsPerNetwork<tEthereumAddress>;
+  Vault: iParamsPerNetwork<tEthereumAddress>;
   PoolAdmin: iParamsPerNetwork<tEthereumAddress | undefined>;
   PoolAdminIndex: number;
   EmergencyAdmin: iParamsPerNetwork<tEthereumAddress | undefined>;

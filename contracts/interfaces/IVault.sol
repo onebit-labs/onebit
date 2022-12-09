@@ -2,10 +2,10 @@
 pragma solidity 0.8.9;
 pragma abicoder v2;
 
-import {ILendingPoolAddressesProvider} from './ILendingPoolAddressesProvider.sol';
+import {IVaultAddressesProvider} from './IVaultAddressesProvider.sol';
 import {DataTypes} from '../libraries/types/DataTypes.sol';
 
-interface ILendingPool {
+interface IVault {
   /**
    * @dev Emitted on deposit()
    * @param user The address initiating the deposit
@@ -127,7 +127,7 @@ interface ILendingPool {
    **/
   function getReserveData() external view returns (DataTypes.ReserveData memory);
 
-  function getAddressesProvider() external view returns (ILendingPoolAddressesProvider);
+  function getAddressesProvider() external view returns (IVaultAddressesProvider);
 
   function setPause(bool val) external;
 

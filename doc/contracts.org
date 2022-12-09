@@ -1,4 +1,4 @@
-* LendingPool
+* Vault
   提供业务操作的接口。
   封闭基金 + 权益oToken，一个资金池和aToken对应一个基金产品，每个基金只支持一个币种，募资结束，将合约资金转入交易所账号，赎回期，将交易所资金转回合约
 
@@ -32,7 +32,7 @@
   
 ** depositFund(uint256 amount)
    供基金团队使用，用来在赎回期前存入资金。
-   由于目前业务设计是从交易所直接转到LendingPool,该函数暂时无用。
+   由于目前业务设计是从交易所直接转到Vault,该函数暂时无用。
 
 ** withdraw(uint256 amount, address to) returns(uint256)
    申购期或者赎回期可用，用户从资金池中提取资金到 to 账户，如果需要提取所有资金，那么把 amount 设为

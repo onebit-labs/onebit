@@ -7,27 +7,27 @@ import {
   InitializableImmutableAdminUpgradeabilityProxy
 } from './libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol';
 import {ReserveConfiguration} from './libraries/configuration/ReserveConfiguration.sol';
-import {ILendingPoolAddressesProvider} from './interfaces/ILendingPoolAddressesProvider.sol';
-import {ILendingPool} from './interfaces/ILendingPool.sol';
+import {IVaultAddressesProvider} from './interfaces/IVaultAddressesProvider.sol';
+import {IVault} from './interfaces/IVault.sol';
 import {IERC20Metadata} from './dependencies/openzeppelin/contracts/IERC20Metadata.sol';
 import {Errors} from './libraries/helpers/Errors.sol';
 import {PercentageMath} from './libraries/math/PercentageMath.sol';
 import {DataTypes} from './libraries/types/DataTypes.sol';
 import {IInitializableOToken} from './interfaces/IInitializableOToken.sol';
-import {ILendingPoolConfigurator} from './interfaces/ILendingPoolConfigurator.sol';
+import {IVaultConfigurator} from './interfaces/IVaultConfigurator.sol';
 
 /**
- * @title LendingPoolConfigurator contract
+ * @title VaultConfigurator contract
  * @author Aave
  * @dev Implements the configuration methods for the Aave protocol
  **/
 
-contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigurator {
+contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   using PercentageMath for uint256;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  ILendingPoolAddressesProvider internal addressesProvider;
-  ILendingPool internal pool;
+  IVaultAddressesProvider internal addressesProvider;
+  IVault internal pool;
 
   modifier onlyPoolAdmin {
     require(addressesProvider.getPoolAdmin() == msg.sender, Errors.CALLER_NOT_POOL_ADMIN);
@@ -56,9 +56,9 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
     return CONFIGURATOR_REVISION;
   }
 
-  function initialize(ILendingPoolAddressesProvider provider) public initializer {
+  function initialize(IVaultAddressesProvider provider) public initializer {
     addressesProvider = provider;
-    pool = ILendingPool(addressesProvider.getLendingPool());
+    pool = IVault(addressesProvider.getVault());
   }
 
   function initReserve(InitReserveInput calldata input) external onlyPoolAdmin {
@@ -97,7 +97,7 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
    * @dev Updates the vToken implementation for the reserve
    **/
   function updateOToken(UpdateOTokenInput calldata input) external onlyPoolAdmin {
-    ILendingPool cachedPool = pool;
+    IVault cachedPool = pool;
 
     DataTypes.ReserveData memory reserveData = cachedPool.getReserveData();
 
@@ -122,7 +122,7 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
   }
 
   function setFundAddress(address fundAddress) external onlyPoolAdmin {
-    ILendingPool cachedPool = pool;
+    IVault cachedPool = pool;
     pool.setFuncAddress(fundAddress);
   }
 

@@ -1,7 +1,7 @@
 pragma solidity 0.8.9;
 pragma experimental ABIEncoderV2;
 
-interface ILendingPoolConfigurator {
+interface IVaultConfigurator {
 
   struct InitReserveInput {
     address oTokenImpl;

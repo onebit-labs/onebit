@@ -2,16 +2,16 @@
 pragma solidity 0.8.9;
 
 /**
- * @title LendingPoolAddressesProvider contract
+ * @title VaultAddressesProvider contract
  * @dev Main registry of addresses part of or connected to the protocol, including permissioned roles
  * - Acting also as factory of proxies and admin of those, so with right to change its implementations
  * - Owned by the Aave Governance
  * @author Aave
  **/
-interface ILendingPoolAddressesProvider {
+interface IVaultAddressesProvider {
   event MarketIdSet(string newMarketId);
-  event LendingPoolUpdated(address indexed newAddress);
-  event LendingPoolConfiguratorUpdated(address indexed newAddress);
+  event VaultUpdated(address indexed newAddress);
+  event VaultConfiguratorUpdated(address indexed newAddress);
   event ConfigurationAdminUpdated(address indexed newAddress);
   event EmergencyAdminUpdated(address indexed newAddress);
   event KYCAdminUpdated(address indexed newAddress);
@@ -29,13 +29,13 @@ interface ILendingPoolAddressesProvider {
 
   function getAddress(bytes32 id) external view returns (address);
 
-  function getLendingPool() external view returns (address);
+  function getVault() external view returns (address);
 
-  function setLendingPoolImpl(address pool) external;
+  function setVaultImpl(address pool) external;
 
-  function getLendingPoolConfigurator() external view returns (address);
+  function getVaultConfigurator() external view returns (address);
 
-  function setLendingPoolConfiguratorImpl(address configurator) external;
+  function setVaultConfiguratorImpl(address configurator) external;
 
   function getPoolOperator() external view returns (address);
 

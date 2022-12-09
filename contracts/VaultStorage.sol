@@ -3,13 +3,13 @@ pragma solidity 0.8.9;
 
 import {ReserveLogic} from './libraries/logic/ReserveLogic.sol';
 import {ReserveConfiguration} from './libraries/configuration/ReserveConfiguration.sol';
-import {ILendingPoolAddressesProvider} from './interfaces/ILendingPoolAddressesProvider.sol';
+import {IVaultAddressesProvider} from './interfaces/IVaultAddressesProvider.sol';
 import {DataTypes} from './libraries/types/DataTypes.sol';
 
-contract LendingPoolStorage {
+contract VaultStorage {
   using ReserveLogic for DataTypes.ReserveData;
 
-  ILendingPoolAddressesProvider internal _addressesProvider;
+  IVaultAddressesProvider internal _addressesProvider;
 
   DataTypes.ReserveData internal _reserve;
 

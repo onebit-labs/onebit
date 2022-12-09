@@ -1,10 +1,10 @@
 import { task } from 'hardhat/config';
 import { getFirstSigner, withSaveAndVerify, insertContractAddressInDb } from '../helpers/contracts-helpers';
-import {LendingPoolAddressesProviderRegistry__factory} from '../types/factories/LendingPoolAddressesProviderRegistry__factory';
-import {LendingPoolAddressesProvider__factory} from '../types/factories/LendingPoolAddressesProvider__factory';
-import {LendingPool__factory, LendingPoolLibraryAddresses} from '../types/factories/LendingPool__factory';
+import {VaultAddressesProviderRegistry__factory} from '../types/factories/VaultAddressesProviderRegistry__factory';
+import {VaultAddressesProvider__factory} from '../types/factories/VaultAddressesProvider__factory';
+import {Vault__factory, VaultLibraryAddresses} from '../types/factories/Vault__factory';
 import {ReserveLogic__factory} from '../types/factories/libraries/logic/ReserveLogic__factory'
-import {LendingPoolConfigurator__factory} from '../types/factories/LendingPoolConfigurator__factory'
+import {VaultConfigurator__factory} from '../types/factories/VaultConfigurator__factory'
 import {OToken__factory} from '../types/factories/OToken__factory';
 import {MintableERC20__factory} from '../types/factories/MintableERC20__factory';
 import { IERC20Metadata__factory } from '../types/factories/dependencies/openzeppelin/contracts/IERC20Metadata__factory';
@@ -20,8 +20,8 @@ task('deploy-registry', 'Deploy registry')
     const signer = await getFirstSigner();
     await withSaveAndVerify(
         //@ts-ignore
-        await new LendingPoolAddressesProviderRegistry__factory(signer).deploy(),
-        eContractid.LendingPoolAddressesProviderRegistry,
+        await new VaultAddressesProviderRegistry__factory(signer).deploy(),
+        eContractid.VaultAddressesProviderRegistry,
         [],
         verify
         );
@@ -37,15 +37,15 @@ task('deploy-provider', 'Deploy Provider')
     const args = [market];
     const provider = await withSaveAndVerify(
         //@ts-ignore
-        await new LendingPoolAddressesProvider__factory(signer).deploy(...args),
-        eContractid.LendingPoolAddressesProvider,
+        await new VaultAddressesProvider__factory(signer).deploy(...args),
+        eContractid.VaultAddressesProvider,
         args,
         verify,
         market
         );
-    const registry = await LendingPoolAddressesProviderRegistry__factory.connect(
+    const registry = await VaultAddressesProviderRegistry__factory.connect(
         (await getDb()
-          .get(`${eContractid.LendingPoolAddressesProviderRegistry}.${DRE.network.name}`)
+          .get(`${eContractid.VaultAddressesProviderRegistry}.${DRE.network.name}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -70,7 +70,7 @@ task('deploy-reserve-logic', 'Deploy reserve logic')
     );
 });
 
-task('deploy-lending-pool-impl', 'Deploy lending pool implements')
+task('deploy-vault-impl', 'Deploy vault implement')
 .addFlag('verify', 'Verify contracts at Etherscan')
 //.addFlag('test', 'Test environment.')
 .setAction(async ({verify}, DRE) => {
@@ -82,16 +82,16 @@ task('deploy-lending-pool-impl', 'Deploy lending pool implements')
     const libraries = {
         ["contracts/libraries/logic/ReserveLogic.sol:ReserveLogic"]: reserveLogicAddress,
     };
-    const poolImpl = await new LendingPool__factory(libraries, signer).deploy();
+    const poolImpl = await new Vault__factory(libraries, signer).deploy();
     const pool = await withSaveAndVerify(
         poolImpl,
-        eContractid.LendingPoolImpl,
+        eContractid.VaultImpl,
         [],
         verify
         );
 });
 
-task('deploy-lending-pool', 'Deploy lending pool')
+task('deploy-vault', 'Deploy vault')
 .addFlag('verify', 'Verify contracts at Etherscan')
 .addParam('market', 'The market ID')
 //.addFlag('test', 'Test environment.')
@@ -104,182 +104,182 @@ task('deploy-lending-pool', 'Deploy lending pool')
     const libraries = {
         ["contracts/libraries/logic/ReserveLogic.sol:ReserveLogic"]: reserveLogicAddress,
     };
-    const poolImpl = await new LendingPool__factory(libraries, signer).deploy();
+    const poolImpl = await new Vault__factory(libraries, signer).deploy();
     const pool = await withSaveAndVerify(
         poolImpl,
-        eContractid.LendingPoolImpl,
+        eContractid.VaultImpl,
         [],
         verify
         );
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setLendingPoolImpl(pool.address) )
+        await ( provider.setVaultImpl(pool.address) )
     );
-    const lendingPoolProxyAddress = await provider.getLendingPool();
+    const lendingPoolProxyAddress = await provider.getVault();
     await insertContractAddressInDb(
-        eContractid.LendingPool,
+        eContractid.Vault,
         lendingPoolProxyAddress,
         market
     );
 });
 
-task('register-lending-pool', 'Deploy lending pool')
+task('register-vault', 'Deploy vault')
 .addParam('market', 'The market ID')
 //.addFlag('test', 'Test environment.')
 .setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const poolImpl = await LendingPool__factory.connect(
+    const poolImpl = await Vault__factory.connect(
         (await getDb()
-          .get(`${eContractid.LendingPoolImpl}.${DRE.network.name}`)
+          .get(`${eContractid.VaultImpl}.${DRE.network.name}`)
           .value()).address,
         signer);
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setLendingPoolImpl(poolImpl.address) )
+        await ( provider.setVaultImpl(poolImpl.address) )
     );
-    const lendingPoolProxyAddress = await provider.getLendingPool();
+    const lendingPoolProxyAddress = await provider.getVault();
     await insertContractAddressInDb(
-        eContractid.LendingPool,
+        eContractid.Vault,
         lendingPoolProxyAddress,
         market
     );
 });
 
-task('update-lending-pool', 'Upgrade a deployed lending pool')
+task('update-vault', 'Upgrade a deployed vault')
 .addParam('market', 'The market ID')
 .setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const poolImpl = await LendingPool__factory.connect(
+    const poolImpl = await Vault__factory.connect(
         (await getDb()
-          .get(`${eContractid.LendingPoolImpl}.${DRE.network.name}`)
+          .get(`${eContractid.VaultImpl}.${DRE.network.name}`)
           .value()).address,
         signer);
     
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
-    const oldLendingPoolAddress = await provider.getLendingPool();
+    const oldVaultAddress = await provider.getVault();
     console.log('\tSetting lending pool implementation with address:', poolImpl.address);
     await waitForTx(
-        await ( provider.setLendingPoolImpl(poolImpl.address) )
+        await ( provider.setVaultImpl(poolImpl.address) )
     );
-    const lendingPoolProxyAddress = await provider.getLendingPool();
-    if(lendingPoolProxyAddress != oldLendingPoolAddress){
+    const lendingPoolProxyAddress = await provider.getVault();
+    if(lendingPoolProxyAddress != oldVaultAddress){
         console.log('\tLending pool proxy is changed to:', lendingPoolProxyAddress);
         await insertContractAddressInDb(
-            eContractid.LendingPool,
+            eContractid.Vault,
             lendingPoolProxyAddress,
             market
         );
     }
 });
 
-task('deploy-lending-pool-configurator', 'Deploy lending pool configurator')
+task('deploy-vault-configurator', 'Deploy vault configurator')
 .addFlag('verify', 'Verify contracts at Etherscan')
 .addParam('market', 'The market ID')
 .setAction(async ({verify, market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
     const configuratorImpl = await withSaveAndVerify(
-        await new LendingPoolConfigurator__factory(signer).deploy(),
-        eContractid.LendingPoolConfiguratorImpl,
+        await new VaultConfigurator__factory(signer).deploy(),
+        eContractid.VaultConfiguratorImpl,
         [],
         verify
     );
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setLendingPoolConfiguratorImpl(configuratorImpl.address))
+        await ( provider.setVaultConfiguratorImpl(configuratorImpl.address))
     );
-    const configuratorAddress = await provider.getLendingPoolConfigurator();
+    const configuratorAddress = await provider.getVaultConfigurator();
     await insertContractAddressInDb(
-        eContractid.LendingPoolConfigurator,
+        eContractid.VaultConfigurator,
         configuratorAddress,
         market
     );
 });
 
-task('deploy-lending-pool-configurator-impl', 'Deploy lending pool configurator')
+task('deploy-vault-configurator-impl', 'Deploy vault configurator')
 .addFlag('verify', 'Verify contracts at Etherscan')
 .setAction(async ({verify, market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
     const configuratorImpl = await withSaveAndVerify(
-        await new LendingPoolConfigurator__factory(signer).deploy(),
-        eContractid.LendingPoolConfiguratorImpl,
+        await new VaultConfigurator__factory(signer).deploy(),
+        eContractid.VaultConfiguratorImpl,
         [],
         verify
     );
 });
 
-task('register-lending-pool-configurator', 'Deploy lending pool configurator')
+task('register-vault-configurator', 'Deploy vault configurator')
 .addParam('market', 'The market ID')
 .setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const configuratorImpl = await LendingPoolConfigurator__factory.connect(
+    const configuratorImpl = await VaultConfigurator__factory.connect(
         (await getDb()
-          .get(`${eContractid.LendingPoolConfiguratorImpl}.${DRE.network.name}`)
+          .get(`${eContractid.VaultConfiguratorImpl}.${DRE.network.name}`)
           .value()).address,
         
         signer);
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setLendingPoolConfiguratorImpl(configuratorImpl.address))
+        await ( provider.setVaultConfiguratorImpl(configuratorImpl.address))
     );
-    const configuratorAddress = await provider.getLendingPoolConfigurator();
+    const configuratorAddress = await provider.getVaultConfigurator();
     await insertContractAddressInDb(
-        eContractid.LendingPoolConfigurator,
+        eContractid.VaultConfigurator,
         configuratorAddress,
         market
     );
 });
 
-task('update-lending-pool-configurator', 'Update lending pool Configurator')
+task('update-vault-configurator', 'Update vault Configurator')
   .addParam('market', `The market ID`)
   .setAction(async ({ market }, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const configuratorImpl = await LendingPoolConfigurator__factory.connect(
+    const configuratorImpl = await VaultConfigurator__factory.connect(
         (await getDb()
-          .get(`${eContractid.LendingPoolConfiguratorImpl}.${DRE.network.name}`)
+          .get(`${eContractid.VaultConfiguratorImpl}.${DRE.network.name}`)
           .value()).address,    
         signer);
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     console.log(
         '\tSetting lending pool configurator implementation with address:',
         configuratorImpl.address);
     await waitForTx(
-        await ( provider.setLendingPoolConfiguratorImpl(configuratorImpl.address))
+        await ( provider.setVaultConfiguratorImpl(configuratorImpl.address))
     );
       
-    const lendingPoolConfiguratorProxyAddress = await provider.getLendingPoolConfigurator();
+    const lendingPoolConfiguratorProxyAddress = await provider.getVaultConfigurator();
 
     await insertContractAddressInDb(
-        eContractid.LendingPoolConfigurator,
+        eContractid.VaultConfigurator,
         lendingPoolConfiguratorProxyAddress,
         market
     );
@@ -291,9 +291,9 @@ task('set-pool-admin', 'set pool admin')
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -307,9 +307,9 @@ task('set-pool-operator', 'set pool operator')
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -323,9 +323,9 @@ task('set-emergency-admin', 'set emergency admin')
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -339,9 +339,9 @@ task('set-kyc-admin', 'set KYC admin')
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
-    const provider = await LendingPoolAddressesProvider__factory.connect(
+    const provider = await VaultAddressesProvider__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolAddressesProvider}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
@@ -398,9 +398,9 @@ task('init-reserve', 'Initialize the reserve')
 .setAction(async ({fundAddress, market, assetId}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const configurator = await LendingPoolConfigurator__factory.connect(
+    const configurator = await VaultConfigurator__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolConfigurator}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     const oTokenAddress = (await getDb()
@@ -431,9 +431,9 @@ task('init-reserve', 'Initialize the reserve')
     await waitForTx(
         await ( configurator.initReserve(reserveData))
     );
-    const pool = await LendingPool__factory.connect(
+    const pool = await Vault__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPool}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     const oTokenProxyAddress = (await pool.getReserveData()).oTokenAddress;
@@ -450,9 +450,9 @@ task('set-whitelist-expiration', 'Set the expiration of whitelist')
 .setAction(async ({expiration, market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const configurator = await LendingPoolConfigurator__factory.connect(
+    const configurator = await VaultConfigurator__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.LendingPoolConfigurator}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(

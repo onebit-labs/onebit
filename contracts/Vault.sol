@@ -5,10 +5,10 @@ pragma abicoder v2;
 import {IERC20} from './dependencies/openzeppelin/contracts/IERC20.sol';
 import {GPv2SafeERC20} from './dependencies/gnosis/contracts/GPv2SafeERC20.sol';
 import {Address} from './dependencies/openzeppelin/contracts/Address.sol';
-import {ILendingPoolAddressesProvider} from './interfaces/ILendingPoolAddressesProvider.sol';
+import {IVaultAddressesProvider} from './interfaces/IVaultAddressesProvider.sol';
 import {IInitializableOToken} from './interfaces/IInitializableOToken.sol';
 import {IOToken} from './interfaces/IOToken.sol';
-import {ILendingPool} from './interfaces/ILendingPool.sol';
+import {IVault} from './interfaces/IVault.sol';
 import {VersionedInitializable} from './libraries/aave-upgradeability/VersionedInitializable.sol';
 import {Errors} from './libraries/helpers/Errors.sol';
 import {WadRayMath} from './libraries/math/WadRayMath.sol';
@@ -16,22 +16,23 @@ import {PercentageMath} from './libraries/math/PercentageMath.sol';
 import {ReserveLogic} from './libraries/logic/ReserveLogic.sol';
 import {ReserveConfiguration} from './libraries/configuration/ReserveConfiguration.sol';
 import {DataTypes} from './libraries/types/DataTypes.sol';
-import {LendingPoolStorage} from './LendingPoolStorage.sol';
+import {VaultStorage} from './VaultStorage.sol';
 import {InitializableImmutableAdminUpgradeabilityProxy} from './libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol';
+import "hardhat/console.sol";
 
 /**
- * @title LendingPool contract
+ * @title Vault contract
  * @dev Main point of interaction with a Vinci protocol's market
  * - Users can:
  *   # Deposit
  *   # Withdraw
- * - To be covered by a proxy contract, owned by the LendingPoolAddressesProvider of the specific market
+ * - To be covered by a proxy contract, owned by the VaultAddressesProvider of the specific market
  * - All admin functions are callable by the PoolOperator contract defined also in the
- *   LendingPoolAddressesProvider
+ *   VaultAddressesProvider
  * @author Aave
  * @author Vinci
  **/
-contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage {
+contract Vault is VersionedInitializable, IVault, VaultStorage {
   using WadRayMath for uint256;
   using PercentageMath for uint256;
   using GPv2SafeERC20 for IERC20;
@@ -53,16 +54,16 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     _;
   }
 
-  modifier onlyLendingPoolConfigurator() {
+  modifier onlyVaultConfigurator() {
     require(
-      _addressesProvider.getLendingPoolConfigurator() == msg.sender,
+      _addressesProvider.getVaultConfigurator() == msg.sender,
       Errors.LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR
     );
     _;
   }
 
   constructor () {
-    _addressesProvider = ILendingPoolAddressesProvider(address(0));
+    _addressesProvider = IVaultAddressesProvider(address(0));
   }
 
   function getRevision() internal pure override returns (uint256) {
@@ -70,13 +71,13 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   }
 
   /**
-   * @dev Function is invoked by the proxy contract when the LendingPool contract is added to the
-   * LendingPoolAddressesProvider of the market.
-   * - Caching the address of the LendingPoolAddressesProvider in order to reduce gas consumption
+   * @dev Function is invoked by the proxy contract when the Vault contract is added to the
+   * VaultAddressesProvider of the market.
+   * - Caching the address of the VaultAddressesProvider in order to reduce gas consumption
    *   on subsequent operations
-   * @param provider The address of the LendingPoolAddressesProvider
+   * @param provider The address of the VaultAddressesProvider
    **/
-  function initialize(ILendingPoolAddressesProvider provider) public initializer {
+  function initialize(IVaultAddressesProvider provider) public initializer {
     _addressesProvider = provider;
   }
 
@@ -299,16 +300,16 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
   }
 
   /**
-   * @dev Returns if the LendingPool is paused
+   * @dev Returns if the Vault is paused
    */
   function paused() external view override returns (bool) {
     return _paused;
   }
 
   /**
-   * @dev Returns the cached LendingPoolAddressesProvider connected to this contract
+   * @dev Returns the cached VaultAddressesProvider connected to this contract
    **/
-  function getAddressesProvider() external view override returns (ILendingPoolAddressesProvider) {
+  function getAddressesProvider() external view override returns (IVaultAddressesProvider) {
     return _addressesProvider;
   }
 
@@ -317,7 +318,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
    * - Only callable by the PoolOperator contract
    * @param val `true` to pause the reserve, `false` to un-pause it
    */
-  function setPause(bool val) external override onlyLendingPoolConfigurator {
+  function setPause(bool val) external override onlyVaultConfigurator {
     _paused = val;
     if (_paused) {
       emit Paused();
@@ -326,37 +327,37 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     }
   }
 
-  function setFuncAddress(address fundAddress) external override onlyLendingPoolConfigurator {
+  function setFuncAddress(address fundAddress) external override onlyVaultConfigurator {
     require(fundAddress != address(0), Errors.LPC_INVALID_ADDRESSES_PROVIDER_ID);
     _reserve.fundAddress = fundAddress;
     emit FundAddressUpdated(fundAddress);
   }
 
-  function initReserve(address oToken, address fundAddress) external override onlyLendingPoolConfigurator {
+  function initReserve(address oToken, address fundAddress) external override onlyVaultConfigurator {
     _reserve.init(oToken, fundAddress);
   }
 
   /**
    * @dev Sets the configuration bitmap of the reserve as a whole
-   * - Only callable by the LendingPoolConfigurator contract
+   * - Only callable by the VaultConfigurator contract
    * @param configuration The new configuration bitmap
    **/
   function setConfiguration(uint256 configuration)
     external
     override
-    onlyLendingPoolConfigurator
+    onlyVaultConfigurator
   {
     _reserve.configuration.data = configuration;
   }
 
-  function addToWhitelist(address user) external override onlyLendingPoolConfigurator
+  function addToWhitelist(address user) external override onlyVaultConfigurator
   {
     uint256 expiration = block.timestamp + _whitelistExpiration;
     _whitelist[user] = expiration;
     emit AddedToWhitelist(user, expiration);
   }
 
-  function batchAddToWhitelist(address[] calldata users) external override onlyLendingPoolConfigurator
+  function batchAddToWhitelist(address[] calldata users) external override onlyVaultConfigurator
   {
     for(uint256 i = 0; i < users.length; ++i){
       uint256 expiration = block.timestamp + _whitelistExpiration;
@@ -365,13 +366,13 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     }
   }
 
-  function removeFromWhitelist(address user) external override onlyLendingPoolConfigurator
+  function removeFromWhitelist(address user) external override onlyVaultConfigurator
   {
     _whitelist[user] = 0;
     emit RemoveFromWhitelist(user);
   }
 
-  function batchRemoveFromWhitelist(address[] calldata users) external override onlyLendingPoolConfigurator
+  function batchRemoveFromWhitelist(address[] calldata users) external override onlyVaultConfigurator
   {
     for(uint256 i = 0; i < users.length; ++i){
       _whitelist[users[i]] = 0;
@@ -394,7 +395,7 @@ contract LendingPool is VersionedInitializable, ILendingPool, LendingPoolStorage
     return _whitelistExpiration;
   }
 
-  function setWhitelistExpiration(uint256 expiration) external override onlyLendingPoolConfigurator
+  function setWhitelistExpiration(uint256 expiration) external override onlyVaultConfigurator
   {
     _whitelistExpiration = expiration;
     emit WhitelistExpirationUpdated(expiration);

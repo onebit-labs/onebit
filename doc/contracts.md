@@ -1,4 +1,4 @@
-- [LendingPool](#sec-1)
+- [Vault](#sec-1)
   - [deposit(uint256 amount, address onBehalfOf, uint16 referralCode) returns(uint256)](#sec-1-1)
   - [depositFund(uint256 amount)](#sec-1-2)
   - [withdraw(uint256 amount, address to) returns(uint256)](#sec-1-3)
@@ -11,7 +11,7 @@
   - [balanceOf(address user) returns(uint256)](#sec-2-1)
   - [totalSupply() returns(uint256)](#sec-2-2)
 
-# LendingPool<a id="sec-1"></a>
+# Vault<a id="sec-1"></a>
 
 提供业务操作的接口。 封闭基金 + 权益oToken，一个资金池和aToken对应一个基金产品，每个基金只支持一个币种，募资结束，将合约资金转入交易所账号，赎回期，将交易所资金转回合约
 
@@ -43,7 +43,7 @@
 
 ## depositFund(uint256 amount)<a id="sec-1-2"></a>
 
-供基金团队使用，用来在赎回期前存入资金。 由于目前业务设计是从交易所直接转到LendingPool,该函数暂时无用。
+供基金团队使用，用来在赎回期前存入资金。 由于目前业务设计是从交易所直接转到Vault,该函数暂时无用。
 
 ## withdraw(uint256 amount, address to) returns(uint256)<a id="sec-1-3"></a>
 

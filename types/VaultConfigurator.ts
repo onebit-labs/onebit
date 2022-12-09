@@ -27,7 +27,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export declare namespace ILendingPoolConfigurator {
+export declare namespace IVaultConfigurator {
   export type InitReserveInputStruct = {
     oTokenImpl: PromiseOrValue<string>;
     underlyingAssetDecimals: PromiseOrValue<BigNumberish>;
@@ -74,7 +74,7 @@ export declare namespace ILendingPoolConfigurator {
   ] & { name: string; symbol: string; implementation: string; params: string };
 }
 
-export interface LendingPoolConfiguratorInterface extends utils.Interface {
+export interface VaultConfiguratorInterface extends utils.Interface {
   functions: {
     "activateReserve()": FunctionFragment;
     "addToWhitelist(address)": FunctionFragment;
@@ -136,7 +136,7 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initReserve",
-    values: [ILendingPoolConfigurator.InitReserveInputStruct]
+    values: [IVaultConfigurator.InitReserveInputStruct]
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
@@ -164,7 +164,7 @@ export interface LendingPoolConfiguratorInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "updateOToken",
-    values: [ILendingPoolConfigurator.UpdateOTokenInputStruct]
+    values: [IVaultConfigurator.UpdateOTokenInputStruct]
   ): string;
 
   decodeFunctionResult(
@@ -300,12 +300,12 @@ export type ReserveUnfrozenEvent = TypedEvent<[], ReserveUnfrozenEventObject>;
 
 export type ReserveUnfrozenEventFilter = TypedEventFilter<ReserveUnfrozenEvent>;
 
-export interface LendingPoolConfigurator extends BaseContract {
+export interface VaultConfigurator extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: LendingPoolConfiguratorInterface;
+  interface: VaultConfiguratorInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -355,7 +355,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initReserve(
-      input: ILendingPoolConfigurator.InitReserveInputStruct,
+      input: IVaultConfigurator.InitReserveInputStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -389,7 +389,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     ): Promise<ContractTransaction>;
 
     updateOToken(
-      input: ILendingPoolConfigurator.UpdateOTokenInputStruct,
+      input: IVaultConfigurator.UpdateOTokenInputStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -422,7 +422,7 @@ export interface LendingPoolConfigurator extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initReserve(
-    input: ILendingPoolConfigurator.InitReserveInputStruct,
+    input: IVaultConfigurator.InitReserveInputStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -456,7 +456,7 @@ export interface LendingPoolConfigurator extends BaseContract {
   ): Promise<ContractTransaction>;
 
   updateOToken(
-    input: ILendingPoolConfigurator.UpdateOTokenInputStruct,
+    input: IVaultConfigurator.UpdateOTokenInputStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -483,7 +483,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     freezeReserve(overrides?: CallOverrides): Promise<void>;
 
     initReserve(
-      input: ILendingPoolConfigurator.InitReserveInputStruct,
+      input: IVaultConfigurator.InitReserveInputStruct,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -515,7 +515,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     unfreezeReserve(overrides?: CallOverrides): Promise<void>;
 
     updateOToken(
-      input: ILendingPoolConfigurator.UpdateOTokenInputStruct,
+      input: IVaultConfigurator.UpdateOTokenInputStruct,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -590,7 +590,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     ): Promise<BigNumber>;
 
     initReserve(
-      input: ILendingPoolConfigurator.InitReserveInputStruct,
+      input: IVaultConfigurator.InitReserveInputStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -624,7 +624,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     ): Promise<BigNumber>;
 
     updateOToken(
-      input: ILendingPoolConfigurator.UpdateOTokenInputStruct,
+      input: IVaultConfigurator.UpdateOTokenInputStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -658,7 +658,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initReserve(
-      input: ILendingPoolConfigurator.InitReserveInputStruct,
+      input: IVaultConfigurator.InitReserveInputStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -692,7 +692,7 @@ export interface LendingPoolConfigurator extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     updateOToken(
-      input: ILendingPoolConfigurator.UpdateOTokenInputStruct,
+      input: IVaultConfigurator.UpdateOTokenInputStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

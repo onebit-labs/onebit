@@ -27,7 +27,7 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export interface ILendingPoolAddressesProviderRegistryInterface
+export interface IVaultAddressesProviderRegistryInterface
   extends utils.Interface {
   functions: {
     "getAddressesProviderIdByAddress(address)": FunctionFragment;
@@ -113,12 +113,12 @@ export type AddressesProviderUnregisteredEvent = TypedEvent<
 export type AddressesProviderUnregisteredEventFilter =
   TypedEventFilter<AddressesProviderUnregisteredEvent>;
 
-export interface ILendingPoolAddressesProviderRegistry extends BaseContract {
+export interface IVaultAddressesProviderRegistry extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ILendingPoolAddressesProviderRegistryInterface;
+  interface: IVaultAddressesProviderRegistryInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
