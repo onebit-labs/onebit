@@ -28,7 +28,7 @@ interface IOToken is IERC20, IScaledBalanceToken, IInitializableOToken {
   ) external returns (bool);
 
   /**
-   * @dev Emitted after vTokens are burned
+   * @dev Emitted after oTokens are burned
    * @param from The owner of the oTokens, getting them burned
    * @param target The address that will receive the underlying
    * @param value The amount being burned
@@ -47,7 +47,7 @@ interface IOToken is IERC20, IScaledBalanceToken, IInitializableOToken {
 
   /**
    * @dev Burns oTokens from `user` and sends the equivalent amount of underlying to `receiverOfUnderlying`
-   * @param user The owner of the vTokens, getting them burned
+   * @param user The owner of the oTokens, getting them burned
    * @param receiverOfUnderlying The address that will receive the underlying
    * @param amount The amount being burned
    * @param index The new liquidity index of the reserve
@@ -69,7 +69,7 @@ interface IOToken is IERC20, IScaledBalanceToken, IInitializableOToken {
   function transferUnderlyingTo(address user, uint256 amount) external returns (uint256);
 
   /**
-   * @dev Returns the address of the underlying asset of this vToken (E.g. WETH for aWETH)
+   * @dev Returns the address of the underlying asset of this oToken (E.g. WETH for aWETH)
    **/
   function UNDERLYING_ASSET_ADDRESS() external view returns (address);
 }

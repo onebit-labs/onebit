@@ -36,7 +36,7 @@ export enum eContractid {
  * Error messages prefix glossary:
  *  - VL = ValidationLogic
  *  - MATH = Math libraries
- *  - AT = vToken or DebtTokens
+ *  - AT = oToken or DebtTokens
  *  - LP = Vault
  *  - LPAPR = VaultAddressesProviderRegistry
  *  - LPC = VaultConfiguration
@@ -82,7 +82,7 @@ export enum ProtocolErrors {
   CT_TRANSFER_AMOUNT_NOT_GT_0 = '31', // 'Transferred amount needs to be greater than zero'
   RL_RESERVE_ALREADY_INITIALIZED = '32', // 'Reserve has already been initialized'
   LPC_RESERVE_LIQUIDITY_NOT_0 = '34', // 'The liquidity of the reserve needs to be 0'
-    LPC_INVALID_VTOKEN_POOL_ADDRESS = '35', // 'The liquidity of the reserve needs to be 0'
+    LPC_INVALID_OTOKEN_POOL_ADDRESS = '35', // 'The liquidity of the reserve needs to be 0'
   LPC_INVALID_STABLE_DEBT_TOKEN_POOL_ADDRESS = '36', // 'The liquidity of the reserve needs to be 0'
   LPC_INVALID_VARIABLE_DEBT_TOKEN_POOL_ADDRESS = '37', // 'The liquidity of the reserve needs to be 0'
   LPC_INVALID_STABLE_DEBT_TOKEN_UNDERLYING_ADDRESS = '38', // 'The liquidity of the reserve needs to be 0'
@@ -111,7 +111,7 @@ export enum ProtocolErrors {
   LP_FAILED_COLLATERAL_SWAP = '60',
   LP_INVALID_EQUAL_ASSETS_TO_SWAP = '61',
   LP_REENTRANCY_NOT_ALLOWED = '62',
-    LP_CALLER_MUST_BE_AN_VTOKEN = '63',
+    LP_CALLER_MUST_BE_AN_OTOKEN = '63',
   LP_IS_PAUSED = '64', // 'Pool is paused'
   LP_NO_MORE_RESERVES_ALLOWED = '65',
   LP_INVALID_FLASH_LOAN_EXECUTOR_RETURN = '66',

@@ -31,7 +31,7 @@ interface IVaultConfigurator {
 
   /**
    * @dev Emitted when a reserve is initialized.
-   * @param oToken The address of the associated vToken contract
+   * @param oToken The address of the associated oToken contract
    **/
   event ReserveInitialized(
     address indexed asset,

@@ -39,7 +39,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant LENDINGPOOL_REVISION = 0x9;
+  uint256 public constant VAULT_REVISION = 0x9;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.LP_IS_PAUSED);
@@ -67,7 +67,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   }
 
   function getRevision() internal pure override returns (uint256) {
-    return LENDINGPOOL_REVISION;
+    return VAULT_REVISION;
   }
 
   /**
@@ -82,11 +82,11 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   }
 
   /**
-   * @dev Deposits an `amount` of underlying asset into the reserve, receiving in return overlying vTokens.
+   * @dev Deposits an `amount` of underlying asset into the reserve, receiving in return overlying oTokens.
    * - E.g. User deposits 100 USDC and gets in return 100 aUSDC
    * @param amount The amount to be deposited
-   * @param onBehalfOf The address that will receive the vTokens, same as msg.sender if the user
-   *   wants to receive them on his own wallet, or a different address if the beneficiary of vTokens
+   * @param onBehalfOf The address that will receive the oTokens, same as msg.sender if the user
+   *   wants to receive them on his own wallet, or a different address if the beneficiary of oTokens
    *   is a different wallet
    **/
   function deposit(
@@ -139,7 +139,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
    * @dev Withdraws an `amount` of underlying asset from the reserve, burning the equivalent aTokens owned
    * E.g. User has 100 vUSDC, calls withdraw() and receives 100 USDC, burning the 100 vUSDC
    * @param amount The underlying amount to be withdrawn
-   *   - Send the value type(uint256).max in order to withdraw the whole vToken balance
+   *   - Send the value type(uint256).max in order to withdraw the whole oToken balance
    * @param to Address that will receive the underlying, same as msg.sender if the user
    *   wants to receive it on his own wallet, or a different address if the beneficiary is a
    *   different wallet

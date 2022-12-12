@@ -94,7 +94,7 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   }
 
   /**
-   * @dev Updates the vToken implementation for the reserve
+   * @dev Updates the oToken implementation for the reserve
    **/
   function updateOToken(UpdateOTokenInput calldata input) external onlyPoolAdmin {
     IVault cachedPool = pool;
@@ -181,7 +181,7 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   }
 
   /**
-   * @dev pauses or unpauses all the actions of the protocol, including vToken transfers
+   * @dev pauses or unpauses all the actions of the protocol, including oToken transfers
    * @param val true if protocol needs to be paused, false otherwise
    **/
   function setPoolPause(bool val) external onlyEmergencyAdmin {

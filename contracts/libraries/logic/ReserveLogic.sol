@@ -56,7 +56,7 @@ library ReserveLogic {
   /**
    * @dev Initializes a reserve
    * @param reserve The reserve object
-   * @param oTokenAddress The address of the overlying vtoken contract
+   * @param oTokenAddress The address of the overlying otoken contract
    **/
   function init(
     DataTypes.ReserveData storage reserve,

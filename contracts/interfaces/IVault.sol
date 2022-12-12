@@ -9,7 +9,7 @@ interface IVault {
   /**
    * @dev Emitted on deposit()
    * @param user The address initiating the deposit
-   * @param onBehalfOf The beneficiary of the deposit, receiving the vTokens
+   * @param onBehalfOf The beneficiary of the deposit, receiving the oTokens
    * @param amount The amount deposited
    **/
   event Deposit(
@@ -23,7 +23,7 @@ interface IVault {
 
   /**
    * @dev Emitted on withdraw()
-   * @param user The address initiating the withdrawal, owner of vTokens
+   * @param user The address initiating the withdrawal, owner of oTokens
    * @param to Address that will receive the underlying
    * @param amount The amount to be withdrawn
    **/
@@ -58,11 +58,11 @@ interface IVault {
   event Unpaused();
 
   /**
-   * @dev Deposits an `amount` of underlying asset into the reserve, receiving in return overlying vTokens.
+   * @dev Deposits an `amount` of underlying asset into the reserve, receiving in return overlying oTokens.
    * - E.g. User deposits 100 USDC and gets in return 100 aUSDC
    * @param amount The amount to be deposited
-   * @param onBehalfOf The address that will receive the vTokens, same as msg.sender if the user
-   *   wants to receive them on his own wallet, or a different address if the beneficiary of vTokens
+   * @param onBehalfOf The address that will receive the oTokens, same as msg.sender if the user
+   *   wants to receive them on his own wallet, or a different address if the beneficiary of oTokens
    *   is a different wallet
    **/
   function deposit(
@@ -72,10 +72,10 @@ interface IVault {
   ) external returns (uint256);
 
   /**
-   * @dev Withdraws an `amount` of underlying asset from the reserve, burning the equivalent vTokens owned
+   * @dev Withdraws an `amount` of underlying asset from the reserve, burning the equivalent oTokens owned
    * E.g. User has 100 aUSDC, calls withdraw() and receives 100 USDC, burning the 100 aUSDC
    * @param amount The underlying amount to be withdrawn
-   *   - Send the value type(uint256).max in order to withdraw the whole vToken balance
+   *   - Send the value type(uint256).max in order to withdraw the whole oToken balance
    * @param to Address that will receive the underlying, same as msg.sender if the user
    *   wants to receive it on his own wallet, or a different address if the beneficiary is a
    *   different wallet

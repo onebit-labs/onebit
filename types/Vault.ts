@@ -88,7 +88,7 @@ export declare namespace DataTypes {
 
 export interface VaultInterface extends utils.Interface {
   functions: {
-    "LENDINGPOOL_REVISION()": FunctionFragment;
+    "VAULT_REVISION()": FunctionFragment;
     "addToWhitelist(address)": FunctionFragment;
     "batchAddToWhitelist(address[])": FunctionFragment;
     "batchRemoveFromWhitelist(address[])": FunctionFragment;
@@ -119,7 +119,7 @@ export interface VaultInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "LENDINGPOOL_REVISION"
+      | "VAULT_REVISION"
       | "addToWhitelist"
       | "batchAddToWhitelist"
       | "batchRemoveFromWhitelist"
@@ -149,7 +149,7 @@ export interface VaultInterface extends utils.Interface {
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "LENDINGPOOL_REVISION",
+    functionFragment: "VAULT_REVISION",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -267,7 +267,7 @@ export interface VaultInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "LENDINGPOOL_REVISION",
+    functionFragment: "VAULT_REVISION",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -578,7 +578,7 @@ export interface Vault extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<[BigNumber]>;
+    VAULT_REVISION(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     addToWhitelist(
       user: PromiseOrValue<string>,
@@ -709,7 +709,7 @@ export interface Vault extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
+  VAULT_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
 
   addToWhitelist(
     user: PromiseOrValue<string>,
@@ -840,7 +840,7 @@ export interface Vault extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
+    VAULT_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
 
     addToWhitelist(
       user: PromiseOrValue<string>,
@@ -1100,7 +1100,7 @@ export interface Vault extends BaseContract {
   };
 
   estimateGas: {
-    LENDINGPOOL_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
+    VAULT_REVISION(overrides?: CallOverrides): Promise<BigNumber>;
 
     addToWhitelist(
       user: PromiseOrValue<string>,
@@ -1228,9 +1228,7 @@ export interface Vault extends BaseContract {
   };
 
   populateTransaction: {
-    LENDINGPOOL_REVISION(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    VAULT_REVISION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     addToWhitelist(
       user: PromiseOrValue<string>,

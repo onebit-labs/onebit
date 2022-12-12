@@ -11,12 +11,12 @@ import {IVault} from './IVault.sol';
  **/
 interface IInitializableOToken {
   /**
-   * @dev Emitted when an vToken is initialized
+   * @dev Emitted when an oToken is initialized
    * @param underlyingAsset The address of the underlying asset
    * @param pool The address of the associated lending pool
    * @param oTokenDecimals the decimals of the underlying
-   * @param oTokenName the name of the vToken
-   * @param oTokenSymbol the symbol of the vToken
+   * @param oTokenName the name of the oToken
+   * @param oTokenSymbol the symbol of the oToken
    * @param params A set of encoded parameters for additional initialization
    **/
   event Initialized(
@@ -29,12 +29,12 @@ interface IInitializableOToken {
   );
 
   /**
-   * @dev Initializes the vToken
-   * @param pool The address of the lending pool where this vToken will be used
-   * @param underlyingAsset The address of the underlying asset of this vToken (E.g. WETH for aWETH)
-   * @param oTokenDecimals The decimals of the vToken, same as the underlying asset's
-   * @param oTokenName The name of the vToken
-   * @param oTokenSymbol The symbol of the vToken
+   * @dev Initializes the oToken
+   * @param pool The address of the lending pool where this oToken will be used
+   * @param underlyingAsset The address of the underlying asset of this oToken (E.g. WETH for aWETH)
+   * @param oTokenDecimals The decimals of the oToken, same as the underlying asset's
+   * @param oTokenName The name of the oToken
+   * @param oTokenSymbol The symbol of the oToken
    */
   function initialize(
     IVault pool,

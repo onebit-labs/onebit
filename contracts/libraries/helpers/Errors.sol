@@ -8,8 +8,8 @@ pragma solidity 0.8.9;
  * @dev Error messages prefix glossary:
  *  - VL = ValidationLogic
  *  - MATH = Math libraries
- *  - CT = Common errors between tokens (VToken, VariableDebtToken and StableDebtToken)
- *  - AT = VToken
+ *  - CT = Common errors between tokens (OToken, VariableDebtToken and StableDebtToken)
+ *  - AT = OToken
  *  - SDT = StableDebtToken
  *  - VDT = VariableDebtToken
  *  - LP = Vault

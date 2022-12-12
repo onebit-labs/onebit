@@ -119,10 +119,10 @@ task('deploy-vault', 'Deploy vault')
     await waitForTx(
         await ( provider.setVaultImpl(pool.address) )
     );
-    const lendingPoolProxyAddress = await provider.getVault();
+    const vaultProxyAddress = await provider.getVault();
     await insertContractAddressInDb(
         eContractid.Vault,
-        lendingPoolProxyAddress,
+        vaultProxyAddress,
         market
     );
 });
@@ -146,10 +146,10 @@ task('register-vault', 'Deploy vault')
     await waitForTx(
         await ( provider.setVaultImpl(poolImpl.address) )
     );
-    const lendingPoolProxyAddress = await provider.getVault();
+    const vaultProxyAddress = await provider.getVault();
     await insertContractAddressInDb(
         eContractid.Vault,
-        lendingPoolProxyAddress,
+        vaultProxyAddress,
         market
     );
 });
@@ -175,12 +175,12 @@ task('update-vault', 'Upgrade a deployed vault')
     await waitForTx(
         await ( provider.setVaultImpl(poolImpl.address) )
     );
-    const lendingPoolProxyAddress = await provider.getVault();
-    if(lendingPoolProxyAddress != oldVaultAddress){
-        console.log('\tLending pool proxy is changed to:', lendingPoolProxyAddress);
+    const vaultProxyAddress = await provider.getVault();
+    if(vaultProxyAddress != oldVaultAddress){
+        console.log('\tLending pool proxy is changed to:', vaultProxyAddress);
         await insertContractAddressInDb(
             eContractid.Vault,
-            lendingPoolProxyAddress,
+            vaultProxyAddress,
             market
         );
     }
@@ -276,11 +276,11 @@ task('update-vault-configurator', 'Update vault Configurator')
         await ( provider.setVaultConfiguratorImpl(configuratorImpl.address))
     );
       
-    const lendingPoolConfiguratorProxyAddress = await provider.getVaultConfigurator();
+    const vaultConfiguratorProxyAddress = await provider.getVaultConfigurator();
 
     await insertContractAddressInDb(
         eContractid.VaultConfigurator,
-        lendingPoolConfiguratorProxyAddress,
+        vaultConfiguratorProxyAddress,
         market
     );
 });

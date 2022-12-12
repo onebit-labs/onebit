@@ -55,11 +55,11 @@ contract OToken is
 
   /**
    * @dev Initializes the oToken
-   * @param pool The address of the lending pool where this vToken will be used
-   * @param underlyingAsset The address of the underlying asset of this vToken (E.g. WETH for aWETH)
-   * @param oTokenDecimals The decimals of the vToken, same as the underlying asset's
-   * @param oTokenName The name of the vToken
-   * @param oTokenSymbol The symbol of the vToken
+   * @param pool The address of the lending pool where this oToken will be used
+   * @param underlyingAsset The address of the underlying asset of this oToken (E.g. WETH for aWETH)
+   * @param oTokenDecimals The decimals of the oToken, same as the underlying asset's
+   * @param oTokenName The name of the oToken
+   * @param oTokenSymbol The symbol of the oToken
    */
   function initialize(
     IVault pool,
@@ -104,9 +104,9 @@ contract OToken is
   }
 
   /**
-   * @dev Burns vTokens from `user` and sends the equivalent amount of underlying to `receiverOfUnderlying`
+   * @dev Burns oTokens from `user` and sends the equivalent amount of underlying to `receiverOfUnderlying`
    * - Only callable by the Vault, as extra state updates there need to be managed
-   * @param user The owner of the vTokens, getting them burned
+   * @param user The owner of the oTokens, getting them burned
    * @param receiverOfUnderlying The address that will receive the underlying
    * @param amount The amount being burned
    * @param index The new liquidity index of the reserve
@@ -192,7 +192,7 @@ contract OToken is
   }
 
   /**
-   * @dev calculates the total supply of the specific vToken
+   * @dev calculates the total supply of the specific oToken
    * since the balance of every single user increases over time, the total supply
    * does that too.
    * @return the current total supply
@@ -216,14 +216,14 @@ contract OToken is
   }
 
   /**
-   * @dev Returns the address of the underlying asset of this vToken (E.g. WETH for aWETH)
+   * @dev Returns the address of the underlying asset of this oToken (E.g. WETH for aWETH)
    **/
   function UNDERLYING_ASSET_ADDRESS() public override view returns (address) {
     return _underlyingAsset;
   }
 
   /**
-   * @dev Returns the address of the lending pool where this vToken is used
+   * @dev Returns the address of the lending pool where this oToken is used
    **/
   function POOL() public view returns (IVault) {
     return _pool;
@@ -232,7 +232,7 @@ contract OToken is
   /**
    * @dev Transfers the underlying asset to `target`. Used by the Vault to transfer
    * assets in borrow(), withdraw() and flashLoan()
-   * @param target The recipient of the vTokens
+   * @param target The recipient of the oTokens
    * @param amount The amount getting transferred
    * @return The amount transferred
    **/
@@ -284,7 +284,7 @@ contract OToken is
   }
 
   /**
-   * @dev Transfers the vTokens between two users. Validates the transfer
+   * @dev Transfers the oTokens between two users. Validates the transfer
    * (ie checks for valid HF after the transfer) if required
    * @param from The source address
    * @param to The destination address
