@@ -13,7 +13,7 @@ interface IInitializableOToken {
   /**
    * @dev Emitted when an oToken is initialized
    * @param underlyingAsset The address of the underlying asset
-   * @param pool The address of the associated lending pool
+   * @param vault The address of the associated vault
    * @param oTokenDecimals the decimals of the underlying
    * @param oTokenName the name of the oToken
    * @param oTokenSymbol the symbol of the oToken
@@ -21,7 +21,7 @@ interface IInitializableOToken {
    **/
   event Initialized(
     address indexed underlyingAsset,
-    address indexed pool,
+    address indexed vault,
     uint8 oTokenDecimals,
     string oTokenName,
     string oTokenSymbol,
@@ -30,14 +30,14 @@ interface IInitializableOToken {
 
   /**
    * @dev Initializes the oToken
-   * @param pool The address of the lending pool where this oToken will be used
+   * @param vault The address of the vault where this oToken will be used
    * @param underlyingAsset The address of the underlying asset of this oToken (E.g. WETH for aWETH)
    * @param oTokenDecimals The decimals of the oToken, same as the underlying asset's
    * @param oTokenName The name of the oToken
    * @param oTokenSymbol The symbol of the oToken
    */
   function initialize(
-    IVault pool,
+    IVault vault,
     address underlyingAsset,
     uint8 oTokenDecimals,
     string calldata oTokenName,

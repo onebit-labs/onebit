@@ -6,7 +6,7 @@ export interface SymbolMap<T> {
 
 export type eNetwork = eEthereumNetwork;
 
-export enum OnebitPools {
+export enum OnebitVaults {
   proto = 'proto',
 }
 
@@ -46,7 +46,7 @@ export enum eContractid {
  */
 export enum ProtocolErrors {
   //common errors
-  CALLER_NOT_POOL_ADMIN = '33', // 'The caller must be the pool admin'
+  CALLER_NOT_VAULT_ADMIN = '33', // 'The caller must be the vault admin'
 
   //contract specific errors
   VL_INVALID_AMOUNT = '1', // 'Amount must be greater than 0'
@@ -75,16 +75,16 @@ export enum ProtocolErrors {
   LP_NOT_ENOUGH_LIQUIDITY_TO_BORROW = '24', // 'There is not enough liquidity available to borrow'
   LP_REQUESTED_AMOUNT_TOO_SMALL = '25', // 'The requested amount is too small for a FlashLoan.'
   LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE = '26', // 'The actual balance of the protocol is inconsistent'
-  LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR = '27', // 'The caller is not the lending pool configurator'
+  LP_CALLER_NOT_VAULT_CONFIGURATOR = '27', // 'The caller is not the vault configurator'
   LP_INCONSISTENT_FLASHLOAN_PARAMS = '28',
-  CT_CALLER_MUST_BE_LENDING_POOL = '29', // 'The caller of this function must be a lending pool'
+  CT_CALLER_MUST_BE_VAULT = '29', // 'The caller of this function must be a vault'
   CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF = '30', // 'User cannot give allowance to himself'
   CT_TRANSFER_AMOUNT_NOT_GT_0 = '31', // 'Transferred amount needs to be greater than zero'
   RL_RESERVE_ALREADY_INITIALIZED = '32', // 'Reserve has already been initialized'
   LPC_RESERVE_LIQUIDITY_NOT_0 = '34', // 'The liquidity of the reserve needs to be 0'
-    LPC_INVALID_OTOKEN_POOL_ADDRESS = '35', // 'The liquidity of the reserve needs to be 0'
-  LPC_INVALID_STABLE_DEBT_TOKEN_POOL_ADDRESS = '36', // 'The liquidity of the reserve needs to be 0'
-  LPC_INVALID_VARIABLE_DEBT_TOKEN_POOL_ADDRESS = '37', // 'The liquidity of the reserve needs to be 0'
+    LPC_INVALID_OTOKEN_VAULT_ADDRESS = '35', // 'The liquidity of the reserve needs to be 0'
+  LPC_INVALID_STABLE_DEBT_TOKEN_VAULT_ADDRESS = '36', // 'The liquidity of the reserve needs to be 0'
+  LPC_INVALID_VARIABLE_DEBT_TOKEN_VAULT_ADDRESS = '37', // 'The liquidity of the reserve needs to be 0'
   LPC_INVALID_STABLE_DEBT_TOKEN_UNDERLYING_ADDRESS = '38', // 'The liquidity of the reserve needs to be 0'
   LPC_INVALID_VARIABLE_DEBT_TOKEN_UNDERLYING_ADDRESS = '39', // 'The liquidity of the reserve needs to be 0'
   LPC_INVALID_ADDRESSES_PROVIDER_ID = '40', // 'The liquidity of the reserve needs to be 0'
@@ -112,7 +112,7 @@ export enum ProtocolErrors {
   LP_INVALID_EQUAL_ASSETS_TO_SWAP = '61',
   LP_REENTRANCY_NOT_ALLOWED = '62',
     LP_CALLER_MUST_BE_AN_OTOKEN = '63',
-  LP_IS_PAUSED = '64', // 'Pool is paused'
+  LP_IS_PAUSED = '64', // 'Vault is paused'
   LP_NO_MORE_RESERVES_ALLOWED = '65',
   LP_INVALID_FLASH_LOAN_EXECUTOR_RETURN = '66',
   RC_INVALID_LTV = '67',
@@ -169,8 +169,8 @@ export interface IReserveParams {
   oTokenImpl: eContractid;
 }
 
-export interface iParamsPerPool<T> {
-  [OnebitPools.proto]: T;
+export interface iParamsPerVault<T> {
+  [OnebitVaults.proto]: T;
 }
 
 export interface IProtocolGlobalConfig {
@@ -191,8 +191,8 @@ export interface IBaseConfiguration {
   ProviderRegistry: iParamsPerNetwork<tEthereumAddress | undefined>;
   ProviderRegistryOwner: iParamsPerNetwork<tEthereumAddress | undefined>;
   Vault: iParamsPerNetwork<tEthereumAddress>;
-  PoolAdmin: iParamsPerNetwork<tEthereumAddress | undefined>;
-  PoolAdminIndex: number;
+  VaultAdmin: iParamsPerNetwork<tEthereumAddress | undefined>;
+  VaultAdminIndex: number;
   EmergencyAdmin: iParamsPerNetwork<tEthereumAddress | undefined>;
   EmergencyAdminIndex: number;
   OTokenDomainSeparator: iParamsPerNetwork<string>;
@@ -231,4 +231,4 @@ export interface ITokenAddress {
   [token: string]: tEthereumAddress;
 }
 
-export type PoolConfiguration = ICommonConfiguration;
+export type VaultConfiguration = ICommonConfiguration;

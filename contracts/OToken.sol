@@ -37,16 +37,16 @@ contract OToken is
 
   bytes32 public DOMAIN_SEPARATOR;
 
-  IVault internal _pool;
+  IVault internal _vault;
   address internal _underlyingAsset;
 
   modifier onlyVault {
-    require(_msgSender() == address(_pool), Errors.CT_CALLER_MUST_BE_LENDING_POOL);
+    require(_msgSender() == address(_vault), Errors.CT_CALLER_MUST_BE_VAULT);
     _;
   }
 
   constructor () {
-    _pool = IVault(address(0));
+    _vault = IVault(address(0));
   }
 
   function getRevision() internal pure virtual override returns (uint256) {
@@ -55,14 +55,14 @@ contract OToken is
 
   /**
    * @dev Initializes the oToken
-   * @param pool The address of the lending pool where this oToken will be used
+   * @param vault The address of the vault where this oToken will be used
    * @param underlyingAsset The address of the underlying asset of this oToken (E.g. WETH for aWETH)
    * @param oTokenDecimals The decimals of the oToken, same as the underlying asset's
    * @param oTokenName The name of the oToken
    * @param oTokenSymbol The symbol of the oToken
    */
   function initialize(
-    IVault pool,
+    IVault vault,
     address underlyingAsset,
     uint8 oTokenDecimals,
     string calldata oTokenName,
@@ -90,12 +90,12 @@ contract OToken is
     _setSymbol(oTokenSymbol);
     _setDecimals(oTokenDecimals);
 
-    _pool = pool;
+    _vault = vault;
     _underlyingAsset = underlyingAsset;
 
     emit Initialized(
       underlyingAsset,
-      address(pool),
+      address(vault),
       oTokenDecimals,
       oTokenName,
       oTokenSymbol,
@@ -163,7 +163,7 @@ contract OToken is
     override(IncentivizedERC20, IERC20)
     returns (uint256)
   {
-    return super.balanceOf(user).rayMulAndFloor(_pool.getReserveNormalizedIncome());
+    return super.balanceOf(user).rayMulAndFloor(_vault.getReserveNormalizedIncome());
   }
 
   /**
@@ -204,7 +204,7 @@ contract OToken is
       return 0;
     }
 
-    return currentSupplyScaled.rayMul(_pool.getReserveNormalizedIncome());
+    return currentSupplyScaled.rayMul(_vault.getReserveNormalizedIncome());
   }
 
   /**
@@ -223,10 +223,10 @@ contract OToken is
   }
 
   /**
-   * @dev Returns the address of the lending pool where this oToken is used
+   * @dev Returns the address of the vault where this oToken is used
    **/
-  function POOL() public view returns (IVault) {
-    return _pool;
+  function VAULT() public view returns (IVault) {
+    return _vault;
   }
 
   /**
@@ -296,9 +296,9 @@ contract OToken is
     uint256 amount
   ) internal override {
     address underlyingAsset = _underlyingAsset;
-    IVault pool = _pool;
+    IVault vault = _vault;
 
-    uint256 index = pool.getReserveNormalizedIncome();
+    uint256 index = vault.getReserveNormalizedIncome();
 
     super._transfer(from, to, amount.rayDiv(index));
 

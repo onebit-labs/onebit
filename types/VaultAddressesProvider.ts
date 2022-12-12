@@ -32,10 +32,10 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
     "getEmergencyAdmin()": FunctionFragment;
     "getKYCAdmin()": FunctionFragment;
     "getMarketId()": FunctionFragment;
-    "getPoolAdmin()": FunctionFragment;
-    "getPoolOperator()": FunctionFragment;
     "getVault()": FunctionFragment;
+    "getVaultAdmin()": FunctionFragment;
     "getVaultConfigurator()": FunctionFragment;
+    "getVaultOperator()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setAddress(bytes32,address)": FunctionFragment;
@@ -43,10 +43,10 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
     "setEmergencyAdmin(address)": FunctionFragment;
     "setKYCAdmin(address)": FunctionFragment;
     "setMarketId(string)": FunctionFragment;
-    "setPoolAdmin(address)": FunctionFragment;
-    "setPoolOperator(address)": FunctionFragment;
+    "setVaultAdmin(address)": FunctionFragment;
     "setVaultConfiguratorImpl(address)": FunctionFragment;
     "setVaultImpl(address)": FunctionFragment;
+    "setVaultOperator(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
@@ -56,10 +56,10 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
       | "getEmergencyAdmin"
       | "getKYCAdmin"
       | "getMarketId"
-      | "getPoolAdmin"
-      | "getPoolOperator"
       | "getVault"
+      | "getVaultAdmin"
       | "getVaultConfigurator"
+      | "getVaultOperator"
       | "owner"
       | "renounceOwnership"
       | "setAddress"
@@ -67,10 +67,10 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
       | "setEmergencyAdmin"
       | "setKYCAdmin"
       | "setMarketId"
-      | "setPoolAdmin"
-      | "setPoolOperator"
+      | "setVaultAdmin"
       | "setVaultConfiguratorImpl"
       | "setVaultImpl"
+      | "setVaultOperator"
       | "transferOwnership"
   ): FunctionFragment;
 
@@ -90,17 +90,17 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
     functionFragment: "getMarketId",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "getPoolAdmin",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getPoolOperator",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "getVault", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "getVaultAdmin",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getVaultConfigurator",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getVaultOperator",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -129,11 +129,7 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setPoolAdmin",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setPoolOperator",
+    functionFragment: "setVaultAdmin",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -142,6 +138,10 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setVaultImpl",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setVaultOperator",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -162,17 +162,17 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
     functionFragment: "getMarketId",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "getPoolAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getPoolOperator",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "getVault", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "getVaultAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getVaultConfigurator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getVaultOperator",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -198,11 +198,7 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setPoolAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setPoolOperator",
+    functionFragment: "setVaultAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -211,6 +207,10 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setVaultImpl",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setVaultOperator",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -225,9 +225,9 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
     "KYCAdminUpdated(address)": EventFragment;
     "MarketIdSet(string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "PoolOperatorUpdated(address)": EventFragment;
     "ProxyCreated(bytes32,address)": EventFragment;
     "VaultConfiguratorUpdated(address)": EventFragment;
+    "VaultOperatorUpdated(address)": EventFragment;
     "VaultUpdated(address)": EventFragment;
   };
 
@@ -237,9 +237,9 @@ export interface VaultAddressesProviderInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "KYCAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MarketIdSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PoolOperatorUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProxyCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VaultConfiguratorUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "VaultOperatorUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VaultUpdated"): EventFragment;
 }
 
@@ -306,17 +306,6 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface PoolOperatorUpdatedEventObject {
-  newAddress: string;
-}
-export type PoolOperatorUpdatedEvent = TypedEvent<
-  [string],
-  PoolOperatorUpdatedEventObject
->;
-
-export type PoolOperatorUpdatedEventFilter =
-  TypedEventFilter<PoolOperatorUpdatedEvent>;
-
 export interface ProxyCreatedEventObject {
   id: string;
   newAddress: string;
@@ -338,6 +327,17 @@ export type VaultConfiguratorUpdatedEvent = TypedEvent<
 
 export type VaultConfiguratorUpdatedEventFilter =
   TypedEventFilter<VaultConfiguratorUpdatedEvent>;
+
+export interface VaultOperatorUpdatedEventObject {
+  newAddress: string;
+}
+export type VaultOperatorUpdatedEvent = TypedEvent<
+  [string],
+  VaultOperatorUpdatedEventObject
+>;
+
+export type VaultOperatorUpdatedEventFilter =
+  TypedEventFilter<VaultOperatorUpdatedEvent>;
 
 export interface VaultUpdatedEventObject {
   newAddress: string;
@@ -384,13 +384,13 @@ export interface VaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<[string]>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<[string]>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<[string]>;
-
     getVault(overrides?: CallOverrides): Promise<[string]>;
 
+    getVaultAdmin(overrides?: CallOverrides): Promise<[string]>;
+
     getVaultConfigurator(overrides?: CallOverrides): Promise<[string]>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -425,13 +425,8 @@ export interface VaultAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setPoolOperator(
-      operator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -441,7 +436,12 @@ export interface VaultAddressesProvider extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setVaultOperator(
+      operator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -462,13 +462,13 @@ export interface VaultAddressesProvider extends BaseContract {
 
   getMarketId(overrides?: CallOverrides): Promise<string>;
 
-  getPoolAdmin(overrides?: CallOverrides): Promise<string>;
-
-  getPoolOperator(overrides?: CallOverrides): Promise<string>;
-
   getVault(overrides?: CallOverrides): Promise<string>;
 
+  getVaultAdmin(overrides?: CallOverrides): Promise<string>;
+
   getVaultConfigurator(overrides?: CallOverrides): Promise<string>;
+
+  getVaultOperator(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -503,13 +503,8 @@ export interface VaultAddressesProvider extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setPoolAdmin(
+  setVaultAdmin(
     admin: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setPoolOperator(
-    operator: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -519,7 +514,12 @@ export interface VaultAddressesProvider extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setVaultImpl(
-    pool: PromiseOrValue<string>,
+    vault: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setVaultOperator(
+    operator: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -540,13 +540,13 @@ export interface VaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<string>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<string>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<string>;
-
     getVault(overrides?: CallOverrides): Promise<string>;
 
+    getVaultAdmin(overrides?: CallOverrides): Promise<string>;
+
     getVaultConfigurator(overrides?: CallOverrides): Promise<string>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -579,13 +579,8 @@ export interface VaultAddressesProvider extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setPoolOperator(
-      operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -595,7 +590,12 @@ export interface VaultAddressesProvider extends BaseContract {
     ): Promise<void>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setVaultOperator(
+      operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -650,13 +650,6 @@ export interface VaultAddressesProvider extends BaseContract {
       newOwner?: PromiseOrValue<string> | null
     ): OwnershipTransferredEventFilter;
 
-    "PoolOperatorUpdated(address)"(
-      newAddress?: PromiseOrValue<string> | null
-    ): PoolOperatorUpdatedEventFilter;
-    PoolOperatorUpdated(
-      newAddress?: PromiseOrValue<string> | null
-    ): PoolOperatorUpdatedEventFilter;
-
     "ProxyCreated(bytes32,address)"(
       id?: null,
       newAddress?: PromiseOrValue<string> | null
@@ -672,6 +665,13 @@ export interface VaultAddressesProvider extends BaseContract {
     VaultConfiguratorUpdated(
       newAddress?: PromiseOrValue<string> | null
     ): VaultConfiguratorUpdatedEventFilter;
+
+    "VaultOperatorUpdated(address)"(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultOperatorUpdatedEventFilter;
+    VaultOperatorUpdated(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultOperatorUpdatedEventFilter;
 
     "VaultUpdated(address)"(
       newAddress?: PromiseOrValue<string> | null
@@ -693,13 +693,13 @@ export interface VaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<BigNumber>;
-
     getVault(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getVaultAdmin(overrides?: CallOverrides): Promise<BigNumber>;
+
     getVaultConfigurator(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -734,13 +734,8 @@ export interface VaultAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setPoolOperator(
-      operator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -750,7 +745,12 @@ export interface VaultAddressesProvider extends BaseContract {
     ): Promise<BigNumber>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setVaultOperator(
+      operator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -772,15 +772,15 @@ export interface VaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getVault(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getVaultAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getVaultConfigurator(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -815,13 +815,8 @@ export interface VaultAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setPoolOperator(
-      operator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -831,7 +826,12 @@ export interface VaultAddressesProvider extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setVaultOperator(
+      operator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

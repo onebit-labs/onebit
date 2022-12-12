@@ -138,4 +138,15 @@ interface IVault {
   function getWhitelistExpiration() external returns(uint256);
 
   function setWhitelistExpiration(uint256 expiration) external;
+
+  function initializeNextPeriod(uint16 managementFeeRate, uint16 performanceFeeRate, 
+    uint128 purchaseUpperLimit,
+    uint128 softUpperLimit,
+    uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, 
+    uint40 redemptionBeginTimestamp)
+    external;
+
+  function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external;
+
+  function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external;
 }

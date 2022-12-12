@@ -27,10 +27,10 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
   IVaultAddressesProvider internal addressesProvider;
-  IVault internal pool;
+  IVault internal vault;
 
-  modifier onlyPoolAdmin {
-    require(addressesProvider.getPoolAdmin() == msg.sender, Errors.CALLER_NOT_POOL_ADMIN);
+  modifier onlyVaultAdmin {
+    require(addressesProvider.getVaultAdmin() == msg.sender, Errors.CALLER_NOT_VAULT_ADMIN);
     _;
   }
 
@@ -44,7 +44,7 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
 
   modifier onlyKYCAdmin {
     require(
-      addressesProvider.getKYCAdmin() == msg.sender || addressesProvider.getPoolAdmin() == msg.sender,
+      addressesProvider.getKYCAdmin() == msg.sender || addressesProvider.getVaultAdmin() == msg.sender,
       Errors.LPC_CALLER_NOT_KYC_ADMIN
     );
     _;
@@ -58,16 +58,16 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
 
   function initialize(IVaultAddressesProvider provider) public initializer {
     addressesProvider = provider;
-    pool = IVault(addressesProvider.getVault());
+    vault = IVault(addressesProvider.getVault());
   }
 
-  function initReserve(InitReserveInput calldata input) external onlyPoolAdmin {
+  function initReserve(InitReserveInput calldata input) external onlyVaultAdmin {
     address oTokenProxyAddress =
       _initContractWithProxy(
         input.oTokenImpl,
         abi.encodeWithSelector(
           IInitializableOToken.initialize.selector,
-          pool,
+          vault,
           input.underlyingAsset,
           input.underlyingAssetDecimals,
           input.oTokenName,
@@ -76,16 +76,16 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
         )
       );
 
-    pool.initReserve(oTokenProxyAddress, input.fundAddress);
+    vault.initReserve(oTokenProxyAddress, input.fundAddress);
 
-    DataTypes.ReserveConfigurationMap memory currentConfig = pool.getConfiguration();
+    DataTypes.ReserveConfigurationMap memory currentConfig = vault.getConfiguration();
 
     currentConfig.setDecimals(input.underlyingAssetDecimals);
 
     currentConfig.setActive(true);
     currentConfig.setFrozen(false);
 
-    pool.setConfiguration(currentConfig.data);
+    vault.setConfiguration(currentConfig.data);
 
     emit ReserveInitialized(
       input.underlyingAsset,
@@ -96,16 +96,16 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   /**
    * @dev Updates the oToken implementation for the reserve
    **/
-  function updateOToken(UpdateOTokenInput calldata input) external onlyPoolAdmin {
-    IVault cachedPool = pool;
+  function updateOToken(UpdateOTokenInput calldata input) external onlyVaultAdmin {
+    IVault cachedVault = vault;
 
-    DataTypes.ReserveData memory reserveData = cachedPool.getReserveData();
+    DataTypes.ReserveData memory reserveData = cachedVault.getReserveData();
 
-    uint256 decimals = cachedPool.getConfiguration().getParamsMemory();
+    uint256 decimals = cachedVault.getConfiguration().getParamsMemory();
 
     bytes memory encodedCall = abi.encodeWithSelector(
         IInitializableOToken.initialize.selector,
-        cachedPool,
+        cachedVault,
         decimals,
         input.name,
         input.symbol,
@@ -121,20 +121,20 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
     emit OTokenUpgraded(reserveData.oTokenAddress, input.implementation);
   }
 
-  function setFundAddress(address fundAddress) external onlyPoolAdmin {
-    IVault cachedPool = pool;
-    pool.setFuncAddress(fundAddress);
+  function setFundAddress(address fundAddress) external onlyVaultAdmin {
+    IVault cachedVault = vault;
+    vault.setFuncAddress(fundAddress);
   }
 
   /**
    * @dev Activates a reserve
    **/
-  function activateReserve() external onlyPoolAdmin {
-    DataTypes.ReserveConfigurationMap memory currentConfig = pool.getConfiguration();
+  function activateReserve() external onlyVaultAdmin {
+    DataTypes.ReserveConfigurationMap memory currentConfig = vault.getConfiguration();
 
     currentConfig.setActive(true);
 
-    pool.setConfiguration(currentConfig.data);
+    vault.setConfiguration(currentConfig.data);
 
     emit ReserveActivated();
   }
@@ -142,13 +142,13 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   /**
    * @dev Deactivates a reserve
    **/
-  function deactivateReserve() external onlyPoolAdmin {
+  function deactivateReserve() external onlyVaultAdmin {
 
-    DataTypes.ReserveConfigurationMap memory currentConfig = pool.getConfiguration();
+    DataTypes.ReserveConfigurationMap memory currentConfig = vault.getConfiguration();
 
     currentConfig.setActive(false);
 
-    pool.setConfiguration(currentConfig.data);
+    vault.setConfiguration(currentConfig.data);
 
     emit ReserveDeactivated();
   }
@@ -157,12 +157,12 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
    * @dev Freezes a reserve. A frozen reserve doesn't allow any new deposit, borrow
    *  but allows repayments, liquidations, and withdrawals
    **/
-  function freezeReserve() external onlyPoolAdmin {
-    DataTypes.ReserveConfigurationMap memory currentConfig = pool.getConfiguration();
+  function freezeReserve() external onlyVaultAdmin {
+    DataTypes.ReserveConfigurationMap memory currentConfig = vault.getConfiguration();
 
     currentConfig.setFrozen(true);
 
-    pool.setConfiguration(currentConfig.data);
+    vault.setConfiguration(currentConfig.data);
 
     emit ReserveFrozen();
   }
@@ -170,12 +170,12 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   /**
    * @dev Unfreezes a reserve
    **/
-  function unfreezeReserve() external onlyPoolAdmin {
-    DataTypes.ReserveConfigurationMap memory currentConfig = pool.getConfiguration();
+  function unfreezeReserve() external onlyVaultAdmin {
+    DataTypes.ReserveConfigurationMap memory currentConfig = vault.getConfiguration();
 
     currentConfig.setFrozen(false);
 
-    pool.setConfiguration(currentConfig.data);
+    vault.setConfiguration(currentConfig.data);
 
     emit ReserveUnfrozen();
   }
@@ -184,28 +184,49 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
    * @dev pauses or unpauses all the actions of the protocol, including oToken transfers
    * @param val true if protocol needs to be paused, false otherwise
    **/
-  function setPoolPause(bool val) external onlyEmergencyAdmin {
-    pool.setPause(val);
+  function setVaultPause(bool val) external onlyEmergencyAdmin {
+    vault.setPause(val);
   }
 
   function batchAddToWhitelist(address[] calldata users) external onlyKYCAdmin {
-    pool.batchAddToWhitelist(users);
+    vault.batchAddToWhitelist(users);
   }
 
   function addToWhitelist(address user) external onlyKYCAdmin {
-    pool.addToWhitelist(user);
+    vault.addToWhitelist(user);
   }
 
   function batchRemoveFromWhitelist(address[] calldata users) external onlyKYCAdmin {
-    pool.batchRemoveFromWhitelist(users);
+    vault.batchRemoveFromWhitelist(users);
   }
 
   function removeFromWhitelist(address user) external onlyKYCAdmin {
-    pool.removeFromWhitelist(user);
+    vault.removeFromWhitelist(user);
   }
 
-  function setWhitelistExpiration(uint256 expiration) external onlyPoolAdmin {
-    pool.setWhitelistExpiration(expiration);
+  function setWhitelistExpiration(uint256 expiration) external onlyVaultAdmin {
+    vault.setWhitelistExpiration(expiration);
+  }
+
+  function initializeNextPeriod(
+      uint16 managementFeeRate, uint16 performanceFeeRate, 
+      uint128 purchaseUpperLimit,
+      uint128 softUpperLimit,
+      uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, 
+      uint40 redemptionBeginTimestamp)
+      external onlyVaultAdmin {
+    vault.initializeNextPeriod(
+      managementFeeRate, performanceFeeRate, purchaseUpperLimit, softUpperLimit,
+      purchaseBeginTimestamp, purchaseEndTimestamp, redemptionBeginTimestamp
+    );
+  }
+
+  function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external onlyVaultAdmin {
+    vault.moveTheLockPeriod(newPurchaseEndTimestamp);
+  }
+
+  function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external onlyVaultAdmin {
+    vault.moveTheRedemptionPeriod(newRedemptionBeginTimestamp);
   }
 
   function _initContractWithProxy(address implementation, bytes memory initParams)

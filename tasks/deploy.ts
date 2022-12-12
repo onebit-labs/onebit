@@ -82,9 +82,9 @@ task('deploy-vault-impl', 'Deploy vault implement')
     const libraries = {
         ["contracts/libraries/logic/ReserveLogic.sol:ReserveLogic"]: reserveLogicAddress,
     };
-    const poolImpl = await new Vault__factory(libraries, signer).deploy();
-    const pool = await withSaveAndVerify(
-        poolImpl,
+    const vaultImpl = await new Vault__factory(libraries, signer).deploy();
+    const vault = await withSaveAndVerify(
+        vaultImpl,
         eContractid.VaultImpl,
         [],
         verify
@@ -104,9 +104,9 @@ task('deploy-vault', 'Deploy vault')
     const libraries = {
         ["contracts/libraries/logic/ReserveLogic.sol:ReserveLogic"]: reserveLogicAddress,
     };
-    const poolImpl = await new Vault__factory(libraries, signer).deploy();
-    const pool = await withSaveAndVerify(
-        poolImpl,
+    const vaultImpl = await new Vault__factory(libraries, signer).deploy();
+    const vault = await withSaveAndVerify(
+        vaultImpl,
         eContractid.VaultImpl,
         [],
         verify
@@ -117,7 +117,7 @@ task('deploy-vault', 'Deploy vault')
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setVaultImpl(pool.address) )
+        await ( provider.setVaultImpl(vault.address) )
     );
     const vaultProxyAddress = await provider.getVault();
     await insertContractAddressInDb(
@@ -133,7 +133,7 @@ task('register-vault', 'Deploy vault')
 .setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const poolImpl = await Vault__factory.connect(
+    const vaultImpl = await Vault__factory.connect(
         (await getDb()
           .get(`${eContractid.VaultImpl}.${DRE.network.name}`)
           .value()).address,
@@ -144,7 +144,7 @@ task('register-vault', 'Deploy vault')
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setVaultImpl(poolImpl.address) )
+        await ( provider.setVaultImpl(vaultImpl.address) )
     );
     const vaultProxyAddress = await provider.getVault();
     await insertContractAddressInDb(
@@ -159,7 +159,7 @@ task('update-vault', 'Upgrade a deployed vault')
 .setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const poolImpl = await Vault__factory.connect(
+    const vaultImpl = await Vault__factory.connect(
         (await getDb()
           .get(`${eContractid.VaultImpl}.${DRE.network.name}`)
           .value()).address,
@@ -171,13 +171,13 @@ task('update-vault', 'Upgrade a deployed vault')
           .value()).address,
         signer);
     const oldVaultAddress = await provider.getVault();
-    console.log('\tSetting lending pool implementation with address:', poolImpl.address);
+    console.log('\tSetting vault implementation with address:', vaultImpl.address);
     await waitForTx(
-        await ( provider.setVaultImpl(poolImpl.address) )
+        await ( provider.setVaultImpl(vaultImpl.address) )
     );
     const vaultProxyAddress = await provider.getVault();
     if(vaultProxyAddress != oldVaultAddress){
-        console.log('\tLending pool proxy is changed to:', vaultProxyAddress);
+        console.log('\tVault proxy is changed to:', vaultProxyAddress);
         await insertContractAddressInDb(
             eContractid.Vault,
             vaultProxyAddress,
@@ -270,7 +270,7 @@ task('update-vault-configurator', 'Update vault Configurator')
           .value()).address,
         signer);
     console.log(
-        '\tSetting lending pool configurator implementation with address:',
+        '\tSetting vault configurator implementation with address:',
         configuratorImpl.address);
     await waitForTx(
         await ( provider.setVaultConfiguratorImpl(configuratorImpl.address))
@@ -285,7 +285,7 @@ task('update-vault-configurator', 'Update vault Configurator')
     );
 });
 
-task('set-pool-admin', 'set pool admin')
+task('set-vault-admin', 'set vault admin')
 .addParam('market', 'The market ID')
 .setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
@@ -297,11 +297,11 @@ task('set-pool-admin', 'set pool admin')
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setPoolAdmin(signerAddress) )
+        await ( provider.setVaultAdmin(signerAddress) )
     );
 })
 
-task('set-pool-operator', 'set pool operator')
+task('set-vault-operator', 'set vault operator')
 .addParam('market', 'The market ID')
 .setAction(async ({market}, DRE) => {
     await DRE.run('set-DRE');
@@ -313,7 +313,7 @@ task('set-pool-operator', 'set pool operator')
           .value()).address,
         signer);
     await waitForTx(
-        await ( provider.setPoolOperator(signerAddress) )
+        await ( provider.setVaultOperator(signerAddress) )
     );
 })
 
@@ -431,12 +431,12 @@ task('init-reserve', 'Initialize the reserve')
     await waitForTx(
         await ( configurator.initReserve(reserveData))
     );
-    const pool = await Vault__factory.connect(
+    const vault = await Vault__factory.connect(
         (await getMarketDb()
           .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
-    const oTokenProxyAddress = (await pool.getReserveData()).oTokenAddress;
+    const oTokenProxyAddress = (await vault.getReserveData()).oTokenAddress;
     await insertContractAddressInDb(
         eContractid.OToken,
         oTokenProxyAddress,

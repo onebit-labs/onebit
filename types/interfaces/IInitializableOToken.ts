@@ -57,7 +57,7 @@ export interface IInitializableOTokenInterface extends utils.Interface {
 
 export interface InitializedEventObject {
   underlyingAsset: string;
-  pool: string;
+  vault: string;
   oTokenDecimals: number;
   oTokenName: string;
   oTokenSymbol: string;
@@ -98,7 +98,7 @@ export interface IInitializableOToken extends BaseContract {
 
   functions: {
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,
@@ -109,7 +109,7 @@ export interface IInitializableOToken extends BaseContract {
   };
 
   initialize(
-    pool: PromiseOrValue<string>,
+    vault: PromiseOrValue<string>,
     underlyingAsset: PromiseOrValue<string>,
     oTokenDecimals: PromiseOrValue<BigNumberish>,
     oTokenName: PromiseOrValue<string>,
@@ -120,7 +120,7 @@ export interface IInitializableOToken extends BaseContract {
 
   callStatic: {
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,
@@ -133,7 +133,7 @@ export interface IInitializableOToken extends BaseContract {
   filters: {
     "Initialized(address,address,uint8,string,string,bytes)"(
       underlyingAsset?: PromiseOrValue<string> | null,
-      pool?: PromiseOrValue<string> | null,
+      vault?: PromiseOrValue<string> | null,
       oTokenDecimals?: null,
       oTokenName?: null,
       oTokenSymbol?: null,
@@ -141,7 +141,7 @@ export interface IInitializableOToken extends BaseContract {
     ): InitializedEventFilter;
     Initialized(
       underlyingAsset?: PromiseOrValue<string> | null,
-      pool?: PromiseOrValue<string> | null,
+      vault?: PromiseOrValue<string> | null,
       oTokenDecimals?: null,
       oTokenName?: null,
       oTokenSymbol?: null,
@@ -151,7 +151,7 @@ export interface IInitializableOToken extends BaseContract {
 
   estimateGas: {
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,
@@ -163,7 +163,7 @@ export interface IInitializableOToken extends BaseContract {
 
   populateTransaction: {
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,

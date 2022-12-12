@@ -33,8 +33,8 @@ export interface OTokenInterface extends utils.Interface {
     "EIP712_REVISION()": FunctionFragment;
     "OTOKEN_REVISION()": FunctionFragment;
     "PERMIT_TYPEHASH()": FunctionFragment;
-    "POOL()": FunctionFragment;
     "UNDERLYING_ASSET_ADDRESS()": FunctionFragment;
+    "VAULT()": FunctionFragment;
     "_nonces(address)": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -63,8 +63,8 @@ export interface OTokenInterface extends utils.Interface {
       | "EIP712_REVISION"
       | "OTOKEN_REVISION"
       | "PERMIT_TYPEHASH"
-      | "POOL"
       | "UNDERLYING_ASSET_ADDRESS"
+      | "VAULT"
       | "_nonces"
       | "allowance"
       | "approve"
@@ -103,11 +103,11 @@ export interface OTokenInterface extends utils.Interface {
     functionFragment: "PERMIT_TYPEHASH",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "POOL", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "UNDERLYING_ASSET_ADDRESS",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "VAULT", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "_nonces",
     values: [PromiseOrValue<string>]
@@ -224,11 +224,11 @@ export interface OTokenInterface extends utils.Interface {
     functionFragment: "PERMIT_TYPEHASH",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "POOL", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "UNDERLYING_ASSET_ADDRESS",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "VAULT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "_nonces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
@@ -331,7 +331,7 @@ export type BurnEventFilter = TypedEventFilter<BurnEvent>;
 
 export interface InitializedEventObject {
   underlyingAsset: string;
-  pool: string;
+  vault: string;
   oTokenDecimals: number;
   oTokenName: string;
   oTokenSymbol: string;
@@ -403,9 +403,9 @@ export interface OToken extends BaseContract {
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<[string]>;
 
-    POOL(overrides?: CallOverrides): Promise<[string]>;
-
     UNDERLYING_ASSET_ADDRESS(overrides?: CallOverrides): Promise<[string]>;
+
+    VAULT(overrides?: CallOverrides): Promise<[string]>;
 
     _nonces(
       arg0: PromiseOrValue<string>,
@@ -457,7 +457,7 @@ export interface OToken extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,
@@ -525,9 +525,9 @@ export interface OToken extends BaseContract {
 
   PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
-  POOL(overrides?: CallOverrides): Promise<string>;
-
   UNDERLYING_ASSET_ADDRESS(overrides?: CallOverrides): Promise<string>;
+
+  VAULT(overrides?: CallOverrides): Promise<string>;
 
   _nonces(
     arg0: PromiseOrValue<string>,
@@ -579,7 +579,7 @@ export interface OToken extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initialize(
-    pool: PromiseOrValue<string>,
+    vault: PromiseOrValue<string>,
     underlyingAsset: PromiseOrValue<string>,
     oTokenDecimals: PromiseOrValue<BigNumberish>,
     oTokenName: PromiseOrValue<string>,
@@ -647,9 +647,9 @@ export interface OToken extends BaseContract {
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
-    POOL(overrides?: CallOverrides): Promise<string>;
-
     UNDERLYING_ASSET_ADDRESS(overrides?: CallOverrides): Promise<string>;
+
+    VAULT(overrides?: CallOverrides): Promise<string>;
 
     _nonces(
       arg0: PromiseOrValue<string>,
@@ -701,7 +701,7 @@ export interface OToken extends BaseContract {
     ): Promise<boolean>;
 
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,
@@ -801,7 +801,7 @@ export interface OToken extends BaseContract {
 
     "Initialized(address,address,uint8,string,string,bytes)"(
       underlyingAsset?: PromiseOrValue<string> | null,
-      pool?: PromiseOrValue<string> | null,
+      vault?: PromiseOrValue<string> | null,
       oTokenDecimals?: null,
       oTokenName?: null,
       oTokenSymbol?: null,
@@ -809,7 +809,7 @@ export interface OToken extends BaseContract {
     ): InitializedEventFilter;
     Initialized(
       underlyingAsset?: PromiseOrValue<string> | null,
-      pool?: PromiseOrValue<string> | null,
+      vault?: PromiseOrValue<string> | null,
       oTokenDecimals?: null,
       oTokenName?: null,
       oTokenSymbol?: null,
@@ -848,9 +848,9 @@ export interface OToken extends BaseContract {
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<BigNumber>;
 
-    POOL(overrides?: CallOverrides): Promise<BigNumber>;
-
     UNDERLYING_ASSET_ADDRESS(overrides?: CallOverrides): Promise<BigNumber>;
+
+    VAULT(overrides?: CallOverrides): Promise<BigNumber>;
 
     _nonces(
       arg0: PromiseOrValue<string>,
@@ -902,7 +902,7 @@ export interface OToken extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,
@@ -971,11 +971,11 @@ export interface OToken extends BaseContract {
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    POOL(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     UNDERLYING_ASSET_ADDRESS(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    VAULT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     _nonces(
       arg0: PromiseOrValue<string>,
@@ -1027,7 +1027,7 @@ export interface OToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
       underlyingAsset: PromiseOrValue<string>,
       oTokenDecimals: PromiseOrValue<BigNumberish>,
       oTokenName: PromiseOrValue<string>,

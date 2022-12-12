@@ -22,7 +22,7 @@ pragma solidity 0.8.9;
  */
 library Errors {
   //common errors
-  string public constant CALLER_NOT_POOL_ADMIN = '33'; // 'The caller must be the pool admin'
+  string public constant CALLER_NOT_VAULT_ADMIN = '33'; // 'The caller must be the vault admin'
   string public constant BORROW_ALLOWANCE_NOT_ENOUGH = '59'; // User borrows on behalf, but allowance are too small
 
   //contract specific errors
@@ -40,14 +40,14 @@ library Errors {
   string public constant VL_INVALID_FUND_ADDRESS = '12'; // 'Invalid fund address.'
   string public constant VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0 = '19'; // 'The underlying balance needs to be greater than 0'
   string public constant LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE = '26'; // 'The actual balance of the protocol is inconsistent'
-  string public constant LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR = '27';
-  string public constant LP_CALLER_NOT_POOL_OPERATOR = '28'; // 'The caller of the function is not the pool operator.'
-  string public constant CT_CALLER_MUST_BE_LENDING_POOL = '29'; // 'The caller of this function must be a lending pool'
+  string public constant LP_CALLER_NOT_VAULT_CONFIGURATOR = '27';
+  string public constant LP_CALLER_NOT_VAULT_OPERATOR = '28'; // 'The caller of the function is not the vault operator.'
+  string public constant CT_CALLER_MUST_BE_VAULT = '29'; // 'The caller of this function must be a vault'
   string public constant CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF = '30'; // 'User cannot give allowance to himself'
   string public constant CT_TRANSFER_AMOUNT_NOT_GT_0 = '31'; // 'Transferred amount needs to be greater than zero'
   string public constant RL_RESERVE_ALREADY_INITIALIZED = '32'; // 'Reserve has already been initialized'
   string public constant LPC_RESERVE_LIQUIDITY_NOT_0 = '34'; // 'The liquidity of the reserve needs to be 0'
-  string public constant LPC_INVALID_OTOKEN_POOL_ADDRESS = '35'; // 'The liquidity of the reserve needs to be 0'
+  string public constant LPC_INVALID_OTOKEN_VAULT_ADDRESS = '35'; // 'The liquidity of the reserve needs to be 0'
   string public constant LPC_INVALID_ADDRESSES_PROVIDER_ID = '40'; // 'The liquidity of the reserve needs to be 0'
   string public constant LPC_INVALID_CONFIGURATION = '75'; // 'Invalid risk parameters for the reserve'
   string public constant LPC_CALLER_NOT_EMERGENCY_ADMIN = '76'; // 'The caller must be the emergency admin'
@@ -62,7 +62,7 @@ library Errors {
   string public constant CT_INVALID_BURN_AMOUNT = '58'; //invalid amount to burn
   string public constant LP_REENTRANCY_NOT_ALLOWED = '62';
   string public constant LP_CALLER_MUST_BE_AN_OTOKEN = '63';
-  string public constant LP_IS_PAUSED = '64'; // 'Pool is paused'
+  string public constant LP_IS_PAUSED = '64'; // 'Vault is paused'
   string public constant LP_NO_MORE_RESERVES_ALLOWED = '65';
   string public constant LP_NOT_IN_WHITELIST = '66';
   string public constant RC_INVALID_DECIMALS = '70';

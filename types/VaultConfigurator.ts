@@ -84,9 +84,12 @@ export interface VaultConfiguratorInterface extends utils.Interface {
     "freezeReserve()": FunctionFragment;
     "initReserve((address,uint8,address,address,string,string,string,bytes))": FunctionFragment;
     "initialize(address)": FunctionFragment;
+    "initializeNextPeriod(uint16,uint16,uint128,uint128,uint40,uint40,uint40)": FunctionFragment;
+    "moveTheLockPeriod(uint40)": FunctionFragment;
+    "moveTheRedemptionPeriod(uint40)": FunctionFragment;
     "removeFromWhitelist(address)": FunctionFragment;
     "setFundAddress(address)": FunctionFragment;
-    "setPoolPause(bool)": FunctionFragment;
+    "setVaultPause(bool)": FunctionFragment;
     "setWhitelistExpiration(uint256)": FunctionFragment;
     "unfreezeReserve()": FunctionFragment;
     "updateOToken((string,string,address,bytes))": FunctionFragment;
@@ -102,9 +105,12 @@ export interface VaultConfiguratorInterface extends utils.Interface {
       | "freezeReserve"
       | "initReserve"
       | "initialize"
+      | "initializeNextPeriod"
+      | "moveTheLockPeriod"
+      | "moveTheRedemptionPeriod"
       | "removeFromWhitelist"
       | "setFundAddress"
-      | "setPoolPause"
+      | "setVaultPause"
       | "setWhitelistExpiration"
       | "unfreezeReserve"
       | "updateOToken"
@@ -143,6 +149,26 @@ export interface VaultConfiguratorInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "initializeNextPeriod",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveTheLockPeriod",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveTheRedemptionPeriod",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "removeFromWhitelist",
     values: [PromiseOrValue<string>]
   ): string;
@@ -151,7 +177,7 @@ export interface VaultConfiguratorInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setPoolPause",
+    functionFragment: "setVaultPause",
     values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
@@ -197,6 +223,18 @@ export interface VaultConfiguratorInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "initializeNextPeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "moveTheLockPeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "moveTheRedemptionPeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "removeFromWhitelist",
     data: BytesLike
   ): Result;
@@ -205,7 +243,7 @@ export interface VaultConfiguratorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setPoolPause",
+    functionFragment: "setVaultPause",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -364,6 +402,27 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     removeFromWhitelist(
       user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -374,7 +433,7 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setPoolPause(
+    setVaultPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -431,6 +490,27 @@ export interface VaultConfigurator extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  initializeNextPeriod(
+    managementFeeRate: PromiseOrValue<BigNumberish>,
+    performanceFeeRate: PromiseOrValue<BigNumberish>,
+    purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+    softUpperLimit: PromiseOrValue<BigNumberish>,
+    purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+    purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+    redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  moveTheLockPeriod(
+    newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  moveTheRedemptionPeriod(
+    newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   removeFromWhitelist(
     user: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -441,7 +521,7 @@ export interface VaultConfigurator extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setPoolPause(
+  setVaultPause(
     val: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -492,6 +572,27 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     removeFromWhitelist(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -502,7 +603,7 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setPoolPause(
+    setVaultPause(
       val: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -599,6 +700,27 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     removeFromWhitelist(
       user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -609,7 +731,7 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setPoolPause(
+    setVaultPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -667,6 +789,27 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     removeFromWhitelist(
       user: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -677,7 +820,7 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setPoolPause(
+    setVaultPause(
       val: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

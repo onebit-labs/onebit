@@ -561,6 +561,49 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint16",
+        name: "managementFeeRate",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "performanceFeeRate",
+        type: "uint16",
+      },
+      {
+        internalType: "uint128",
+        name: "purchaseUpperLimit",
+        type: "uint128",
+      },
+      {
+        internalType: "uint128",
+        name: "softUpperLimit",
+        type: "uint128",
+      },
+      {
+        internalType: "uint40",
+        name: "purchaseBeginTimestamp",
+        type: "uint40",
+      },
+      {
+        internalType: "uint40",
+        name: "purchaseEndTimestamp",
+        type: "uint40",
+      },
+      {
+        internalType: "uint40",
+        name: "redemptionBeginTimestamp",
+        type: "uint40",
+      },
+    ],
+    name: "initializeNextPeriod",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "user",
         type: "address",
@@ -574,6 +617,32 @@ const _abi = [
         type: "bool",
       },
     ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint40",
+        name: "newPurchaseEndTimestamp",
+        type: "uint40",
+      },
+    ],
+    name: "moveTheLockPeriod",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint40",
+        name: "newRedemptionBeginTimestamp",
+        type: "uint40",
+      },
+    ],
+    name: "moveTheRedemptionPeriod",
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },

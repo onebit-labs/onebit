@@ -2,10 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { IInitializableOToken } from "./IInitializableOToken";
-export type { ILendingPool } from "./ILendingPool";
-export type { ILendingPoolAddressesProvider } from "./ILendingPoolAddressesProvider";
-export type { ILendingPoolAddressesProviderRegistry } from "./ILendingPoolAddressesProviderRegistry";
-export type { ILendingPoolConfigurator } from "./ILendingPoolConfigurator";
 export type { IOToken } from "./IOToken";
 export type { IScaledBalanceToken } from "./IScaledBalanceToken";
 export type { ITimelockedExecutor } from "./ITimelockedExecutor";

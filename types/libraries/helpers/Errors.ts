@@ -23,9 +23,9 @@ import type {
 export interface ErrorsInterface extends utils.Interface {
   functions: {
     "BORROW_ALLOWANCE_NOT_ENOUGH()": FunctionFragment;
-    "CALLER_NOT_POOL_ADMIN()": FunctionFragment;
+    "CALLER_NOT_VAULT_ADMIN()": FunctionFragment;
     "CT_CALLER_MUST_BE_CLAIM_ADMIN()": FunctionFragment;
-    "CT_CALLER_MUST_BE_LENDING_POOL()": FunctionFragment;
+    "CT_CALLER_MUST_BE_VAULT()": FunctionFragment;
     "CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF()": FunctionFragment;
     "CT_INVALID_BURN_AMOUNT()": FunctionFragment;
     "CT_INVALID_MINT_AMOUNT()": FunctionFragment;
@@ -39,11 +39,11 @@ export interface ErrorsInterface extends utils.Interface {
     "LPC_CALLER_NOT_KYC_ADMIN()": FunctionFragment;
     "LPC_INVALID_ADDRESSES_PROVIDER_ID()": FunctionFragment;
     "LPC_INVALID_CONFIGURATION()": FunctionFragment;
-    "LPC_INVALID_OTOKEN_POOL_ADDRESS()": FunctionFragment;
+    "LPC_INVALID_OTOKEN_VAULT_ADDRESS()": FunctionFragment;
     "LPC_RESERVE_LIQUIDITY_NOT_0()": FunctionFragment;
     "LP_CALLER_MUST_BE_AN_OTOKEN()": FunctionFragment;
-    "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR()": FunctionFragment;
-    "LP_CALLER_NOT_POOL_OPERATOR()": FunctionFragment;
+    "LP_CALLER_NOT_VAULT_CONFIGURATOR()": FunctionFragment;
+    "LP_CALLER_NOT_VAULT_OPERATOR()": FunctionFragment;
     "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE()": FunctionFragment;
     "LP_IS_PAUSED()": FunctionFragment;
     "LP_NOT_CONTRACT()": FunctionFragment;
@@ -77,9 +77,9 @@ export interface ErrorsInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "BORROW_ALLOWANCE_NOT_ENOUGH"
-      | "CALLER_NOT_POOL_ADMIN"
+      | "CALLER_NOT_VAULT_ADMIN"
       | "CT_CALLER_MUST_BE_CLAIM_ADMIN"
-      | "CT_CALLER_MUST_BE_LENDING_POOL"
+      | "CT_CALLER_MUST_BE_VAULT"
       | "CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF"
       | "CT_INVALID_BURN_AMOUNT"
       | "CT_INVALID_MINT_AMOUNT"
@@ -93,11 +93,11 @@ export interface ErrorsInterface extends utils.Interface {
       | "LPC_CALLER_NOT_KYC_ADMIN"
       | "LPC_INVALID_ADDRESSES_PROVIDER_ID"
       | "LPC_INVALID_CONFIGURATION"
-      | "LPC_INVALID_OTOKEN_POOL_ADDRESS"
+      | "LPC_INVALID_OTOKEN_VAULT_ADDRESS"
       | "LPC_RESERVE_LIQUIDITY_NOT_0"
       | "LP_CALLER_MUST_BE_AN_OTOKEN"
-      | "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR"
-      | "LP_CALLER_NOT_POOL_OPERATOR"
+      | "LP_CALLER_NOT_VAULT_CONFIGURATOR"
+      | "LP_CALLER_NOT_VAULT_OPERATOR"
       | "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE"
       | "LP_IS_PAUSED"
       | "LP_NOT_CONTRACT"
@@ -133,7 +133,7 @@ export interface ErrorsInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "CALLER_NOT_POOL_ADMIN",
+    functionFragment: "CALLER_NOT_VAULT_ADMIN",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -141,7 +141,7 @@ export interface ErrorsInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "CT_CALLER_MUST_BE_LENDING_POOL",
+    functionFragment: "CT_CALLER_MUST_BE_VAULT",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -197,7 +197,7 @@ export interface ErrorsInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "LPC_INVALID_OTOKEN_POOL_ADDRESS",
+    functionFragment: "LPC_INVALID_OTOKEN_VAULT_ADDRESS",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -209,11 +209,11 @@ export interface ErrorsInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR",
+    functionFragment: "LP_CALLER_NOT_VAULT_CONFIGURATOR",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "LP_CALLER_NOT_POOL_OPERATOR",
+    functionFragment: "LP_CALLER_NOT_VAULT_OPERATOR",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -334,7 +334,7 @@ export interface ErrorsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "CALLER_NOT_POOL_ADMIN",
+    functionFragment: "CALLER_NOT_VAULT_ADMIN",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -342,7 +342,7 @@ export interface ErrorsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "CT_CALLER_MUST_BE_LENDING_POOL",
+    functionFragment: "CT_CALLER_MUST_BE_VAULT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -398,7 +398,7 @@ export interface ErrorsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "LPC_INVALID_OTOKEN_POOL_ADDRESS",
+    functionFragment: "LPC_INVALID_OTOKEN_VAULT_ADDRESS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -410,11 +410,11 @@ export interface ErrorsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR",
+    functionFragment: "LP_CALLER_NOT_VAULT_CONFIGURATOR",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "LP_CALLER_NOT_POOL_OPERATOR",
+    functionFragment: "LP_CALLER_NOT_VAULT_OPERATOR",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -562,13 +562,11 @@ export interface Errors extends BaseContract {
   functions: {
     BORROW_ALLOWANCE_NOT_ENOUGH(overrides?: CallOverrides): Promise<[string]>;
 
-    CALLER_NOT_POOL_ADMIN(overrides?: CallOverrides): Promise<[string]>;
+    CALLER_NOT_VAULT_ADMIN(overrides?: CallOverrides): Promise<[string]>;
 
     CT_CALLER_MUST_BE_CLAIM_ADMIN(overrides?: CallOverrides): Promise<[string]>;
 
-    CT_CALLER_MUST_BE_LENDING_POOL(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+    CT_CALLER_MUST_BE_VAULT(overrides?: CallOverrides): Promise<[string]>;
 
     CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF(
       overrides?: CallOverrides
@@ -606,7 +604,7 @@ export interface Errors extends BaseContract {
 
     LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<[string]>;
 
-    LPC_INVALID_OTOKEN_POOL_ADDRESS(
+    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
       overrides?: CallOverrides
     ): Promise<[string]>;
 
@@ -614,11 +612,11 @@ export interface Errors extends BaseContract {
 
     LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<[string]>;
 
-    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+    LP_CALLER_NOT_VAULT_CONFIGURATOR(
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<[string]>;
+    LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<[string]>;
 
     LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
       overrides?: CallOverrides
@@ -691,11 +689,11 @@ export interface Errors extends BaseContract {
 
   BORROW_ALLOWANCE_NOT_ENOUGH(overrides?: CallOverrides): Promise<string>;
 
-  CALLER_NOT_POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
+  CALLER_NOT_VAULT_ADMIN(overrides?: CallOverrides): Promise<string>;
 
   CT_CALLER_MUST_BE_CLAIM_ADMIN(overrides?: CallOverrides): Promise<string>;
 
-  CT_CALLER_MUST_BE_LENDING_POOL(overrides?: CallOverrides): Promise<string>;
+  CT_CALLER_MUST_BE_VAULT(overrides?: CallOverrides): Promise<string>;
 
   CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF(
     overrides?: CallOverrides
@@ -727,17 +725,15 @@ export interface Errors extends BaseContract {
 
   LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<string>;
 
-  LPC_INVALID_OTOKEN_POOL_ADDRESS(overrides?: CallOverrides): Promise<string>;
+  LPC_INVALID_OTOKEN_VAULT_ADDRESS(overrides?: CallOverrides): Promise<string>;
 
   LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<string>;
 
   LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
 
-  LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
-    overrides?: CallOverrides
-  ): Promise<string>;
+  LP_CALLER_NOT_VAULT_CONFIGURATOR(overrides?: CallOverrides): Promise<string>;
 
-  LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<string>;
+  LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<string>;
 
   LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
     overrides?: CallOverrides
@@ -808,11 +804,11 @@ export interface Errors extends BaseContract {
   callStatic: {
     BORROW_ALLOWANCE_NOT_ENOUGH(overrides?: CallOverrides): Promise<string>;
 
-    CALLER_NOT_POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
+    CALLER_NOT_VAULT_ADMIN(overrides?: CallOverrides): Promise<string>;
 
     CT_CALLER_MUST_BE_CLAIM_ADMIN(overrides?: CallOverrides): Promise<string>;
 
-    CT_CALLER_MUST_BE_LENDING_POOL(overrides?: CallOverrides): Promise<string>;
+    CT_CALLER_MUST_BE_VAULT(overrides?: CallOverrides): Promise<string>;
 
     CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF(
       overrides?: CallOverrides
@@ -846,17 +842,19 @@ export interface Errors extends BaseContract {
 
     LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<string>;
 
-    LPC_INVALID_OTOKEN_POOL_ADDRESS(overrides?: CallOverrides): Promise<string>;
+    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<string>;
 
     LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
 
-    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+    LP_CALLER_NOT_VAULT_CONFIGURATOR(
       overrides?: CallOverrides
     ): Promise<string>;
 
-    LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<string>;
+    LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<string>;
 
     LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
       overrides?: CallOverrides
@@ -930,15 +928,13 @@ export interface Errors extends BaseContract {
   estimateGas: {
     BORROW_ALLOWANCE_NOT_ENOUGH(overrides?: CallOverrides): Promise<BigNumber>;
 
-    CALLER_NOT_POOL_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
+    CALLER_NOT_VAULT_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
 
     CT_CALLER_MUST_BE_CLAIM_ADMIN(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    CT_CALLER_MUST_BE_LENDING_POOL(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    CT_CALLER_MUST_BE_VAULT(overrides?: CallOverrides): Promise<BigNumber>;
 
     CT_CANNOT_GIVE_ALLOWANCE_TO_HIMSELF(
       overrides?: CallOverrides
@@ -978,7 +974,7 @@ export interface Errors extends BaseContract {
 
     LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<BigNumber>;
 
-    LPC_INVALID_OTOKEN_POOL_ADDRESS(
+    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -986,11 +982,11 @@ export interface Errors extends BaseContract {
 
     LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
-    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+    LP_CALLER_NOT_VAULT_CONFIGURATOR(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    LP_CALLER_NOT_POOL_OPERATOR(overrides?: CallOverrides): Promise<BigNumber>;
+    LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<BigNumber>;
 
     LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
       overrides?: CallOverrides
@@ -1066,7 +1062,7 @@ export interface Errors extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    CALLER_NOT_POOL_ADMIN(
+    CALLER_NOT_VAULT_ADMIN(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1074,7 +1070,7 @@ export interface Errors extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    CT_CALLER_MUST_BE_LENDING_POOL(
+    CT_CALLER_MUST_BE_VAULT(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1128,7 +1124,7 @@ export interface Errors extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    LPC_INVALID_OTOKEN_POOL_ADDRESS(
+    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1140,11 +1136,11 @@ export interface Errors extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR(
+    LP_CALLER_NOT_VAULT_CONFIGURATOR(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    LP_CALLER_NOT_POOL_OPERATOR(
+    LP_CALLER_NOT_VAULT_OPERATOR(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

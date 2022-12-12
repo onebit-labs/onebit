@@ -100,7 +100,10 @@ export interface IVaultInterface extends utils.Interface {
     "getUserExpirationTimestamp(address)": FunctionFragment;
     "getWhitelistExpiration()": FunctionFragment;
     "initReserve(address,address)": FunctionFragment;
+    "initializeNextPeriod(uint16,uint16,uint128,uint128,uint40,uint40,uint40)": FunctionFragment;
     "isInWhitelist(address)": FunctionFragment;
+    "moveTheLockPeriod(uint40)": FunctionFragment;
+    "moveTheRedemptionPeriod(uint40)": FunctionFragment;
     "paused()": FunctionFragment;
     "removeFromWhitelist(address)": FunctionFragment;
     "setConfiguration(uint256)": FunctionFragment;
@@ -125,7 +128,10 @@ export interface IVaultInterface extends utils.Interface {
       | "getUserExpirationTimestamp"
       | "getWhitelistExpiration"
       | "initReserve"
+      | "initializeNextPeriod"
       | "isInWhitelist"
+      | "moveTheLockPeriod"
+      | "moveTheRedemptionPeriod"
       | "paused"
       | "removeFromWhitelist"
       | "setConfiguration"
@@ -189,8 +195,28 @@ export interface IVaultInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "initializeNextPeriod",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "isInWhitelist",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveTheLockPeriod",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveTheRedemptionPeriod",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
@@ -268,7 +294,19 @@ export interface IVaultInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "initializeNextPeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "isInWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "moveTheLockPeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "moveTheRedemptionPeriod",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
@@ -567,8 +605,29 @@ export interface IVault extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     isInWhitelist(
       user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -665,8 +724,29 @@ export interface IVault extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  initializeNextPeriod(
+    managementFeeRate: PromiseOrValue<BigNumberish>,
+    performanceFeeRate: PromiseOrValue<BigNumberish>,
+    purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+    softUpperLimit: PromiseOrValue<BigNumberish>,
+    purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+    purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+    redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   isInWhitelist(
     user: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  moveTheLockPeriod(
+    newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  moveTheRedemptionPeriod(
+    newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -761,10 +841,31 @@ export interface IVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     isInWhitelist(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
@@ -986,8 +1087,29 @@ export interface IVault extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     isInWhitelist(
       user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1085,8 +1207,29 @@ export interface IVault extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    initializeNextPeriod(
+      managementFeeRate: PromiseOrValue<BigNumberish>,
+      performanceFeeRate: PromiseOrValue<BigNumberish>,
+      purchaseUpperLimit: PromiseOrValue<BigNumberish>,
+      softUpperLimit: PromiseOrValue<BigNumberish>,
+      purchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      purchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      redemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     isInWhitelist(
       user: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveTheLockPeriod(
+      newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveTheRedemptionPeriod(
+      newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

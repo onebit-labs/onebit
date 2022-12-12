@@ -32,19 +32,19 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     "getEmergencyAdmin()": FunctionFragment;
     "getKYCAdmin()": FunctionFragment;
     "getMarketId()": FunctionFragment;
-    "getPoolAdmin()": FunctionFragment;
-    "getPoolOperator()": FunctionFragment;
     "getVault()": FunctionFragment;
+    "getVaultAdmin()": FunctionFragment;
     "getVaultConfigurator()": FunctionFragment;
+    "getVaultOperator()": FunctionFragment;
     "setAddress(bytes32,address)": FunctionFragment;
     "setAddressAsProxy(bytes32,address)": FunctionFragment;
     "setEmergencyAdmin(address)": FunctionFragment;
     "setKYCAdmin(address)": FunctionFragment;
     "setMarketId(string)": FunctionFragment;
-    "setPoolAdmin(address)": FunctionFragment;
-    "setPoolOperator(address)": FunctionFragment;
+    "setVaultAdmin(address)": FunctionFragment;
     "setVaultConfiguratorImpl(address)": FunctionFragment;
     "setVaultImpl(address)": FunctionFragment;
+    "setVaultOperator(address)": FunctionFragment;
   };
 
   getFunction(
@@ -53,19 +53,19 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
       | "getEmergencyAdmin"
       | "getKYCAdmin"
       | "getMarketId"
-      | "getPoolAdmin"
-      | "getPoolOperator"
       | "getVault"
+      | "getVaultAdmin"
       | "getVaultConfigurator"
+      | "getVaultOperator"
       | "setAddress"
       | "setAddressAsProxy"
       | "setEmergencyAdmin"
       | "setKYCAdmin"
       | "setMarketId"
-      | "setPoolAdmin"
-      | "setPoolOperator"
+      | "setVaultAdmin"
       | "setVaultConfiguratorImpl"
       | "setVaultImpl"
+      | "setVaultOperator"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -84,17 +84,17 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     functionFragment: "getMarketId",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "getPoolAdmin",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getPoolOperator",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "getVault", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "getVaultAdmin",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getVaultConfigurator",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getVaultOperator",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -118,11 +118,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setPoolAdmin",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setPoolOperator",
+    functionFragment: "setVaultAdmin",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -131,6 +127,10 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setVaultImpl",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setVaultOperator",
     values: [PromiseOrValue<string>]
   ): string;
 
@@ -147,17 +147,17 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     functionFragment: "getMarketId",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "getPoolAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getPoolOperator",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "getVault", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "getVaultAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getVaultConfigurator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getVaultOperator",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setAddress", data: BytesLike): Result;
@@ -178,11 +178,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setPoolAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setPoolOperator",
+    functionFragment: "setVaultAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -193,6 +189,10 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     functionFragment: "setVaultImpl",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setVaultOperator",
+    data: BytesLike
+  ): Result;
 
   events: {
     "AddressSet(bytes32,address,bool)": EventFragment;
@@ -200,9 +200,9 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     "EmergencyAdminUpdated(address)": EventFragment;
     "KYCAdminUpdated(address)": EventFragment;
     "MarketIdSet(string)": EventFragment;
-    "PoolOperatorUpdated(address)": EventFragment;
     "ProxyCreated(bytes32,address)": EventFragment;
     "VaultConfiguratorUpdated(address)": EventFragment;
+    "VaultOperatorUpdated(address)": EventFragment;
     "VaultUpdated(address)": EventFragment;
   };
 
@@ -211,9 +211,9 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "EmergencyAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "KYCAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MarketIdSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PoolOperatorUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProxyCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VaultConfiguratorUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "VaultOperatorUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VaultUpdated"): EventFragment;
 }
 
@@ -268,17 +268,6 @@ export type MarketIdSetEvent = TypedEvent<[string], MarketIdSetEventObject>;
 
 export type MarketIdSetEventFilter = TypedEventFilter<MarketIdSetEvent>;
 
-export interface PoolOperatorUpdatedEventObject {
-  newAddress: string;
-}
-export type PoolOperatorUpdatedEvent = TypedEvent<
-  [string],
-  PoolOperatorUpdatedEventObject
->;
-
-export type PoolOperatorUpdatedEventFilter =
-  TypedEventFilter<PoolOperatorUpdatedEvent>;
-
 export interface ProxyCreatedEventObject {
   id: string;
   newAddress: string;
@@ -300,6 +289,17 @@ export type VaultConfiguratorUpdatedEvent = TypedEvent<
 
 export type VaultConfiguratorUpdatedEventFilter =
   TypedEventFilter<VaultConfiguratorUpdatedEvent>;
+
+export interface VaultOperatorUpdatedEventObject {
+  newAddress: string;
+}
+export type VaultOperatorUpdatedEvent = TypedEvent<
+  [string],
+  VaultOperatorUpdatedEventObject
+>;
+
+export type VaultOperatorUpdatedEventFilter =
+  TypedEventFilter<VaultOperatorUpdatedEvent>;
 
 export interface VaultUpdatedEventObject {
   newAddress: string;
@@ -346,13 +346,13 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<[string]>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<[string]>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<[string]>;
-
     getVault(overrides?: CallOverrides): Promise<[string]>;
 
+    getVaultAdmin(overrides?: CallOverrides): Promise<[string]>;
+
     getVaultConfigurator(overrides?: CallOverrides): Promise<[string]>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<[string]>;
 
     setAddress(
       id: PromiseOrValue<BytesLike>,
@@ -381,13 +381,8 @@ export interface IVaultAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setPoolOperator(
-      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -397,7 +392,12 @@ export interface IVaultAddressesProvider extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setVaultOperator(
+      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -413,13 +413,13 @@ export interface IVaultAddressesProvider extends BaseContract {
 
   getMarketId(overrides?: CallOverrides): Promise<string>;
 
-  getPoolAdmin(overrides?: CallOverrides): Promise<string>;
-
-  getPoolOperator(overrides?: CallOverrides): Promise<string>;
-
   getVault(overrides?: CallOverrides): Promise<string>;
 
+  getVaultAdmin(overrides?: CallOverrides): Promise<string>;
+
   getVaultConfigurator(overrides?: CallOverrides): Promise<string>;
+
+  getVaultOperator(overrides?: CallOverrides): Promise<string>;
 
   setAddress(
     id: PromiseOrValue<BytesLike>,
@@ -448,13 +448,8 @@ export interface IVaultAddressesProvider extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setPoolAdmin(
+  setVaultAdmin(
     admin: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setPoolOperator(
-    configurator: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -464,7 +459,12 @@ export interface IVaultAddressesProvider extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setVaultImpl(
-    pool: PromiseOrValue<string>,
+    vault: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setVaultOperator(
+    configurator: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -480,13 +480,13 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<string>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<string>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<string>;
-
     getVault(overrides?: CallOverrides): Promise<string>;
 
+    getVaultAdmin(overrides?: CallOverrides): Promise<string>;
+
     getVaultConfigurator(overrides?: CallOverrides): Promise<string>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<string>;
 
     setAddress(
       id: PromiseOrValue<BytesLike>,
@@ -515,13 +515,8 @@ export interface IVaultAddressesProvider extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setPoolOperator(
-      configurator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -531,7 +526,12 @@ export interface IVaultAddressesProvider extends BaseContract {
     ): Promise<void>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setVaultOperator(
+      configurator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -572,13 +572,6 @@ export interface IVaultAddressesProvider extends BaseContract {
     "MarketIdSet(string)"(newMarketId?: null): MarketIdSetEventFilter;
     MarketIdSet(newMarketId?: null): MarketIdSetEventFilter;
 
-    "PoolOperatorUpdated(address)"(
-      newAddress?: PromiseOrValue<string> | null
-    ): PoolOperatorUpdatedEventFilter;
-    PoolOperatorUpdated(
-      newAddress?: PromiseOrValue<string> | null
-    ): PoolOperatorUpdatedEventFilter;
-
     "ProxyCreated(bytes32,address)"(
       id?: null,
       newAddress?: PromiseOrValue<string> | null
@@ -594,6 +587,13 @@ export interface IVaultAddressesProvider extends BaseContract {
     VaultConfiguratorUpdated(
       newAddress?: PromiseOrValue<string> | null
     ): VaultConfiguratorUpdatedEventFilter;
+
+    "VaultOperatorUpdated(address)"(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultOperatorUpdatedEventFilter;
+    VaultOperatorUpdated(
+      newAddress?: PromiseOrValue<string> | null
+    ): VaultOperatorUpdatedEventFilter;
 
     "VaultUpdated(address)"(
       newAddress?: PromiseOrValue<string> | null
@@ -615,13 +615,13 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<BigNumber>;
-
     getVault(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getVaultAdmin(overrides?: CallOverrides): Promise<BigNumber>;
+
     getVaultConfigurator(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<BigNumber>;
 
     setAddress(
       id: PromiseOrValue<BytesLike>,
@@ -650,13 +650,8 @@ export interface IVaultAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setPoolOperator(
-      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -666,7 +661,12 @@ export interface IVaultAddressesProvider extends BaseContract {
     ): Promise<BigNumber>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setVaultOperator(
+      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -683,15 +683,15 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getPoolOperator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getVault(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getVaultAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getVaultConfigurator(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getVaultOperator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setAddress(
       id: PromiseOrValue<BytesLike>,
@@ -720,13 +720,8 @@ export interface IVaultAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setPoolAdmin(
+    setVaultAdmin(
       admin: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setPoolOperator(
-      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -736,7 +731,12 @@ export interface IVaultAddressesProvider extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setVaultImpl(
-      pool: PromiseOrValue<string>,
+      vault: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setVaultOperator(
+      configurator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

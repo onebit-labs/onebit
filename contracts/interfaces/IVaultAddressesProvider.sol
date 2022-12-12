@@ -15,7 +15,7 @@ interface IVaultAddressesProvider {
   event ConfigurationAdminUpdated(address indexed newAddress);
   event EmergencyAdminUpdated(address indexed newAddress);
   event KYCAdminUpdated(address indexed newAddress);
-  event PoolOperatorUpdated(address indexed newAddress);
+  event VaultOperatorUpdated(address indexed newAddress);
   event ProxyCreated(bytes32 id, address indexed newAddress);
   event AddressSet(bytes32 id, address indexed newAddress, bool hasProxy);
 
@@ -31,19 +31,19 @@ interface IVaultAddressesProvider {
 
   function getVault() external view returns (address);
 
-  function setVaultImpl(address pool) external;
+  function setVaultImpl(address vault) external;
 
   function getVaultConfigurator() external view returns (address);
 
   function setVaultConfiguratorImpl(address configurator) external;
 
-  function getPoolOperator() external view returns (address);
+  function getVaultOperator() external view returns (address);
 
-  function setPoolOperator(address configurator) external;
+  function setVaultOperator(address configurator) external;
 
-  function getPoolAdmin() external view returns (address);
+  function getVaultAdmin() external view returns (address);
 
-  function setPoolAdmin(address admin) external;
+  function setVaultAdmin(address admin) external;
 
   function getEmergencyAdmin() external view returns (address);
 

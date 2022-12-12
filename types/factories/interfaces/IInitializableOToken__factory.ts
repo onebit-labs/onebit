@@ -22,7 +22,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "pool",
+        name: "vault",
         type: "address",
       },
       {
@@ -57,7 +57,7 @@ const _abi = [
     inputs: [
       {
         internalType: "contract IVault",
-        name: "pool",
+        name: "vault",
         type: "address",
       },
       {

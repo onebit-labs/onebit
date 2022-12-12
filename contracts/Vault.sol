@@ -27,7 +27,7 @@ import "hardhat/console.sol";
  *   # Deposit
  *   # Withdraw
  * - To be covered by a proxy contract, owned by the VaultAddressesProvider of the specific market
- * - All admin functions are callable by the PoolOperator contract defined also in the
+ * - All admin functions are callable by the VaultOperator contract defined also in the
  *   VaultAddressesProvider
  * @author Aave
  * @author Vinci
@@ -46,10 +46,18 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     _;
   }
 
-  modifier onlyPoolOperator() {
+  modifier onlyVaultOperator() {
     require(
-      _addressesProvider.getPoolOperator() == msg.sender,
-      Errors.LP_CALLER_NOT_POOL_OPERATOR
+      _addressesProvider.getVaultOperator() == msg.sender,
+      Errors.LP_CALLER_NOT_VAULT_OPERATOR
+    );
+    _;
+  }
+
+  modifier onlyVaultAdmin() {
+    require(
+      _addressesProvider.getVaultAdmin() == msg.sender,
+      Errors.CALLER_NOT_VAULT_ADMIN
     );
     _;
   }
@@ -57,7 +65,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   modifier onlyVaultConfigurator() {
     require(
       _addressesProvider.getVaultConfigurator() == msg.sender,
-      Errors.LP_CALLER_NOT_LENDING_POOL_CONFIGURATOR
+      Errors.LP_CALLER_NOT_VAULT_CONFIGURATOR
     );
     _;
   }
@@ -127,7 +135,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
 
   function depositFund(
     uint256 amount
-  ) external override onlyPoolOperator {
+  ) external override onlyVaultAdmin {
     require(amount != 0, Errors.VL_INVALID_AMOUNT);
     address oTokenAddress = _reserve.oTokenAddress;
     IERC20 asset = IERC20(IOToken(oTokenAddress).UNDERLYING_ASSET_ADDRESS());
@@ -179,7 +187,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     return amountToWithdraw;
   }
 
-  function withdrawFund(uint256 amount) external override whenNotPaused onlyPoolOperator returns (uint256) {
+  function withdrawFund(uint256 amount) external override whenNotPaused onlyVaultAdmin returns (uint256) {
     uint256 currentTimestamp = block.timestamp;
     require(amount > 0, Errors.VL_INVALID_AMOUNT);
     require((currentTimestamp >= _reserve.purchaseEndTimestamp) && (currentTimestamp < _reserve.redemptionBeginTimestamp), Errors.VL_NOT_IN_LOCK_PERIOD);
@@ -212,7 +220,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
 
   function updateNetValue(uint256 netValue)
     external
-    onlyPoolOperator
+    onlyVaultOperator
   {
     require(netValue > 0, Errors.VL_INVALID_AMOUNT);
     uint256 currentTimestamp = block.timestamp;
@@ -231,7 +239,8 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, 
     uint40 redemptionBeginTimestamp)
     external
-    onlyPoolOperator
+    override
+    onlyVaultConfigurator
   {
     require(uint40(block.timestamp) >= _reserve.redemptionBeginTimestamp, Errors.VL_NOT_FINISHED);
     require((purchaseBeginTimestamp >= _reserve.redemptionBeginTimestamp)
@@ -253,7 +262,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     emit PeriodInitialized(_reserve.previousLiquidityIndex, purchaseBeginTimestamp, purchaseEndTimestamp, redemptionBeginTimestamp, managementFeeRate, performanceFeeRate);
   }
 
-  function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external onlyPoolOperator
+  function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external override onlyVaultConfigurator
   {
     require(newPurchaseEndTimestamp < _reserve.purchaseEndTimestamp);
     require(newPurchaseEndTimestamp > _reserve.purchaseBeginTimestamp);
@@ -263,7 +272,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     emit PurchaseEndTimestampMoved(previousTimestamp, newPurchaseEndTimestamp);
   }
 
-  function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external onlyPoolOperator
+  function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external override onlyVaultConfigurator
   {
     require(newRedemptionBeginTimestamp > _reserve.purchaseEndTimestamp);
     require(newRedemptionBeginTimestamp >= uint40(block.timestamp));
@@ -315,7 +324,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
 
   /**
    * @dev Set the _pause state of a reserve
-   * - Only callable by the PoolOperator contract
+   * - Only callable by the VaultOperator contract
    * @param val `true` to pause the reserve, `false` to un-pause it
    */
   function setPause(bool val) external override onlyVaultConfigurator {

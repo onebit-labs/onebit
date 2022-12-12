@@ -91,19 +91,6 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: "address",
-        name: "newAddress",
-        type: "address",
-      },
-    ],
-    name: "PoolOperatorUpdated",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: false,
         internalType: "bytes32",
         name: "id",
@@ -130,6 +117,19 @@ const _abi = [
       },
     ],
     name: "VaultConfiguratorUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newAddress",
+        type: "address",
+      },
+    ],
+    name: "VaultOperatorUpdated",
     type: "event",
   },
   {
@@ -205,32 +205,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getPoolAdmin",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getPoolOperator",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "getVault",
     outputs: [
       {
@@ -244,7 +218,33 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "getVaultAdmin",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getVaultConfigurator",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getVaultOperator",
     outputs: [
       {
         internalType: "address",
@@ -338,20 +338,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "setPoolAdmin",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "configurator",
-        type: "address",
-      },
-    ],
-    name: "setPoolOperator",
+    name: "setVaultAdmin",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -373,11 +360,24 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "pool",
+        name: "vault",
         type: "address",
       },
     ],
     name: "setVaultImpl",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "configurator",
+        type: "address",
+      },
+    ],
+    name: "setVaultOperator",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

@@ -21,7 +21,7 @@ task('init-next-period', 'Initialize next period')
                    , DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const pool = await Vault__factory.connect(
+    const vault = await Vault__factory.connect(
         (await getMarketDb()
           .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
@@ -33,7 +33,7 @@ task('init-next-period', 'Initialize next period')
     const _softUpperLimit = new BigNumber(softUpperLimit).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
     // console.log(`${managementFeeRate}, ${performanceFeeRate}, ${_purchaseUpperLimit}, ${_softUpperLimit}, ${_purchaseBeginTimestamp}, ${_purchaseEndTimestamp}, ${_redemptionBeginTimestamp}`);
     await waitForTx(
-        await ( pool.initializeNextPeriod(
+        await ( vault.initializeNextPeriod(
             managementFeeRate, performanceFeeRate, 
             _purchaseUpperLimit, _softUpperLimit,
             _purchaseBeginTimestamp, _purchaseEndTimestamp, _redemptionBeginTimestamp))
@@ -46,7 +46,7 @@ task('get-current-value', 'get the current value')
                    , DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const pool = await Vault__factory.connect(
+    const vault = await Vault__factory.connect(
         (await getMarketDb()
           .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
@@ -68,7 +68,7 @@ task('update-net-value', 'update the net value')
                    , DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const pool = await Vault__factory.connect(
+    const vault = await Vault__factory.connect(
         (await getMarketDb()
           .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
@@ -76,7 +76,7 @@ task('update-net-value', 'update the net value')
     const _netValue = new BigNumber(netValue).toFixed();
     // console.log(`${managementFeeRate}, ${performanceFeeRate}, ${_purchaseUpperLimit}, ${_softUpperLimit}, ${_purchaseBeginTimestamp}, ${_purchaseEndTimestamp}, ${_redemptionBeginTimestamp}`);
     await waitForTx(
-        await ( pool.updateNetValue(_netValue))
+        await ( vault.updateNetValue(_netValue))
     );
 });
 
@@ -97,19 +97,19 @@ task('test-deposit', '')
         )
     );
     
-    const pool = await Vault__factory.connect(
+    const vault = await Vault__factory.connect(
         (await getMarketDb()
           .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     await waitForTx(
         await (
-            usdt.approve(pool.address, totalAsset)
+            usdt.approve(vault.address, totalAsset)
         )
     );
     await waitForTx(
         await (
-            pool.deposit(new BigNumber(100000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed(),
+            vault.deposit(new BigNumber(100000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed(),
             signerAddress,
             0))
     );

@@ -8,8 +8,8 @@ import {
     eContractid,
     tStringTokenSmallUnits,
     tEthereumAddress,
-    OnebitPools,
-    iParamsPerPool,
+    OnebitVaults,
+    iParamsPerVault,
     iParamsPerNetwork,
     eNetwork,
     eEthereumNetwork,
@@ -127,12 +127,12 @@ export const verifyContract = async (
     return instance;
   };
 
-  export const getParamPerPool = <T>(
-    { proto }: iParamsPerPool<T>,
-    pool: OnebitPools
+  export const getParamPerVault = <T>(
+    { proto }: iParamsPerVault<T>,
+    vault: OnebitVaults
   ) => {
-    switch (pool) {
-      case OnebitPools.proto:
+    switch (vault) {
+      case OnebitVaults.proto:
         return proto;
       default:
         return proto;

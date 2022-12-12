@@ -20,10 +20,10 @@ contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
   string private _marketId;
   mapping(bytes32 => address) private _addresses;
 
-  bytes32 private constant LENDING_POOL = 'LENDING_POOL';
-  bytes32 private constant LENDING_POOL_CONFIGURATOR = 'LENDING_POOL_CONFIGURATOR';
-  bytes32 private constant POOL_OPERATOR = 'POOL_OPERATOR';
-  bytes32 private constant POOL_ADMIN = 'POOL_ADMIN';
+  bytes32 private constant VAULT = 'VAULT';
+  bytes32 private constant VAULT_CONFIGURATOR = 'VAULT_CONFIGURATOR';
+  bytes32 private constant VAULT_OPERATOR = 'VAULT_OPERATOR';
+  bytes32 private constant VAULT_ADMIN = 'VAULT_ADMIN';
   bytes32 private constant EMERGENCY_ADMIN = 'EMERGENCY_ADMIN';
   bytes32 private constant KYC_ADMIN = 'KYC_ADMIN';
   bytes32 private constant OTOKEN = 'OTOKEN';
@@ -90,17 +90,17 @@ contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
    * @return The Vault proxy address
    **/
   function getVault() external view override returns (address) {
-    return getAddress(LENDING_POOL);
+    return getAddress(VAULT);
   }
 
   /**
    * @dev Updates the implementation of the Vault, or creates the proxy
-   * setting the new `pool` implementation on the first time calling it
-   * @param pool The new Vault implementation
+   * setting the new `vault` implementation on the first time calling it
+   * @param vault The new Vault implementation
    **/
-  function setVaultImpl(address pool) external override onlyOwner {
-    _updateImpl(LENDING_POOL, pool);
-    emit VaultUpdated(pool);
+  function setVaultImpl(address vault) external override onlyOwner {
+    _updateImpl(VAULT, vault);
+    emit VaultUpdated(vault);
   }
 
   /**
@@ -108,7 +108,7 @@ contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
    * @return The VaultConfigurator proxy address
    **/
   function getVaultConfigurator() external view override returns (address) {
-    return getAddress(LENDING_POOL_CONFIGURATOR);
+    return getAddress(VAULT_CONFIGURATOR);
   }
 
   /**
@@ -117,22 +117,22 @@ contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
    * @param configurator The new VaultConfigurator implementation
    **/
   function setVaultConfiguratorImpl(address configurator) external override onlyOwner {
-    _updateImpl(LENDING_POOL_CONFIGURATOR, configurator);
+    _updateImpl(VAULT_CONFIGURATOR, configurator);
     emit VaultConfiguratorUpdated(configurator);
   }
 
   /**
-   * @dev Returns the address of the PoolOperator
-   * @return The PoolOperator address
+   * @dev Returns the address of the VaultOperator
+   * @return The VaultOperator address
    **/
-  function getPoolOperator() external view override returns (address) {
-    return getAddress(POOL_OPERATOR);
+  function getVaultOperator() external view override returns (address) {
+    return getAddress(VAULT_OPERATOR);
   }
 
 
-  function setPoolOperator(address operator) external override onlyOwner {
-    _addresses[POOL_OPERATOR] = operator;
-    emit PoolOperatorUpdated(operator);
+  function setVaultOperator(address operator) external override onlyOwner {
+    _addresses[VAULT_OPERATOR] = operator;
+    emit VaultOperatorUpdated(operator);
   }
 
   /**
@@ -140,12 +140,12 @@ contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
    * of the protocol hence the upgradable proxy pattern is not used
    **/
 
-  function getPoolAdmin() external view override returns (address) {
-    return getAddress(POOL_ADMIN);
+  function getVaultAdmin() external view override returns (address) {
+    return getAddress(VAULT_ADMIN);
   }
 
-  function setPoolAdmin(address admin) external override onlyOwner {
-    _addresses[POOL_ADMIN] = admin;
+  function setVaultAdmin(address admin) external override onlyOwner {
+    _addresses[VAULT_ADMIN] = admin;
     emit ConfigurationAdminUpdated(admin);
   }
 

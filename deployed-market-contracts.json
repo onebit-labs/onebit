@@ -23,7 +23,7 @@
       }
     },
     "hardhat": {
-      "Test Pool": {
+      "Test Vault": {
         "address": "0xf784709d2317D872237C4bC22f867d1BAe2913AB",
         "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
       }
@@ -48,7 +48,7 @@
       }
     },
     "hardhat": {
-      "Test Pool": {
+      "Test Vault": {
         "address": "0x93892E7ef9aB548bcb7b00354A51A84A4Fe94Cd7"
       }
     }
@@ -72,7 +72,7 @@
       }
     },
     "hardhat": {
-      "Test Pool": {
+      "Test Vault": {
         "address": "0xcBC2b18ac2b34512881B0966460B92696A844621"
       }
     }
@@ -96,7 +96,7 @@
       }
     },
     "hardhat": {
-      "Test Pool": {
+      "Test Vault": {
         "address": "0x02f9390BbB41924225F6d5C621e5dF56A3Ad6E9a"
       }
     }
