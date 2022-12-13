@@ -112,7 +112,7 @@
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "goerli": {
-      "address": "0xA9223CDf6dF4667E8Df61d8312c2c4B6F890DC6E",
+      "address": "0x511ebAa48387E8ACAB38A24Ec50c6A2140E79Dc2",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "bsc_testnet": {
