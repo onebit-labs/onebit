@@ -1,6 +1,7 @@
 import { task } from 'hardhat/config';
 import { getFirstSigner } from '../helpers/contracts-helpers';
 import {Vault__factory} from '../types/factories/Vault__factory';
+import { VaultConfigurator__factory } from '../types/factories/VaultConfigurator__factory';
 import {MintableERC20__factory} from '../types/factories/MintableERC20__factory';
 import { eContractid, eNetwork } from '../helpers/types';
 import {getDb, getMarketDb, waitForTx, readDateString} from '../helpers/misc-utils';
@@ -21,9 +22,9 @@ task('init-next-period', 'Initialize next period')
                    , DRE) => {
     await DRE.run('set-DRE');
     const signer = await getFirstSigner();
-    const vault = await Vault__factory.connect(
+    const configurator = await VaultConfigurator__factory.connect(
         (await getMarketDb()
-          .get(`${eContractid.Vault}.${DRE.network.name}.${market}`)
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
           .value()).address,
         signer);
     const _purchaseBeginTimestamp = readDateString(purchaseBeginTimestamp);
@@ -33,7 +34,7 @@ task('init-next-period', 'Initialize next period')
     const _softUpperLimit = new BigNumber(softUpperLimit).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
     // console.log(`${managementFeeRate}, ${performanceFeeRate}, ${_purchaseUpperLimit}, ${_softUpperLimit}, ${_purchaseBeginTimestamp}, ${_purchaseEndTimestamp}, ${_redemptionBeginTimestamp}`);
     await waitForTx(
-        await ( vault.initializeNextPeriod(
+        await ( configurator.initializeNextPeriod(
             managementFeeRate, performanceFeeRate, 
             _purchaseUpperLimit, _softUpperLimit,
             _purchaseBeginTimestamp, _purchaseEndTimestamp, _redemptionBeginTimestamp))

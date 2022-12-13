@@ -2,19 +2,19 @@
   "VaultAddressesProvider": {
     "goerli": {
       "Onebit-Lightning-Hunter-USDT": {
-        "address": "0x5E83dE1387360727Adc92c097ee087D2c49E9394",
+        "address": "0x44B68B8efaad1DF0f1053A0D1101490Aac483263",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       },
       "Onebit-Smart-Trend-USDT": {
-        "address": "0xE1F77C814AF8731CECe37e3455Df427D36de709F",
+        "address": "0x3d9Be18dFF0272c7598db1458CBadf9182223D6b",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0xb94C4F47Ff73832993745Ffeb733cFd78A98e381",
+        "address": "0x26FA9DDfc8A373e40cceE3C41456B5C61e0ad67a",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       },
       "Onebit-Smart-Trend-USDT-Demo": {
-        "address": "0x2c9C9Ec84f858c611004e0B2231C1B9D27164806",
+        "address": "0x039c2Eb08059D6813f0072222C79Fcc2ec39985d",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       },
       "Onebit-Smart-Trend-USDT-Whitelist-Test": {
@@ -32,16 +32,16 @@
   "Vault": {
     "goerli": {
       "Onebit-Lightning-Hunter-USDT": {
-        "address": "0x780DE295A0f6529b46b3cf0d1DdaEecA1BCbCb5C"
+        "address": "0x89d709719dF2a1700e498007BaC71e84f161A8d2"
       },
       "Onebit-Smart-Trend-USDT": {
-        "address": "0x45BeBD42650e792eda35F02855113090CDCb2a79"
+        "address": "0xf9e7586bB7CD16B4F05d2059430fF7E0745796bd"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0x237d0588c4b4f89498d03458ddB66373E1b89C87"
+        "address": "0xe52290f6E5D2A9eAfEF7B9e8BDf8642af776309d"
       },
       "Onebit-Smart-Trend-USDT-Demo": {
-        "address": "0x6633665728737D3aEbE62a257802C14cCa3E1cE4"
+        "address": "0xBab469f8E4ce3c71f92586384824c2f6e1AcdCbB"
       },
       "Onebit-Smart-Trend-USDT-Whitelist-Test": {
         "address": "0x86117A8b09A90f82629dEF0e954Cbc7a05811Fe9"
@@ -56,16 +56,16 @@
   "VaultConfigurator": {
     "goerli": {
       "Onebit-Lightning-Hunter-USDT": {
-        "address": "0x5a2E924c5cDE7fB3BD3c4d494416c4497F0dF854"
+        "address": "0x7aE31F6A9467D2a626072c28839C608D5561b8cc"
       },
       "Onebit-Smart-Trend-USDT": {
-        "address": "0x6bacb3639491C2753b714Af913aA5c9B09DfB01b"
+        "address": "0xcDBbF91798DbD30c7485e1381D024d92cB27670e"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0xdFf69477d11Cd5a7fC19b72719F78D2df9A9B567"
+        "address": "0xDe477f1c2e51fA9fCe4F10d12211666f928e2491"
       },
       "Onebit-Smart-Trend-USDT-Demo": {
-        "address": "0xDCC3323E1627fA0F6D1F2f0b13FD879D841E0dA7"
+        "address": "0x4821d0A83B24449fce71Fb5e429197D0454DF3EE"
       },
       "Onebit-Smart-Trend-USDT-Whitelist-Test": {
         "address": "0xD248959A407ed01046dE33fBF69Da3144992974d"
@@ -80,16 +80,16 @@
   "OToken": {
     "goerli": {
       "Onebit-Lightning-Hunter-USDT": {
-        "address": "0x590D59fbDbf9655b7F20b5fD4bb04B08466577EE"
+        "address": "0xdA11392488708F296b67Cf20dF2E06bB58acbAb6"
       },
       "Onebit-Smart-Trend-USDT": {
-        "address": "0x85f97d9d9b0f61aA9F4FDfd8cb320807110bb654"
+        "address": "0x9Cc6dfD95132d68719901e0531c084D1E5AdA85B"
       },
       "Onebit-Smart-Trend-USDT-Demo": {
-        "address": "0x3EF565F95Da654D3196e6bC8961959dA309EFcF6"
+        "address": "0xDeEb326e5B4672548c58872207959d275Bed5422"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0xa8e4ec8b4103c683c981f4B2306D416fEf1DeA4d"
+        "address": "0x3cdbC4bc3eEC850D30F7a676806FF18815331865"
       },
       "Onebit-Smart-Trend-USDT-Whitelist-Test": {
         "address": "0xc470D401Cd08133E3DDa5D6965B7d53611aD240B"
