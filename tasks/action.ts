@@ -41,6 +41,25 @@ task('init-next-period', 'Initialize next period')
     );
 });
 
+task('set-whitelist-duration', 'Set the duration of every new entry in the whitelist.')
+.addParam('market', 'The market ID')
+.addParam('duration', 'The duration in days')
+.setAction(async ({market, duration}
+                   , DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const configurator = await VaultConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    const ONE_DAY = 24 * 3600;
+    const _duration = ONE_DAY * parseInt(duration);
+    await waitForTx(
+        await ( configurator.setWhitelistExpiration(_duration))
+    );
+});
+
 task('get-current-value', 'get the current value')
 .addParam('market', 'The market ID')
 .setAction(async ({market}
