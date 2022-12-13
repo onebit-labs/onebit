@@ -463,8 +463,9 @@ task('set-whitelist-expiration', 'Set the expiration of whitelist')
 
 task('deploy-timelocked-executor', 'Deploy timelocked executor')
 .addFlag('verify', 'Verify contracts at Etherscan')
+.addParam('role', 'The name of the role.')
 .addFlag('test', 'Test environment.')
-.setAction(async ({verify, test}, DRE) => {
+.setAction(async ({verify, role, test}, DRE) => {
     await DRE.run('set-DRE');
     const ONE_DAY_IN_SECS = 24 * 60 * 60;
     const ONE_WEEK_IN_SECS = 7 * ONE_DAY_IN_SECS;
@@ -483,7 +484,7 @@ task('deploy-timelocked-executor', 'Deploy timelocked executor')
     await withSaveAndVerify(
         //@ts-ignore
         await new TimelockedExecutor__factory(signer).deploy(...args),
-        eContractid.TimelockedExecutor,
+        `${eContractid.TimelockedExecutor}_${role}`,
         args,
         verify
         );

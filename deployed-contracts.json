@@ -82,12 +82,6 @@
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     }
   },
-  "BTC": {
-    "goerli": {
-      "address": "0x18A57eCbf7ff0AaA12476A60Ae044ff34537969a",
-      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
-    }
-  },
   "OToken": {
     "goerli": {
       "address": "0xA0b8b2BB7aAC0c77b392B5A7A8f2143758B1ab4d",
@@ -128,6 +122,34 @@
     "hardhat": {
       "address": "0x8858eeB3DfffA017D4BCE9801D340D36Cf895CCf",
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+    },
+    "goerli": {
+      "address": "0x18A57eCbf7ff0AaA12476A60Ae044ff34537969a",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "TimelockedExecutor_Owner": {
+    "goerli": {
+      "address": "0x00521cCbB33acFfdB42983Ac0C00f640fE03DCE2",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "TimelockedExecutor_VaultAdmin": {
+    "goerli": {
+      "address": "0xAE63681a6D6b658d82d130f94ed55Fcf97Ff356B",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "TimelockedExecutor_VaultOperator": {
+    "goerli": {
+      "address": "0xa326750204E2133a661A8DaeA96Fa5859b514C66",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    }
+  },
+  "TimelockedExecutor_PortfolioManager": {
+    "goerli": {
+      "address": "0xcf9362B51B9b89571A5C0Fd69A1F32264367769e",
+      "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     }
   }
 }
