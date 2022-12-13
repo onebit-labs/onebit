@@ -13,8 +13,9 @@ import {IVaultAddressesProvider} from './interfaces/IVaultAddressesProvider.sol'
  * @title VaultAddressesProvider contract
  * @dev Main registry of addresses part of or connected to the protocol, including permissioned roles
  * - Acting also as factory of proxies and admin of those, so with right to change its implementations
- * - Owned by the Aave Governance
+ * - Owned by the Onebit Governance
  * @author Aave
+ * @author Onebit
  **/
 contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
   string private _marketId;
@@ -26,6 +27,7 @@ contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
   bytes32 private constant VAULT_ADMIN = 'VAULT_ADMIN';
   bytes32 private constant EMERGENCY_ADMIN = 'EMERGENCY_ADMIN';
   bytes32 private constant KYC_ADMIN = 'KYC_ADMIN';
+  bytes32 private constant PORTFOLIO_MANAGER = 'PORTFOLIO_MANAGER';
   bytes32 private constant OTOKEN = 'OTOKEN';
   
   constructor(string memory marketId) public {
@@ -165,6 +167,15 @@ contract VaultAddressesProvider is Ownable, IVaultAddressesProvider {
   function setKYCAdmin(address kycAdmin) external override onlyOwner {
     _addresses[KYC_ADMIN] = kycAdmin;
     emit KYCAdminUpdated(kycAdmin);
+  }
+
+  function getPortfolioManager() external view override returns (address) {
+    return getAddress(PORTFOLIO_MANAGER);
+  }
+
+  function setPortfolioManager(address portfolioManager) external override onlyOwner {
+    _addresses[PORTFOLIO_MANAGER] = portfolioManager;
+    emit PortfolioManagerUpdated(portfolioManager);
   }
 
   /**

@@ -7,6 +7,7 @@ pragma solidity 0.8.9;
  * - Acting also as factory of proxies and admin of those, so with right to change its implementations
  * - Owned by the Aave Governance
  * @author Aave
+ * @author Onebit
  **/
 interface IVaultAddressesProvider {
   event MarketIdSet(string newMarketId);
@@ -15,6 +16,7 @@ interface IVaultAddressesProvider {
   event ConfigurationAdminUpdated(address indexed newAddress);
   event EmergencyAdminUpdated(address indexed newAddress);
   event KYCAdminUpdated(address indexed newAddress);
+  event PortfolioManagerUpdated(address indexed newAddress);
   event VaultOperatorUpdated(address indexed newAddress);
   event ProxyCreated(bytes32 id, address indexed newAddress);
   event AddressSet(bytes32 id, address indexed newAddress, bool hasProxy);
@@ -52,4 +54,8 @@ interface IVaultAddressesProvider {
   function getKYCAdmin() external view returns (address);
 
   function setKYCAdmin(address admin) external;
+
+  function getPortfolioManager() external view returns (address);
+
+  function setPortfolioManager(address admin) external;
 }

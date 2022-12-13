@@ -10,7 +10,7 @@ import {ITimelockedExecutor} from '../interfaces/ITimelockedExecutor.sol';
  * Queued transactions can be executed after a delay and until
  * Grace period is not over.
  * @author Aave
- * @author Vinci
+ * @author Onebit
  **/
 contract TimelockedExecutor is ITimelockedExecutor {
   uint256 public immutable override GRACE_PERIOD;

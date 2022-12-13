@@ -19,6 +19,7 @@ import {IVaultConfigurator} from './interfaces/IVaultConfigurator.sol';
 /**
  * @title VaultConfigurator contract
  * @author Aave
+ * @author Onebit
  * @dev Implements the configuration methods for the Aave protocol
  **/
 
@@ -37,7 +38,7 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   modifier onlyEmergencyAdmin {
     require(
       addressesProvider.getEmergencyAdmin() == msg.sender,
-      Errors.LPC_CALLER_NOT_EMERGENCY_ADMIN
+      Errors.VPC_CALLER_NOT_EMERGENCY_ADMIN
     );
     _;
   }
@@ -45,7 +46,15 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
   modifier onlyKYCAdmin {
     require(
       addressesProvider.getKYCAdmin() == msg.sender || addressesProvider.getVaultAdmin() == msg.sender,
-      Errors.LPC_CALLER_NOT_KYC_ADMIN
+      Errors.VPC_CALLER_NOT_KYC_ADMIN
+    );
+    _;
+  }
+
+  modifier onlyPortfolioManager {
+    require(
+      addressesProvider.getPortfolioManager() == msg.sender || addressesProvider.getVaultAdmin() == msg.sender,
+      Errors.VPC_CALLER_NOT_PORTFOLIO_MANAGER
     );
     _;
   }
@@ -204,7 +213,7 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
     vault.removeFromWhitelist(user);
   }
 
-  function setWhitelistExpiration(uint256 expiration) external onlyVaultAdmin {
+  function setWhitelistExpiration(uint256 expiration) external onlyPortfolioManager {
     vault.setWhitelistExpiration(expiration);
   }
 
@@ -214,18 +223,18 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
       uint128 softUpperLimit,
       uint40 purchaseBeginTimestamp, uint40 purchaseEndTimestamp, 
       uint40 redemptionBeginTimestamp)
-      external onlyVaultAdmin {
+      external onlyPortfolioManager {
     vault.initializeNextPeriod(
       managementFeeRate, performanceFeeRate, purchaseUpperLimit, softUpperLimit,
       purchaseBeginTimestamp, purchaseEndTimestamp, redemptionBeginTimestamp
     );
   }
 
-  function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external onlyVaultAdmin {
+  function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external onlyPortfolioManager {
     vault.moveTheLockPeriod(newPurchaseEndTimestamp);
   }
 
-  function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external onlyVaultAdmin {
+  function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external onlyPortfolioManager {
     vault.moveTheRedemptionPeriod(newRedemptionBeginTimestamp);
   }
 

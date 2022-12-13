@@ -32,24 +32,6 @@ export interface ErrorsInterface extends utils.Interface {
     "CT_TOKEN_CAN_NOT_BE_SELF()": FunctionFragment;
     "CT_TOKEN_CAN_NOT_BE_UNDERLYING()": FunctionFragment;
     "CT_TRANSFER_AMOUNT_NOT_GT_0()": FunctionFragment;
-    "LPAPR_INVALID_ADDRESSES_PROVIDER_ID()": FunctionFragment;
-    "LPAPR_PROVIDER_NOT_REGISTERED()": FunctionFragment;
-    "LPCM_NO_ERRORS()": FunctionFragment;
-    "LPC_CALLER_NOT_EMERGENCY_ADMIN()": FunctionFragment;
-    "LPC_CALLER_NOT_KYC_ADMIN()": FunctionFragment;
-    "LPC_INVALID_ADDRESSES_PROVIDER_ID()": FunctionFragment;
-    "LPC_INVALID_CONFIGURATION()": FunctionFragment;
-    "LPC_INVALID_OTOKEN_VAULT_ADDRESS()": FunctionFragment;
-    "LPC_RESERVE_LIQUIDITY_NOT_0()": FunctionFragment;
-    "LP_CALLER_MUST_BE_AN_OTOKEN()": FunctionFragment;
-    "LP_CALLER_NOT_VAULT_CONFIGURATOR()": FunctionFragment;
-    "LP_CALLER_NOT_VAULT_OPERATOR()": FunctionFragment;
-    "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE()": FunctionFragment;
-    "LP_IS_PAUSED()": FunctionFragment;
-    "LP_NOT_CONTRACT()": FunctionFragment;
-    "LP_NOT_IN_WHITELIST()": FunctionFragment;
-    "LP_NO_MORE_RESERVES_ALLOWED()": FunctionFragment;
-    "LP_REENTRANCY_NOT_ALLOWED()": FunctionFragment;
     "MATH_ADDITION_OVERFLOW()": FunctionFragment;
     "MATH_DIVISION_BY_ZERO()": FunctionFragment;
     "MATH_MULTIPLICATION_OVERFLOW()": FunctionFragment;
@@ -59,6 +41,9 @@ export interface ErrorsInterface extends utils.Interface {
     "RL_RESERVE_ALREADY_INITIALIZED()": FunctionFragment;
     "SDT_BURN_EXCEEDS_BALANCE()": FunctionFragment;
     "UL_INVALID_INDEX()": FunctionFragment;
+    "VAPR_INVALID_ADDRESSES_PROVIDER_ID()": FunctionFragment;
+    "VAPR_PROVIDER_NOT_REGISTERED()": FunctionFragment;
+    "VCM_NO_ERRORS()": FunctionFragment;
     "VL_CURRENT_AVAILABLE_LIQUIDITY_NOT_ENOUGH()": FunctionFragment;
     "VL_INVALID_AMOUNT()": FunctionFragment;
     "VL_INVALID_FUND_ADDRESS()": FunctionFragment;
@@ -72,6 +57,22 @@ export interface ErrorsInterface extends utils.Interface {
     "VL_RESERVE_FROZEN()": FunctionFragment;
     "VL_TRANSFER_NOT_ALLOWED()": FunctionFragment;
     "VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0()": FunctionFragment;
+    "VPC_CALLER_NOT_EMERGENCY_ADMIN()": FunctionFragment;
+    "VPC_CALLER_NOT_KYC_ADMIN()": FunctionFragment;
+    "VPC_CALLER_NOT_PORTFOLIO_MANAGER()": FunctionFragment;
+    "VPC_INVALID_ADDRESSES_PROVIDER_ID()": FunctionFragment;
+    "VPC_INVALID_CONFIGURATION()": FunctionFragment;
+    "VPC_INVALID_OTOKEN_VAULT_ADDRESS()": FunctionFragment;
+    "VPC_RESERVE_LIQUIDITY_NOT_0()": FunctionFragment;
+    "V_CALLER_MUST_BE_AN_OTOKEN()": FunctionFragment;
+    "V_CALLER_NOT_VAULT_CONFIGURATOR()": FunctionFragment;
+    "V_CALLER_NOT_VAULT_OPERATOR()": FunctionFragment;
+    "V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE()": FunctionFragment;
+    "V_IS_PAUSED()": FunctionFragment;
+    "V_NOT_CONTRACT()": FunctionFragment;
+    "V_NOT_IN_WHITELIST()": FunctionFragment;
+    "V_NO_MORE_RESERVES_ALLOWED()": FunctionFragment;
+    "V_REENTRANCY_NOT_ALLOWED()": FunctionFragment;
   };
 
   getFunction(
@@ -86,24 +87,6 @@ export interface ErrorsInterface extends utils.Interface {
       | "CT_TOKEN_CAN_NOT_BE_SELF"
       | "CT_TOKEN_CAN_NOT_BE_UNDERLYING"
       | "CT_TRANSFER_AMOUNT_NOT_GT_0"
-      | "LPAPR_INVALID_ADDRESSES_PROVIDER_ID"
-      | "LPAPR_PROVIDER_NOT_REGISTERED"
-      | "LPCM_NO_ERRORS"
-      | "LPC_CALLER_NOT_EMERGENCY_ADMIN"
-      | "LPC_CALLER_NOT_KYC_ADMIN"
-      | "LPC_INVALID_ADDRESSES_PROVIDER_ID"
-      | "LPC_INVALID_CONFIGURATION"
-      | "LPC_INVALID_OTOKEN_VAULT_ADDRESS"
-      | "LPC_RESERVE_LIQUIDITY_NOT_0"
-      | "LP_CALLER_MUST_BE_AN_OTOKEN"
-      | "LP_CALLER_NOT_VAULT_CONFIGURATOR"
-      | "LP_CALLER_NOT_VAULT_OPERATOR"
-      | "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE"
-      | "LP_IS_PAUSED"
-      | "LP_NOT_CONTRACT"
-      | "LP_NOT_IN_WHITELIST"
-      | "LP_NO_MORE_RESERVES_ALLOWED"
-      | "LP_REENTRANCY_NOT_ALLOWED"
       | "MATH_ADDITION_OVERFLOW"
       | "MATH_DIVISION_BY_ZERO"
       | "MATH_MULTIPLICATION_OVERFLOW"
@@ -113,6 +96,9 @@ export interface ErrorsInterface extends utils.Interface {
       | "RL_RESERVE_ALREADY_INITIALIZED"
       | "SDT_BURN_EXCEEDS_BALANCE"
       | "UL_INVALID_INDEX"
+      | "VAPR_INVALID_ADDRESSES_PROVIDER_ID"
+      | "VAPR_PROVIDER_NOT_REGISTERED"
+      | "VCM_NO_ERRORS"
       | "VL_CURRENT_AVAILABLE_LIQUIDITY_NOT_ENOUGH"
       | "VL_INVALID_AMOUNT"
       | "VL_INVALID_FUND_ADDRESS"
@@ -126,6 +112,22 @@ export interface ErrorsInterface extends utils.Interface {
       | "VL_RESERVE_FROZEN"
       | "VL_TRANSFER_NOT_ALLOWED"
       | "VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0"
+      | "VPC_CALLER_NOT_EMERGENCY_ADMIN"
+      | "VPC_CALLER_NOT_KYC_ADMIN"
+      | "VPC_CALLER_NOT_PORTFOLIO_MANAGER"
+      | "VPC_INVALID_ADDRESSES_PROVIDER_ID"
+      | "VPC_INVALID_CONFIGURATION"
+      | "VPC_INVALID_OTOKEN_VAULT_ADDRESS"
+      | "VPC_RESERVE_LIQUIDITY_NOT_0"
+      | "V_CALLER_MUST_BE_AN_OTOKEN"
+      | "V_CALLER_NOT_VAULT_CONFIGURATOR"
+      | "V_CALLER_NOT_VAULT_OPERATOR"
+      | "V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE"
+      | "V_IS_PAUSED"
+      | "V_NOT_CONTRACT"
+      | "V_NOT_IN_WHITELIST"
+      | "V_NO_MORE_RESERVES_ALLOWED"
+      | "V_REENTRANCY_NOT_ALLOWED"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -169,78 +171,6 @@ export interface ErrorsInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "LPAPR_INVALID_ADDRESSES_PROVIDER_ID",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPAPR_PROVIDER_NOT_REGISTERED",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPCM_NO_ERRORS",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPC_CALLER_NOT_EMERGENCY_ADMIN",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPC_CALLER_NOT_KYC_ADMIN",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPC_INVALID_ADDRESSES_PROVIDER_ID",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPC_INVALID_CONFIGURATION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPC_INVALID_OTOKEN_VAULT_ADDRESS",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LPC_RESERVE_LIQUIDITY_NOT_0",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_CALLER_MUST_BE_AN_OTOKEN",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_CALLER_NOT_VAULT_CONFIGURATOR",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_CALLER_NOT_VAULT_OPERATOR",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_IS_PAUSED",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_NOT_CONTRACT",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_NOT_IN_WHITELIST",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_NO_MORE_RESERVES_ALLOWED",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "LP_REENTRANCY_NOT_ALLOWED",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "MATH_ADDITION_OVERFLOW",
     values?: undefined
   ): string;
@@ -274,6 +204,18 @@ export interface ErrorsInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "UL_INVALID_INDEX",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VAPR_INVALID_ADDRESSES_PROVIDER_ID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VAPR_PROVIDER_NOT_REGISTERED",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VCM_NO_ERRORS",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -326,6 +268,70 @@ export interface ErrorsInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VPC_CALLER_NOT_EMERGENCY_ADMIN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VPC_CALLER_NOT_KYC_ADMIN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VPC_CALLER_NOT_PORTFOLIO_MANAGER",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VPC_INVALID_ADDRESSES_PROVIDER_ID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VPC_INVALID_CONFIGURATION",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VPC_INVALID_OTOKEN_VAULT_ADDRESS",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VPC_RESERVE_LIQUIDITY_NOT_0",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_CALLER_MUST_BE_AN_OTOKEN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_CALLER_NOT_VAULT_CONFIGURATOR",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_CALLER_NOT_VAULT_OPERATOR",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_IS_PAUSED",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_NOT_CONTRACT",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_NOT_IN_WHITELIST",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_NO_MORE_RESERVES_ALLOWED",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "V_REENTRANCY_NOT_ALLOWED",
     values?: undefined
   ): string;
 
@@ -370,78 +376,6 @@ export interface ErrorsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "LPAPR_INVALID_ADDRESSES_PROVIDER_ID",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPAPR_PROVIDER_NOT_REGISTERED",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPCM_NO_ERRORS",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPC_CALLER_NOT_EMERGENCY_ADMIN",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPC_CALLER_NOT_KYC_ADMIN",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPC_INVALID_ADDRESSES_PROVIDER_ID",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPC_INVALID_CONFIGURATION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPC_INVALID_OTOKEN_VAULT_ADDRESS",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LPC_RESERVE_LIQUIDITY_NOT_0",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_CALLER_MUST_BE_AN_OTOKEN",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_CALLER_NOT_VAULT_CONFIGURATOR",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_CALLER_NOT_VAULT_OPERATOR",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_IS_PAUSED",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_NOT_CONTRACT",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_NOT_IN_WHITELIST",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_NO_MORE_RESERVES_ALLOWED",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "LP_REENTRANCY_NOT_ALLOWED",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "MATH_ADDITION_OVERFLOW",
     data: BytesLike
   ): Result;
@@ -475,6 +409,18 @@ export interface ErrorsInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "UL_INVALID_INDEX",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VAPR_INVALID_ADDRESSES_PROVIDER_ID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VAPR_PROVIDER_NOT_REGISTERED",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VCM_NO_ERRORS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -527,6 +473,70 @@ export interface ErrorsInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VPC_CALLER_NOT_EMERGENCY_ADMIN",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VPC_CALLER_NOT_KYC_ADMIN",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VPC_CALLER_NOT_PORTFOLIO_MANAGER",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VPC_INVALID_ADDRESSES_PROVIDER_ID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VPC_INVALID_CONFIGURATION",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VPC_INVALID_OTOKEN_VAULT_ADDRESS",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VPC_RESERVE_LIQUIDITY_NOT_0",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_CALLER_MUST_BE_AN_OTOKEN",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_CALLER_NOT_VAULT_CONFIGURATOR",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_CALLER_NOT_VAULT_OPERATOR",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_IS_PAUSED",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_NOT_CONTRACT",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_NOT_IN_WHITELIST",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_NO_MORE_RESERVES_ALLOWED",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "V_REENTRANCY_NOT_ALLOWED",
     data: BytesLike
   ): Result;
 
@@ -584,54 +594,6 @@ export interface Errors extends BaseContract {
 
     CT_TRANSFER_AMOUNT_NOT_GT_0(overrides?: CallOverrides): Promise<[string]>;
 
-    LPAPR_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    LPAPR_PROVIDER_NOT_REGISTERED(overrides?: CallOverrides): Promise<[string]>;
-
-    LPCM_NO_ERRORS(overrides?: CallOverrides): Promise<[string]>;
-
-    LPC_CALLER_NOT_EMERGENCY_ADMIN(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    LPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<[string]>;
-
-    LPC_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<[string]>;
-
-    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<[string]>;
-
-    LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<[string]>;
-
-    LP_CALLER_NOT_VAULT_CONFIGURATOR(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<[string]>;
-
-    LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    LP_IS_PAUSED(overrides?: CallOverrides): Promise<[string]>;
-
-    LP_NOT_CONTRACT(overrides?: CallOverrides): Promise<[string]>;
-
-    LP_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<[string]>;
-
-    LP_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<[string]>;
-
-    LP_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<[string]>;
-
     MATH_ADDITION_OVERFLOW(overrides?: CallOverrides): Promise<[string]>;
 
     MATH_DIVISION_BY_ZERO(overrides?: CallOverrides): Promise<[string]>;
@@ -651,6 +613,14 @@ export interface Errors extends BaseContract {
     SDT_BURN_EXCEEDS_BALANCE(overrides?: CallOverrides): Promise<[string]>;
 
     UL_INVALID_INDEX(overrides?: CallOverrides): Promise<[string]>;
+
+    VAPR_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    VAPR_PROVIDER_NOT_REGISTERED(overrides?: CallOverrides): Promise<[string]>;
+
+    VCM_NO_ERRORS(overrides?: CallOverrides): Promise<[string]>;
 
     VL_CURRENT_AVAILABLE_LIQUIDITY_NOT_ENOUGH(
       overrides?: CallOverrides
@@ -685,6 +655,50 @@ export interface Errors extends BaseContract {
     VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0(
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    VPC_CALLER_NOT_EMERGENCY_ADMIN(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    VPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<[string]>;
+
+    VPC_CALLER_NOT_PORTFOLIO_MANAGER(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    VPC_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    VPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<[string]>;
+
+    VPC_INVALID_OTOKEN_VAULT_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    VPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<[string]>;
+
+    V_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<[string]>;
+
+    V_CALLER_NOT_VAULT_CONFIGURATOR(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    V_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<[string]>;
+
+    V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    V_IS_PAUSED(overrides?: CallOverrides): Promise<[string]>;
+
+    V_NOT_CONTRACT(overrides?: CallOverrides): Promise<[string]>;
+
+    V_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<[string]>;
+
+    V_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<[string]>;
+
+    V_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<[string]>;
   };
 
   BORROW_ALLOWANCE_NOT_ENOUGH(overrides?: CallOverrides): Promise<string>;
@@ -709,46 +723,6 @@ export interface Errors extends BaseContract {
 
   CT_TRANSFER_AMOUNT_NOT_GT_0(overrides?: CallOverrides): Promise<string>;
 
-  LPAPR_INVALID_ADDRESSES_PROVIDER_ID(
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  LPAPR_PROVIDER_NOT_REGISTERED(overrides?: CallOverrides): Promise<string>;
-
-  LPCM_NO_ERRORS(overrides?: CallOverrides): Promise<string>;
-
-  LPC_CALLER_NOT_EMERGENCY_ADMIN(overrides?: CallOverrides): Promise<string>;
-
-  LPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<string>;
-
-  LPC_INVALID_ADDRESSES_PROVIDER_ID(overrides?: CallOverrides): Promise<string>;
-
-  LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<string>;
-
-  LPC_INVALID_OTOKEN_VAULT_ADDRESS(overrides?: CallOverrides): Promise<string>;
-
-  LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<string>;
-
-  LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
-
-  LP_CALLER_NOT_VAULT_CONFIGURATOR(overrides?: CallOverrides): Promise<string>;
-
-  LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<string>;
-
-  LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  LP_IS_PAUSED(overrides?: CallOverrides): Promise<string>;
-
-  LP_NOT_CONTRACT(overrides?: CallOverrides): Promise<string>;
-
-  LP_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<string>;
-
-  LP_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<string>;
-
-  LP_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<string>;
-
   MATH_ADDITION_OVERFLOW(overrides?: CallOverrides): Promise<string>;
 
   MATH_DIVISION_BY_ZERO(overrides?: CallOverrides): Promise<string>;
@@ -766,6 +740,14 @@ export interface Errors extends BaseContract {
   SDT_BURN_EXCEEDS_BALANCE(overrides?: CallOverrides): Promise<string>;
 
   UL_INVALID_INDEX(overrides?: CallOverrides): Promise<string>;
+
+  VAPR_INVALID_ADDRESSES_PROVIDER_ID(
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  VAPR_PROVIDER_NOT_REGISTERED(overrides?: CallOverrides): Promise<string>;
+
+  VCM_NO_ERRORS(overrides?: CallOverrides): Promise<string>;
 
   VL_CURRENT_AVAILABLE_LIQUIDITY_NOT_ENOUGH(
     overrides?: CallOverrides
@@ -801,6 +783,40 @@ export interface Errors extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  VPC_CALLER_NOT_EMERGENCY_ADMIN(overrides?: CallOverrides): Promise<string>;
+
+  VPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<string>;
+
+  VPC_CALLER_NOT_PORTFOLIO_MANAGER(overrides?: CallOverrides): Promise<string>;
+
+  VPC_INVALID_ADDRESSES_PROVIDER_ID(overrides?: CallOverrides): Promise<string>;
+
+  VPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<string>;
+
+  VPC_INVALID_OTOKEN_VAULT_ADDRESS(overrides?: CallOverrides): Promise<string>;
+
+  VPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<string>;
+
+  V_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
+
+  V_CALLER_NOT_VAULT_CONFIGURATOR(overrides?: CallOverrides): Promise<string>;
+
+  V_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<string>;
+
+  V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  V_IS_PAUSED(overrides?: CallOverrides): Promise<string>;
+
+  V_NOT_CONTRACT(overrides?: CallOverrides): Promise<string>;
+
+  V_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<string>;
+
+  V_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<string>;
+
+  V_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
     BORROW_ALLOWANCE_NOT_ENOUGH(overrides?: CallOverrides): Promise<string>;
 
@@ -824,52 +840,6 @@ export interface Errors extends BaseContract {
 
     CT_TRANSFER_AMOUNT_NOT_GT_0(overrides?: CallOverrides): Promise<string>;
 
-    LPAPR_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    LPAPR_PROVIDER_NOT_REGISTERED(overrides?: CallOverrides): Promise<string>;
-
-    LPCM_NO_ERRORS(overrides?: CallOverrides): Promise<string>;
-
-    LPC_CALLER_NOT_EMERGENCY_ADMIN(overrides?: CallOverrides): Promise<string>;
-
-    LPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<string>;
-
-    LPC_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<string>;
-
-    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<string>;
-
-    LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
-
-    LP_CALLER_NOT_VAULT_CONFIGURATOR(
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<string>;
-
-    LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    LP_IS_PAUSED(overrides?: CallOverrides): Promise<string>;
-
-    LP_NOT_CONTRACT(overrides?: CallOverrides): Promise<string>;
-
-    LP_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<string>;
-
-    LP_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<string>;
-
-    LP_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<string>;
-
     MATH_ADDITION_OVERFLOW(overrides?: CallOverrides): Promise<string>;
 
     MATH_DIVISION_BY_ZERO(overrides?: CallOverrides): Promise<string>;
@@ -887,6 +857,14 @@ export interface Errors extends BaseContract {
     SDT_BURN_EXCEEDS_BALANCE(overrides?: CallOverrides): Promise<string>;
 
     UL_INVALID_INDEX(overrides?: CallOverrides): Promise<string>;
+
+    VAPR_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    VAPR_PROVIDER_NOT_REGISTERED(overrides?: CallOverrides): Promise<string>;
+
+    VCM_NO_ERRORS(overrides?: CallOverrides): Promise<string>;
 
     VL_CURRENT_AVAILABLE_LIQUIDITY_NOT_ENOUGH(
       overrides?: CallOverrides
@@ -921,6 +899,46 @@ export interface Errors extends BaseContract {
     VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0(
       overrides?: CallOverrides
     ): Promise<string>;
+
+    VPC_CALLER_NOT_EMERGENCY_ADMIN(overrides?: CallOverrides): Promise<string>;
+
+    VPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<string>;
+
+    VPC_CALLER_NOT_PORTFOLIO_MANAGER(
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    VPC_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    VPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<string>;
+
+    VPC_INVALID_OTOKEN_VAULT_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    VPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<string>;
+
+    V_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<string>;
+
+    V_CALLER_NOT_VAULT_CONFIGURATOR(overrides?: CallOverrides): Promise<string>;
+
+    V_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<string>;
+
+    V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    V_IS_PAUSED(overrides?: CallOverrides): Promise<string>;
+
+    V_NOT_CONTRACT(overrides?: CallOverrides): Promise<string>;
+
+    V_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<string>;
+
+    V_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<string>;
+
+    V_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {};
@@ -952,56 +970,6 @@ export interface Errors extends BaseContract {
 
     CT_TRANSFER_AMOUNT_NOT_GT_0(overrides?: CallOverrides): Promise<BigNumber>;
 
-    LPAPR_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    LPAPR_PROVIDER_NOT_REGISTERED(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    LPCM_NO_ERRORS(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LPC_CALLER_NOT_EMERGENCY_ADMIN(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    LPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LPC_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    LPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    LPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LP_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LP_CALLER_NOT_VAULT_CONFIGURATOR(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    LP_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    LP_IS_PAUSED(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LP_NOT_CONTRACT(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LP_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LP_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<BigNumber>;
-
-    LP_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<BigNumber>;
-
     MATH_ADDITION_OVERFLOW(overrides?: CallOverrides): Promise<BigNumber>;
 
     MATH_DIVISION_BY_ZERO(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1021,6 +989,14 @@ export interface Errors extends BaseContract {
     SDT_BURN_EXCEEDS_BALANCE(overrides?: CallOverrides): Promise<BigNumber>;
 
     UL_INVALID_INDEX(overrides?: CallOverrides): Promise<BigNumber>;
+
+    VAPR_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    VAPR_PROVIDER_NOT_REGISTERED(overrides?: CallOverrides): Promise<BigNumber>;
+
+    VCM_NO_ERRORS(overrides?: CallOverrides): Promise<BigNumber>;
 
     VL_CURRENT_AVAILABLE_LIQUIDITY_NOT_ENOUGH(
       overrides?: CallOverrides
@@ -1055,6 +1031,50 @@ export interface Errors extends BaseContract {
     VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    VPC_CALLER_NOT_EMERGENCY_ADMIN(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    VPC_CALLER_NOT_KYC_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
+
+    VPC_CALLER_NOT_PORTFOLIO_MANAGER(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    VPC_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    VPC_INVALID_CONFIGURATION(overrides?: CallOverrides): Promise<BigNumber>;
+
+    VPC_INVALID_OTOKEN_VAULT_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    VPC_RESERVE_LIQUIDITY_NOT_0(overrides?: CallOverrides): Promise<BigNumber>;
+
+    V_CALLER_MUST_BE_AN_OTOKEN(overrides?: CallOverrides): Promise<BigNumber>;
+
+    V_CALLER_NOT_VAULT_CONFIGURATOR(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    V_CALLER_NOT_VAULT_OPERATOR(overrides?: CallOverrides): Promise<BigNumber>;
+
+    V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    V_IS_PAUSED(overrides?: CallOverrides): Promise<BigNumber>;
+
+    V_NOT_CONTRACT(overrides?: CallOverrides): Promise<BigNumber>;
+
+    V_NOT_IN_WHITELIST(overrides?: CallOverrides): Promise<BigNumber>;
+
+    V_NO_MORE_RESERVES_ALLOWED(overrides?: CallOverrides): Promise<BigNumber>;
+
+    V_REENTRANCY_NOT_ALLOWED(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1098,72 +1118,6 @@ export interface Errors extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    LPAPR_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LPAPR_PROVIDER_NOT_REGISTERED(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LPCM_NO_ERRORS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    LPC_CALLER_NOT_EMERGENCY_ADMIN(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LPC_CALLER_NOT_KYC_ADMIN(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LPC_INVALID_ADDRESSES_PROVIDER_ID(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LPC_INVALID_CONFIGURATION(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LPC_INVALID_OTOKEN_VAULT_ADDRESS(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LPC_RESERVE_LIQUIDITY_NOT_0(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LP_CALLER_MUST_BE_AN_OTOKEN(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LP_CALLER_NOT_VAULT_CONFIGURATOR(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LP_CALLER_NOT_VAULT_OPERATOR(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LP_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LP_IS_PAUSED(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    LP_NOT_CONTRACT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    LP_NOT_IN_WHITELIST(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LP_NO_MORE_RESERVES_ALLOWED(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    LP_REENTRANCY_NOT_ALLOWED(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     MATH_ADDITION_OVERFLOW(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1197,6 +1151,16 @@ export interface Errors extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     UL_INVALID_INDEX(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    VAPR_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VAPR_PROVIDER_NOT_REGISTERED(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VCM_NO_ERRORS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     VL_CURRENT_AVAILABLE_LIQUIDITY_NOT_ENOUGH(
       overrides?: CallOverrides
@@ -1241,6 +1205,66 @@ export interface Errors extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     VL_UNDERLYING_BALANCE_NOT_GREATER_THAN_0(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VPC_CALLER_NOT_EMERGENCY_ADMIN(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VPC_CALLER_NOT_KYC_ADMIN(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VPC_CALLER_NOT_PORTFOLIO_MANAGER(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VPC_INVALID_ADDRESSES_PROVIDER_ID(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VPC_INVALID_CONFIGURATION(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VPC_INVALID_OTOKEN_VAULT_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VPC_RESERVE_LIQUIDITY_NOT_0(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    V_CALLER_MUST_BE_AN_OTOKEN(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    V_CALLER_NOT_VAULT_CONFIGURATOR(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    V_CALLER_NOT_VAULT_OPERATOR(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    V_INCONSISTENT_PROTOCOL_ACTUAL_BALANCE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    V_IS_PAUSED(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    V_NOT_CONTRACT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    V_NOT_IN_WHITELIST(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    V_NO_MORE_RESERVES_ALLOWED(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    V_REENTRANCY_NOT_ALLOWED(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

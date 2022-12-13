@@ -8,6 +8,7 @@ pragma solidity 0.8.9;
  * - The id assigned to a VaultAddressesProvider refers to the market it is connected with,
  *   for example with `0` for the Aave main market and `1` for the next created
  * @author Aave
+ * @author Onebit
  **/
 interface IVaultAddressesProviderRegistry {
   event AddressesProviderRegistered(address indexed newAddress);

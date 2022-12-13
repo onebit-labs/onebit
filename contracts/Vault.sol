@@ -22,7 +22,7 @@ import "hardhat/console.sol";
 
 /**
  * @title Vault contract
- * @dev Main point of interaction with a Vinci protocol's market
+ * @dev Main point of interaction with a Onebit protocol's market
  * - Users can:
  *   # Deposit
  *   # Withdraw
@@ -30,7 +30,7 @@ import "hardhat/console.sol";
  * - All admin functions are callable by the VaultOperator contract defined also in the
  *   VaultAddressesProvider
  * @author Aave
- * @author Vinci
+ * @author Onebit
  **/
 contract Vault is VersionedInitializable, IVault, VaultStorage {
   using WadRayMath for uint256;
@@ -42,14 +42,15 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   uint256 public constant VAULT_REVISION = 0x9;
 
   modifier whenNotPaused() {
-    require(!_paused, Errors.LP_IS_PAUSED);
+    require(!_paused, Errors.V_IS_PAUSED);
     _;
   }
 
   modifier onlyVaultOperator() {
     require(
-      _addressesProvider.getVaultOperator() == msg.sender,
-      Errors.LP_CALLER_NOT_VAULT_OPERATOR
+      _addressesProvider.getVaultOperator() == msg.sender
+      || _addressesProvider.getVaultAdmin() == msg.sender,
+      Errors.V_CALLER_NOT_VAULT_OPERATOR
     );
     _;
   }
@@ -65,7 +66,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   modifier onlyVaultConfigurator() {
     require(
       _addressesProvider.getVaultConfigurator() == msg.sender,
-      Errors.LP_CALLER_NOT_VAULT_CONFIGURATOR
+      Errors.V_CALLER_NOT_VAULT_CONFIGURATOR
     );
     _;
   }
@@ -104,7 +105,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   ) external override whenNotPaused returns(uint256) {
     require(amount != 0, Errors.VL_INVALID_AMOUNT);
     uint40 currentTimestamp = uint40(block.timestamp);
-    require (_whitelist[msg.sender] > block.timestamp, Errors.LP_NOT_IN_WHITELIST);
+    require (_whitelist[msg.sender] > block.timestamp, Errors.V_NOT_IN_WHITELIST);
 
     (bool isActive, bool isFrozen) = _reserve.configuration.getFlags();
     require((currentTimestamp >= _reserve.purchaseBeginTimestamp) 
@@ -157,7 +158,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     uint256 amount,
     address to
   ) external override whenNotPaused returns (uint256) {
-    require (_whitelist[msg.sender] > block.timestamp, Errors.LP_NOT_IN_WHITELIST);
+    require (_whitelist[msg.sender] > block.timestamp, Errors.V_NOT_IN_WHITELIST);
 
     address oToken = _reserve.oTokenAddress;
 
@@ -337,7 +338,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   }
 
   function setFuncAddress(address fundAddress) external override onlyVaultConfigurator {
-    require(fundAddress != address(0), Errors.LPC_INVALID_ADDRESSES_PROVIDER_ID);
+    require(fundAddress != address(0), Errors.VPC_INVALID_ADDRESSES_PROVIDER_ID);
     _reserve.fundAddress = fundAddress;
     emit FundAddressUpdated(fundAddress);
   }

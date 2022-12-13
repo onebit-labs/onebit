@@ -32,6 +32,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     "getEmergencyAdmin()": FunctionFragment;
     "getKYCAdmin()": FunctionFragment;
     "getMarketId()": FunctionFragment;
+    "getPortfolioManager()": FunctionFragment;
     "getVault()": FunctionFragment;
     "getVaultAdmin()": FunctionFragment;
     "getVaultConfigurator()": FunctionFragment;
@@ -41,6 +42,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     "setEmergencyAdmin(address)": FunctionFragment;
     "setKYCAdmin(address)": FunctionFragment;
     "setMarketId(string)": FunctionFragment;
+    "setPortfolioManager(address)": FunctionFragment;
     "setVaultAdmin(address)": FunctionFragment;
     "setVaultConfiguratorImpl(address)": FunctionFragment;
     "setVaultImpl(address)": FunctionFragment;
@@ -53,6 +55,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
       | "getEmergencyAdmin"
       | "getKYCAdmin"
       | "getMarketId"
+      | "getPortfolioManager"
       | "getVault"
       | "getVaultAdmin"
       | "getVaultConfigurator"
@@ -62,6 +65,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
       | "setEmergencyAdmin"
       | "setKYCAdmin"
       | "setMarketId"
+      | "setPortfolioManager"
       | "setVaultAdmin"
       | "setVaultConfiguratorImpl"
       | "setVaultImpl"
@@ -82,6 +86,10 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getMarketId",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPortfolioManager",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getVault", values?: undefined): string;
@@ -118,6 +126,10 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setPortfolioManager",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setVaultAdmin",
     values: [PromiseOrValue<string>]
   ): string;
@@ -145,6 +157,10 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getMarketId",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getPortfolioManager",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getVault", data: BytesLike): Result;
@@ -178,6 +194,10 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setPortfolioManager",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setVaultAdmin",
     data: BytesLike
   ): Result;
@@ -200,6 +220,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
     "EmergencyAdminUpdated(address)": EventFragment;
     "KYCAdminUpdated(address)": EventFragment;
     "MarketIdSet(string)": EventFragment;
+    "PortfolioManagerUpdated(address)": EventFragment;
     "ProxyCreated(bytes32,address)": EventFragment;
     "VaultConfiguratorUpdated(address)": EventFragment;
     "VaultOperatorUpdated(address)": EventFragment;
@@ -211,6 +232,7 @@ export interface IVaultAddressesProviderInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "EmergencyAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "KYCAdminUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MarketIdSet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PortfolioManagerUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProxyCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VaultConfiguratorUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VaultOperatorUpdated"): EventFragment;
@@ -267,6 +289,17 @@ export interface MarketIdSetEventObject {
 export type MarketIdSetEvent = TypedEvent<[string], MarketIdSetEventObject>;
 
 export type MarketIdSetEventFilter = TypedEventFilter<MarketIdSetEvent>;
+
+export interface PortfolioManagerUpdatedEventObject {
+  newAddress: string;
+}
+export type PortfolioManagerUpdatedEvent = TypedEvent<
+  [string],
+  PortfolioManagerUpdatedEventObject
+>;
+
+export type PortfolioManagerUpdatedEventFilter =
+  TypedEventFilter<PortfolioManagerUpdatedEvent>;
 
 export interface ProxyCreatedEventObject {
   id: string;
@@ -346,6 +379,8 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<[string]>;
 
+    getPortfolioManager(overrides?: CallOverrides): Promise<[string]>;
+
     getVault(overrides?: CallOverrides): Promise<[string]>;
 
     getVaultAdmin(overrides?: CallOverrides): Promise<[string]>;
@@ -381,6 +416,11 @@ export interface IVaultAddressesProvider extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setPortfolioManager(
+      admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setVaultAdmin(
       admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -412,6 +452,8 @@ export interface IVaultAddressesProvider extends BaseContract {
   getKYCAdmin(overrides?: CallOverrides): Promise<string>;
 
   getMarketId(overrides?: CallOverrides): Promise<string>;
+
+  getPortfolioManager(overrides?: CallOverrides): Promise<string>;
 
   getVault(overrides?: CallOverrides): Promise<string>;
 
@@ -448,6 +490,11 @@ export interface IVaultAddressesProvider extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setPortfolioManager(
+    admin: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setVaultAdmin(
     admin: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -479,6 +526,8 @@ export interface IVaultAddressesProvider extends BaseContract {
     getKYCAdmin(overrides?: CallOverrides): Promise<string>;
 
     getMarketId(overrides?: CallOverrides): Promise<string>;
+
+    getPortfolioManager(overrides?: CallOverrides): Promise<string>;
 
     getVault(overrides?: CallOverrides): Promise<string>;
 
@@ -512,6 +561,11 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     setMarketId(
       marketId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setPortfolioManager(
+      admin: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -572,6 +626,13 @@ export interface IVaultAddressesProvider extends BaseContract {
     "MarketIdSet(string)"(newMarketId?: null): MarketIdSetEventFilter;
     MarketIdSet(newMarketId?: null): MarketIdSetEventFilter;
 
+    "PortfolioManagerUpdated(address)"(
+      newAddress?: PromiseOrValue<string> | null
+    ): PortfolioManagerUpdatedEventFilter;
+    PortfolioManagerUpdated(
+      newAddress?: PromiseOrValue<string> | null
+    ): PortfolioManagerUpdatedEventFilter;
+
     "ProxyCreated(bytes32,address)"(
       id?: null,
       newAddress?: PromiseOrValue<string> | null
@@ -615,6 +676,8 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getPortfolioManager(overrides?: CallOverrides): Promise<BigNumber>;
+
     getVault(overrides?: CallOverrides): Promise<BigNumber>;
 
     getVaultAdmin(overrides?: CallOverrides): Promise<BigNumber>;
@@ -647,6 +710,11 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     setMarketId(
       marketId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setPortfolioManager(
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -683,6 +751,10 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     getMarketId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getPortfolioManager(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getVault(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getVaultAdmin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -717,6 +789,11 @@ export interface IVaultAddressesProvider extends BaseContract {
 
     setMarketId(
       marketId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setPortfolioManager(
+      admin: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

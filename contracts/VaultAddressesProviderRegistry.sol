@@ -14,6 +14,7 @@ import {Errors} from './libraries/helpers/Errors.sol';
  * - The id assigned to a VaultAddressesProvider refers to the market it is connected with,
  *   for example with `0` for the Aave main market and `1` for the next created
  * @author Aave
+ * @author Onebit
  **/
 contract VaultAddressesProviderRegistry is Ownable, IVaultAddressesProviderRegistry {
   mapping(address => uint256) private _addressesProviders;
@@ -45,7 +46,7 @@ contract VaultAddressesProviderRegistry is Ownable, IVaultAddressesProviderRegis
    * @param id The id for the new VaultAddressesProvider, referring to the market it belongs to
    **/
   function registerAddressesProvider(address provider, uint256 id) external override onlyOwner {
-    require(id != 0, Errors.LPAPR_INVALID_ADDRESSES_PROVIDER_ID);
+    require(id != 0, Errors.VAPR_INVALID_ADDRESSES_PROVIDER_ID);
 
     _addressesProviders[provider] = id;
     _addToAddressesProvidersList(provider);
@@ -57,7 +58,7 @@ contract VaultAddressesProviderRegistry is Ownable, IVaultAddressesProviderRegis
    * @param provider The VaultAddressesProvider address
    **/
   function unregisterAddressesProvider(address provider) external override onlyOwner {
-    require(_addressesProviders[provider] > 0, Errors.LPAPR_PROVIDER_NOT_REGISTERED);
+    require(_addressesProviders[provider] > 0, Errors.VAPR_PROVIDER_NOT_REGISTERED);
     _addressesProviders[provider] = 0;
     emit AddressesProviderUnregistered(provider);
   }

@@ -15,6 +15,7 @@ import {IncentivizedERC20} from './IncentivizedERC20.sol';
  * @title Aave ERC20 OToken
  * @dev Implementation of the interest bearing token for the Aave protocol
  * @author Aave
+ * @author Onebit
  */
 contract OToken is
   VersionedInitializable,
