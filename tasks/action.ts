@@ -2,11 +2,13 @@ import { task } from 'hardhat/config';
 import { getFirstSigner } from '../helpers/contracts-helpers';
 import {Vault__factory} from '../types/factories/Vault__factory';
 import { VaultConfigurator__factory } from '../types/factories/VaultConfigurator__factory';
+import { VaultAddressesProvider__factory } from '../types/factories/VaultAddressesProvider__factory';
 import {MintableERC20__factory} from '../types/factories/MintableERC20__factory';
 import { eContractid, eNetwork } from '../helpers/types';
 import {getDb, getMarketDb, waitForTx, readDateString} from '../helpers/misc-utils';
 import {BigNumber} from 'bignumber.js';
 import { OToken__factory } from '../types/factories/OToken__factory';
+import { TimelockedExecutor__factory } from '../types/factories/governanace/TimelockedExecutor__factory';
 
 task('init-next-period', 'Initialize next period')
 .addParam('market', 'The market ID')
@@ -134,3 +136,132 @@ task('test-deposit', '')
             0))
     );
 });
+
+task('queue-timelocked-executor-set-admin', 'Deploy timelocked executor')
+.addParam('role', 'The name of the role.')
+.addParam('newAddress', 'The new address')
+.setAction(async ({role, newAddress}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const executor = await TimelockedExecutor__factory.connect(
+        (await getDb().get(`${eContractid.TimelockedExecutor}_${role}.${DRE.network.name}`).value()).address,
+        signer
+    );
+    const data = executor.interface.encodeFunctionData("setPendingAdmin", [newAddress]);
+    const executeTime = await Math.floor(Date.now() / 1000) + 2 *  60;
+    await waitForTx(
+        await (
+            executor.queueTransaction(
+                executor.address, 0, '', 
+                data, executeTime, false)
+        )
+    );
+    console.log(`The executionTime is: ${executeTime}`);
+});
+
+task('execute-timelocked-executor-set-admin', 'Deploy timelocked executor')
+.addParam('role', 'The name of the role.')
+.addParam('newAddress', 'The new address')
+.addParam('executeTime', 'The executeTime')
+.setAction(async ({role, newAddress, executeTime}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const executor = await TimelockedExecutor__factory.connect(
+        (await getDb().get(`${eContractid.TimelockedExecutor}_${role}.${DRE.network.name}`).value()).address,
+        signer
+    );
+    const data = executor.interface.encodeFunctionData("setPendingAdmin", [newAddress]);
+    await waitForTx(
+        await (
+            executor.executeTransaction(
+                executor.address, 0, '', 
+                data, executeTime, false)
+        )
+    );
+});
+
+task('set-vault-admin-to-executor', 'set vault admin')
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const role = 'VaultAdmin';
+    const executorAddress = (await getDb()
+        .get(`${eContractid.TimelockedExecutor}_${role}.${DRE.network.name}`)
+        .value()
+        ).address;
+    const provider = await VaultAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setVaultAdmin(executorAddress) )
+    );
+})
+
+task('set-vault-operator-to-executor', 'set vault operator')
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const role = 'VaultOperator';
+    const executorAddress = (await getDb()
+        .get(`${eContractid.TimelockedExecutor}_${role}.${DRE.network.name}`)
+        .value()
+        ).address;
+    const provider = await VaultAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setVaultOperator(executorAddress) )
+    );
+})
+
+task('set-portfolio-manager-to-executor', 'set portfolio manager')
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const role = 'PortfolioManager';
+    const executorAddress = (await getDb()
+        .get(`${eContractid.TimelockedExecutor}_${role}.${DRE.network.name}`)
+        .value()
+        ).address;
+    const provider = await VaultAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.setPortfolioManager(executorAddress) )
+    );
+})
+
+task('set-owner-to-executor', 'set the owner of addresses provider')
+.addParam('market', 'The market ID')
+.setAction(async ({market}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const role = 'Owner';
+    const executorAddress = (await getDb()
+        .get(`${eContractid.TimelockedExecutor}_${role}.${DRE.network.name}`)
+        .value()
+        ).address;
+    const provider = await VaultAddressesProvider__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultAddressesProvider}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( provider.transferOwnership(executorAddress) )
+    );
+})
