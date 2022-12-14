@@ -10,7 +10,7 @@
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0xdB9C781371b5300eb3874447ce24D597312299Dc",
+        "address": "0x0210A6C275d38B6d79605179657b347999A8D2B3",
         "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
       },
       "Onebit-Smart-Trend-USDT-Demo": {
@@ -34,7 +34,7 @@
         "address": "0xc097DC3A530c4a2dbCf9799487feFa6F6dd483a3"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0x7a61b21CF175b60095F85Eb66e34FfaBF1c07FE9"
+        "address": "0x888F74FEb0f41CF8ec24b230ad7B1B527312AF42"
       },
       "Onebit-Smart-Trend-USDT-Demo": {
         "address": "0xA0EFCBA5E7732C7552BD6a946DE8857223C70f00"
@@ -55,7 +55,7 @@
         "address": "0xD70C87d59c0723473c4ab50F043423E698399559"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0x64Cc17f542bE65cf646FA9603F1a832F2715a6d1"
+        "address": "0x5e10db197FAF9d2d30B7f7ee6b00C9c87f0d9A02"
       },
       "Onebit-Smart-Trend-USDT-Demo": {
         "address": "0x4940F95A41635B60b21cfA9A95E06bb699266093"
@@ -79,7 +79,7 @@
         "address": "0xD8C962825476622d9a370b567c2D95c323F5B168"
       },
       "Onebit-Smart-Trend-BTC": {
-        "address": "0x08F1b879CDd56a429bDda41B42881d8226c15fad"
+        "address": "0x6BED7692FA0Eaf88c94c14586f0d0c45872f0510"
       }
     },
     "hardhat": {
