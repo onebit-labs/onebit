@@ -43,7 +43,7 @@
   },
   "VaultImpl": {
     "goerli": {
-      "address": "0x33d23E71736ABDa5C3B9139e8933746a62B3f994",
+      "address": "0x13D9B7cc4e11EFaCF6CbbAFffeF29828C1F294c8",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
     },
     "localhost": {

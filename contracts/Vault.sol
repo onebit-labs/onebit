@@ -39,7 +39,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant VAULT_REVISION = 0x9;
+  uint256 public constant VAULT_REVISION = 0xa;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.V_IS_PAUSED);
@@ -125,7 +125,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
       amount = availableFund;
     }
 
-    oToken.mint(onBehalfOf, amount, _reserve.liquidityIndex);
+    oToken.mint(onBehalfOf, amount, _reserve.getNormalizedIncome());
 
     IERC20(oToken.UNDERLYING_ASSET_ADDRESS()).safeTransferFrom(msg.sender, oTokenAddress, amount);
 
@@ -181,7 +181,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     (bool isActive, ) = _reserve.configuration.getFlags();
     require(isActive, Errors.VL_NO_ACTIVE_RESERVE);
 
-    IOToken(oToken).burn(msg.sender, to, amountToWithdraw, _reserve.liquidityIndex);
+    IOToken(oToken).burn(msg.sender, to, amountToWithdraw, _reserve.getNormalizedIncome());
 
     emit Withdraw(msg.sender, to, amountToWithdraw);
 
