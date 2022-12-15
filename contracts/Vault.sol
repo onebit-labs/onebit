@@ -39,7 +39,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant VAULT_REVISION = 0xa;
+  uint256 public constant VAULT_REVISION = 0x1;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.V_IS_PAUSED);
