@@ -23,6 +23,12 @@
         "address": "0xf784709d2317D872237C4bC22f867d1BAe2913AB",
         "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
       }
+    },
+    "bsc": {
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0x8e59d64C7f2a835d03be1693B709A3078b5Bd5ac",
+        "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
+      }
     }
   },
   "Vault": {
@@ -43,6 +49,11 @@
     "hardhat": {
       "Test Vault": {
         "address": "0x93892E7ef9aB548bcb7b00354A51A84A4Fe94Cd7"
+      }
+    },
+    "bsc": {
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0x3c997b030b643A823a170755a1640d5d2778D0BA"
       }
     }
   },
@@ -65,6 +76,11 @@
       "Test Vault": {
         "address": "0xcBC2b18ac2b34512881B0966460B92696A844621"
       }
+    },
+    "bsc": {
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0x25c041a3E64eFB6EAE126b83E5C254c2eDaa1eac"
+      }
     }
   },
   "OToken": {
@@ -85,6 +101,11 @@
     "hardhat": {
       "Test Vault": {
         "address": "0x02f9390BbB41924225F6d5C621e5dF56A3Ad6E9a"
+      }
+    },
+    "bsc": {
+      "Onebit-Lightning-Hunter-USDT": {
+        "address": "0xe48eAd461f4F696b11aaF74E0D82d7c6Cb06B3FD"
       }
     }
   }

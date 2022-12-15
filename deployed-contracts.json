@@ -15,6 +15,10 @@
     "hardhat": {
       "address": "0xf4e77E5Da47AC3125140c470c71cBca77B5c638c",
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+    },
+    "bsc": {
+      "address": "0x3FB4cb3Dd98238e277258Aa7c7Cddb58d12816E1",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "VaultAddressesProvider": {
@@ -39,6 +43,10 @@
     "hardhat": {
       "address": "0x038B86d9d8FAFdd0a02ebd1A476432877b0107C8",
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+    },
+    "bsc": {
+      "address": "0xDc114AAFB7e76B9C211ef3155Fb583DF3cD3141E",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "VaultImpl": {
@@ -57,6 +65,10 @@
     "hardhat": {
       "address": "0x1A1FEe7EeD918BD762173e4dc5EfDB8a78C924A8",
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+    },
+    "bsc": {
+      "address": "0x0F92eE5d4AC1C18ec482F04eFF43471FA5cc6a9e",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "Vault": {
@@ -72,6 +84,9 @@
     "localhost": {
       "address": "0x3e225F81daCdE6007b06bD79456C9987C3B7042B",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc": {
+      "address": "0x55d398326f99059ff775485246999027b3197955"
     },
     "bsc_testnet": {
       "address": "0x9544B8E5Bb3B278B7b102E9434bb671De38807ad",
@@ -98,6 +113,10 @@
     "hardhat": {
       "address": "0x0078371BDeDE8aAc7DeBfFf451B74c5EDB385Af7",
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+    },
+    "bsc": {
+      "address": "0x85c5887b6746cFa7DfB1F73043700d0bE493fBf3",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "VaultConfiguratorImpl": {
@@ -116,6 +135,10 @@
     "hardhat": {
       "address": "0xc4905364b78a742ccce7B890A89514061E47068D",
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
+    },
+    "bsc": {
+      "address": "0x49a207466Eb5d2aDf79522723D27C060C986B42b",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "WBTC": {
@@ -132,24 +155,40 @@
     "goerli": {
       "address": "0x00521cCbB33acFfdB42983Ac0C00f640fE03DCE2",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc": {
+      "address": "0x1B6F2019EABA5D490452E244dFb8860CAe1A31f7",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "TimelockedExecutor_VaultAdmin": {
     "goerli": {
       "address": "0xAE63681a6D6b658d82d130f94ed55Fcf97Ff356B",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc": {
+      "address": "0xb591b08175291a16448B269f42eD3c86542E6513",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "TimelockedExecutor_VaultOperator": {
     "goerli": {
       "address": "0xa326750204E2133a661A8DaeA96Fa5859b514C66",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc": {
+      "address": "0x5b0C67F69E401Fe80a3E104BC4F4B23fa483b179",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
   "TimelockedExecutor_PortfolioManager": {
     "goerli": {
       "address": "0xcf9362B51B9b89571A5C0Fd69A1F32264367769e",
       "deployer": "0xD1cc56810a3947d1D8b05448afB9889c6cFCF0F1"
+    },
+    "bsc": {
+      "address": "0x5AB7337C10E8d45bd88674F38655813BD582992b",
+      "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   }
 }

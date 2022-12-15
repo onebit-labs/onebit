@@ -469,16 +469,24 @@ task('deploy-timelocked-executor', 'Deploy timelocked executor')
     await DRE.run('set-DRE');
     const ONE_DAY_IN_SECS = 24 * 60 * 60;
     const ONE_WEEK_IN_SECS = 7 * ONE_DAY_IN_SECS;
+    const HALF_DAYS_IN_SECS = 12 * 60 * 60;
     const TWO_DAYS_IN_SECS = 2 * ONE_DAY_IN_SECS;
     const ONE_HOUR_IN_SECS = 60 * 60;
     const ONE_MINUTE_IN_SECS = 60;
+
+    const timeKey = test?`${role}_test`:`${role}`;
+    const timeLocks = {
+        'Owner': [TWO_DAYS_IN_SECS, ONE_DAY_IN_SECS],
+        'VaultAdmin': [ONE_HOUR_IN_SECS,ONE_HOUR_IN_SECS],
+        'PortfolioManager': [ONE_HOUR_IN_SECS, ONE_HOUR_IN_SECS],
+    }
     
     const signer = await getFirstSigner();
     const signerAddress = await signer.getAddress();
     const args = [signerAddress,
-        test?ONE_MINUTE_IN_SECS.toString():TWO_DAYS_IN_SECS.toString(),
+        test?ONE_MINUTE_IN_SECS.toString():timeLocks[timeKey][0].toString(),
         ONE_WEEK_IN_SECS.toString(),
-        test?ONE_MINUTE_IN_SECS.toString():ONE_DAY_IN_SECS.toString(),
+        test?ONE_MINUTE_IN_SECS.toString():timeLocks[timeKey][1].toString(),
         ONE_WEEK_IN_SECS.toString()];
 
     await withSaveAndVerify(
