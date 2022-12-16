@@ -67,11 +67,4 @@ interface IVaultConfigurator {
    * @dev Emitted when a reserve is unfrozen
    **/
   event ReserveUnfrozen();
-
-  /**
-   * @dev Emitted when the reserve decimals are updated
-   * @param asset The address of the underlying asset of the reserve
-   * @param decimals The new decimals
-   **/
-  event ReserveDecimalsChanged(address indexed asset, uint256 decimals);
 }

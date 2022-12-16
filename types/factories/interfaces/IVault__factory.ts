@@ -210,6 +210,25 @@ const _abi = [
         type: "uint40",
       },
     ],
+    name: "PurchaseBeginTimestampMoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint40",
+        name: "previousTimestamp",
+        type: "uint40",
+      },
+      {
+        indexed: false,
+        internalType: "uint40",
+        name: "newTimetamp",
+        type: "uint40",
+      },
+    ],
     name: "PurchaseEndTimestampMoved",
     type: "event",
   },
@@ -629,6 +648,19 @@ const _abi = [
       },
     ],
     name: "moveTheLockPeriod",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint40",
+        name: "newPurchaseBeginTimestamp",
+        type: "uint40",
+      },
+    ],
+    name: "moveThePurchasePeriod",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

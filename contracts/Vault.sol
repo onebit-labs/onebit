@@ -39,7 +39,7 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
   using ReserveLogic for DataTypes.ReserveData;
   using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
 
-  uint256 public constant VAULT_REVISION = 0x1;
+  uint256 public constant VAULT_REVISION = 0x2;
 
   modifier whenNotPaused() {
     require(!_paused, Errors.V_IS_PAUSED);
@@ -280,6 +280,14 @@ contract Vault is VersionedInitializable, IVault, VaultStorage {
     uint40 previousTimestamp = _reserve.redemptionBeginTimestamp;
     _reserve.redemptionBeginTimestamp = newRedemptionBeginTimestamp;
     emit RedemptionBeginTimestampMoved(previousTimestamp, newRedemptionBeginTimestamp);
+  }
+
+  function moveThePurchasePeriod(uint40 newPurchaseBeginTimestamp) external override onlyVaultConfigurator
+  {
+    require(newPurchaseBeginTimestamp < _reserve.purchaseEndTimestamp);
+    uint40 previousTimestamp = _reserve.purchaseBeginTimestamp;
+    _reserve.purchaseBeginTimestamp = newPurchaseBeginTimestamp;
+    emit PurchaseBeginTimestampMoved(previousTimestamp, newPurchaseBeginTimestamp);
   }
 
   /**

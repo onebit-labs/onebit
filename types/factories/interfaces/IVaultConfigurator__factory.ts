@@ -43,25 +43,6 @@ const _abi = [
   },
   {
     anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "asset",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "decimals",
-        type: "uint256",
-      },
-    ],
-    name: "ReserveDecimalsChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
     inputs: [],
     name: "ReserveFrozen",
     type: "event",

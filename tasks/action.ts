@@ -44,6 +44,60 @@ task('init-next-period', 'Initialize next period')
     );
 });
 
+task('move-purchase-begin', 'update the purchase begin timestamp')
+.addParam('market', 'The market ID')
+.addParam('purchaseBegin', 'the purchase begin timestamp')
+.setAction(async ({market, purchaseBegin}
+                   , DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const _purchaseBeginTimestamp = readDateString(purchaseBegin);
+    const configurator = await VaultConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( configurator.moveThePurchasePeriod(_purchaseBeginTimestamp))
+    );
+});
+
+task('move-lock-begin', 'update the lock begin timestamp')
+.addParam('market', 'The market ID')
+.addParam('lockBegin', 'the lock begin timestamp')
+.setAction(async ({market, lockBegin}
+                   , DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const _purchaseEndTimestamp = readDateString(lockBegin);
+    const configurator = await VaultConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( configurator.moveTheLockPeriod(_purchaseEndTimestamp))
+    );
+});
+
+task('move-redemption-begin', 'update the redemption begin timestamp')
+.addParam('market', 'The market ID')
+.addParam('redemptionBegin', 'the redemption begin timestamp')
+.setAction(async ({market, redemptionBegin}
+                   , DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const _redemptionBeginTimestamp = readDateString(redemptionBegin);
+    const configurator = await VaultConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    await waitForTx(
+        await ( configurator.moveTheRedemptionPeriod(_redemptionBeginTimestamp))
+    );
+});
+
 task('set-whitelist-duration', 'Set the duration of every new entry in the whitelist.')
 .addParam('market', 'The market ID')
 .addParam('duration', 'The duration in days')

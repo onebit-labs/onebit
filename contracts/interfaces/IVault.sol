@@ -41,6 +41,8 @@ interface IVault {
 
   event RedemptionBeginTimestampMoved(uint40 previousTimestamp, uint40 newTimetamp);
 
+  event PurchaseBeginTimestampMoved(uint40 previousTimestamp, uint40 newTimetamp);
+
   event AddedToWhitelist(address indexed user, uint256 expirationTime);
 
   event RemoveFromWhitelist(address indexed user);
@@ -149,4 +151,6 @@ interface IVault {
   function moveTheLockPeriod(uint40 newPurchaseEndTimestamp) external;
 
   function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external;
+
+  function moveThePurchasePeriod(uint40 newPurchaseBeginTimestamp) external;
 }

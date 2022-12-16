@@ -67,7 +67,7 @@
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     },
     "bsc": {
-      "address": "0x0F92eE5d4AC1C18ec482F04eFF43471FA5cc6a9e",
+      "address": "0x61e1aE00B1ed61adfc6edb065472003029f68c94",
       "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },
@@ -137,7 +137,7 @@
       "deployer": "0xc783df8a850f42e7F7e57013759C285caa701eB6"
     },
     "bsc": {
-      "address": "0x49a207466Eb5d2aDf79522723D27C060C986B42b",
+      "address": "0xdeaAc5184D66738081E4D2B3337E410Eaecf186E",
       "deployer": "0xfA49683606f67307B7a8096860f9307058383Eef"
     }
   },

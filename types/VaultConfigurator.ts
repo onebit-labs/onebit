@@ -86,6 +86,7 @@ export interface VaultConfiguratorInterface extends utils.Interface {
     "initialize(address)": FunctionFragment;
     "initializeNextPeriod(uint16,uint16,uint128,uint128,uint40,uint40,uint40)": FunctionFragment;
     "moveTheLockPeriod(uint40)": FunctionFragment;
+    "moveThePurchasePeriod(uint40)": FunctionFragment;
     "moveTheRedemptionPeriod(uint40)": FunctionFragment;
     "removeFromWhitelist(address)": FunctionFragment;
     "setFundAddress(address)": FunctionFragment;
@@ -107,6 +108,7 @@ export interface VaultConfiguratorInterface extends utils.Interface {
       | "initialize"
       | "initializeNextPeriod"
       | "moveTheLockPeriod"
+      | "moveThePurchasePeriod"
       | "moveTheRedemptionPeriod"
       | "removeFromWhitelist"
       | "setFundAddress"
@@ -162,6 +164,10 @@ export interface VaultConfiguratorInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "moveTheLockPeriod",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveThePurchasePeriod",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -231,6 +237,10 @@ export interface VaultConfiguratorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "moveThePurchasePeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "moveTheRedemptionPeriod",
     data: BytesLike
   ): Result;
@@ -263,7 +273,6 @@ export interface VaultConfiguratorInterface extends utils.Interface {
     "OTokenUpgraded(address,address)": EventFragment;
     "ReserveActivated()": EventFragment;
     "ReserveDeactivated()": EventFragment;
-    "ReserveDecimalsChanged(address,uint256)": EventFragment;
     "ReserveFrozen()": EventFragment;
     "ReserveInitialized(address,address)": EventFragment;
     "ReserveUnfrozen()": EventFragment;
@@ -272,7 +281,6 @@ export interface VaultConfiguratorInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OTokenUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ReserveActivated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ReserveDeactivated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ReserveDecimalsChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ReserveFrozen"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ReserveInitialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ReserveUnfrozen"): EventFragment;
@@ -303,18 +311,6 @@ export type ReserveDeactivatedEvent = TypedEvent<
 
 export type ReserveDeactivatedEventFilter =
   TypedEventFilter<ReserveDeactivatedEvent>;
-
-export interface ReserveDecimalsChangedEventObject {
-  asset: string;
-  decimals: BigNumber;
-}
-export type ReserveDecimalsChangedEvent = TypedEvent<
-  [string, BigNumber],
-  ReserveDecimalsChangedEventObject
->;
-
-export type ReserveDecimalsChangedEventFilter =
-  TypedEventFilter<ReserveDecimalsChangedEvent>;
 
 export interface ReserveFrozenEventObject {}
 export type ReserveFrozenEvent = TypedEvent<[], ReserveFrozenEventObject>;
@@ -418,6 +414,11 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     moveTheRedemptionPeriod(
       newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -506,6 +507,11 @@ export interface VaultConfigurator extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  moveThePurchasePeriod(
+    newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   moveTheRedemptionPeriod(
     newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -588,6 +594,11 @@ export interface VaultConfigurator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     moveTheRedemptionPeriod(
       newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -636,15 +647,6 @@ export interface VaultConfigurator extends BaseContract {
 
     "ReserveDeactivated()"(): ReserveDeactivatedEventFilter;
     ReserveDeactivated(): ReserveDeactivatedEventFilter;
-
-    "ReserveDecimalsChanged(address,uint256)"(
-      asset?: PromiseOrValue<string> | null,
-      decimals?: null
-    ): ReserveDecimalsChangedEventFilter;
-    ReserveDecimalsChanged(
-      asset?: PromiseOrValue<string> | null,
-      decimals?: null
-    ): ReserveDecimalsChangedEventFilter;
 
     "ReserveFrozen()"(): ReserveFrozenEventFilter;
     ReserveFrozen(): ReserveFrozenEventFilter;
@@ -713,6 +715,11 @@ export interface VaultConfigurator extends BaseContract {
 
     moveTheLockPeriod(
       newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -802,6 +809,11 @@ export interface VaultConfigurator extends BaseContract {
 
     moveTheLockPeriod(
       newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

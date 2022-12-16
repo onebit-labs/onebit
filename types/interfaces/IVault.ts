@@ -103,6 +103,7 @@ export interface IVaultInterface extends utils.Interface {
     "initializeNextPeriod(uint16,uint16,uint128,uint128,uint40,uint40,uint40)": FunctionFragment;
     "isInWhitelist(address)": FunctionFragment;
     "moveTheLockPeriod(uint40)": FunctionFragment;
+    "moveThePurchasePeriod(uint40)": FunctionFragment;
     "moveTheRedemptionPeriod(uint40)": FunctionFragment;
     "paused()": FunctionFragment;
     "removeFromWhitelist(address)": FunctionFragment;
@@ -131,6 +132,7 @@ export interface IVaultInterface extends utils.Interface {
       | "initializeNextPeriod"
       | "isInWhitelist"
       | "moveTheLockPeriod"
+      | "moveThePurchasePeriod"
       | "moveTheRedemptionPeriod"
       | "paused"
       | "removeFromWhitelist"
@@ -212,6 +214,10 @@ export interface IVaultInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "moveTheLockPeriod",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "moveThePurchasePeriod",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -306,6 +312,10 @@ export interface IVaultInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "moveThePurchasePeriod",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "moveTheRedemptionPeriod",
     data: BytesLike
   ): Result;
@@ -342,6 +352,7 @@ export interface IVaultInterface extends utils.Interface {
     "NetValueUpdated(uint256,uint256,uint256,uint256,int256)": EventFragment;
     "Paused()": EventFragment;
     "PeriodInitialized(uint256,uint40,uint40,uint40,uint16,uint16)": EventFragment;
+    "PurchaseBeginTimestampMoved(uint40,uint40)": EventFragment;
     "PurchaseEndTimestampMoved(uint40,uint40)": EventFragment;
     "RedemptionBeginTimestampMoved(uint40,uint40)": EventFragment;
     "RemoveFromWhitelist(address)": EventFragment;
@@ -358,6 +369,9 @@ export interface IVaultInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NetValueUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PeriodInitialized"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "PurchaseBeginTimestampMoved"
+  ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PurchaseEndTimestampMoved"): EventFragment;
   getEvent(
     nameOrSignatureOrTopic: "RedemptionBeginTimestampMoved"
@@ -460,6 +474,18 @@ export type PeriodInitializedEvent = TypedEvent<
 
 export type PeriodInitializedEventFilter =
   TypedEventFilter<PeriodInitializedEvent>;
+
+export interface PurchaseBeginTimestampMovedEventObject {
+  previousTimestamp: number;
+  newTimetamp: number;
+}
+export type PurchaseBeginTimestampMovedEvent = TypedEvent<
+  [number, number],
+  PurchaseBeginTimestampMovedEventObject
+>;
+
+export type PurchaseBeginTimestampMovedEventFilter =
+  TypedEventFilter<PurchaseBeginTimestampMovedEvent>;
 
 export interface PurchaseEndTimestampMovedEventObject {
   previousTimestamp: number;
@@ -626,6 +652,11 @@ export interface IVault extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     moveTheRedemptionPeriod(
       newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -745,6 +776,11 @@ export interface IVault extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  moveThePurchasePeriod(
+    newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   moveTheRedemptionPeriod(
     newRedemptionBeginTimestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -859,6 +895,11 @@ export interface IVault extends BaseContract {
 
     moveTheLockPeriod(
       newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -989,6 +1030,15 @@ export interface IVault extends BaseContract {
       performanceFeeRate?: null
     ): PeriodInitializedEventFilter;
 
+    "PurchaseBeginTimestampMoved(uint40,uint40)"(
+      previousTimestamp?: null,
+      newTimetamp?: null
+    ): PurchaseBeginTimestampMovedEventFilter;
+    PurchaseBeginTimestampMoved(
+      previousTimestamp?: null,
+      newTimetamp?: null
+    ): PurchaseBeginTimestampMovedEventFilter;
+
     "PurchaseEndTimestampMoved(uint40,uint40)"(
       previousTimestamp?: null,
       newTimetamp?: null
@@ -1105,6 +1155,11 @@ export interface IVault extends BaseContract {
 
     moveTheLockPeriod(
       newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1225,6 +1280,11 @@ export interface IVault extends BaseContract {
 
     moveTheLockPeriod(
       newPurchaseEndTimestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    moveThePurchasePeriod(
+      newPurchaseBeginTimestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

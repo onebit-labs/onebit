@@ -59,7 +59,7 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
     _;
   }
 
-  uint256 internal constant CONFIGURATOR_REVISION = 0x1;
+  uint256 internal constant CONFIGURATOR_REVISION = 0x2;
 
   function getRevision() internal pure override returns (uint256) {
     return CONFIGURATOR_REVISION;
@@ -236,6 +236,10 @@ contract VaultConfigurator is VersionedInitializable, IVaultConfigurator {
 
   function moveTheRedemptionPeriod(uint40 newRedemptionBeginTimestamp) external onlyPortfolioManager {
     vault.moveTheRedemptionPeriod(newRedemptionBeginTimestamp);
+  }
+
+  function moveThePurchasePeriod(uint40 newPurchaseBeginTimestamp) external onlyPortfolioManager {
+    vault.moveThePurchasePeriod(newPurchaseBeginTimestamp);
   }
 
   function _initContractWithProxy(address implementation, bytes memory initParams)
