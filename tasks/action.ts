@@ -157,6 +157,49 @@ task('update-net-value', 'update the net value')
     );
 });
 
+task('add-to-whitelist', 'add users to the whitelist')
+.addParam('market', 'The market to be updated')
+.addVariadicPositionalParam('users', 'the addresses of users to be added')
+.setAction(async({market, users}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const configurator = await VaultConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    
+    await waitForTx(
+        await (
+            configurator.batchAddToWhitelist(users)
+        )
+    );
+
+    console.log(`users added to ${market}: ${users}`);
+});
+
+task('remove-from-whitelist', 'remove users from the whitelist')
+.addParam('market', 'The market to be updated')
+.addVariadicPositionalParam('users', 'the addresses of users to be removed')
+.setAction(async({market, users}, DRE) => {
+    await DRE.run('set-DRE');
+    const signer = await getFirstSigner();
+    const signerAddress = await signer.getAddress();
+    const configurator = await VaultConfigurator__factory.connect(
+        (await getMarketDb()
+          .get(`${eContractid.VaultConfigurator}.${DRE.network.name}.${market}`)
+          .value()).address,
+        signer);
+    
+    await waitForTx(
+        await (
+            configurator.batchRemoveFromWhitelist(users)
+        )
+    );
+    console.log(`users added to ${market}: ${users}`);
+});
+
 task('test-deposit', '')
 .addParam('market', 'The market ID')
 .setAction(async({market}, DRE) => {
@@ -167,7 +210,7 @@ task('test-deposit', '')
         (await getDb().get(`USDT.${DRE.network.name}`).value()).address,
         signer
     );
-    const totalAsset = new BigNumber(100000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
+    const totalAsset = new BigNumber(1000).multipliedBy(new BigNumber(10).exponentiatedBy(18)).toFixed();
     await waitForTx(
         await (
             usdt.mint(totalAsset)
